@@ -14,8 +14,30 @@ ipynb.space
 <small class="paste-SubTitle">a pastebin for your notebooks</small>
 <div class="paste-Actions">
     <a href="?download=true" class="paste-Download bp3-button bp3-minimal" tabindex="0">Download this Notebook</a>
-    <a href="#" class="paste-Upload bp3-button bp3-outlined" tabindex="0">Upload new Notebook</a>
+    <a href="#" class="paste-Upload bp3-button bp3-outlined" tabindex="0" id="paste-UploadButton">Upload new Notebook</a>
 </div>
 </div>
 {{ super() }}
 {% endblock %}
+
+{% block footer_js %}
+<div class="jp-Dialog paste-Hidden" id="paste-UploadDialog">
+  <div class="jp-Dialog-content">
+    <div class="jp-Dialog-header">
+      <span class="jp-Dialog-title">Upload your Notebook</span>
+      <button aria-label="Close" id="paste-UploadDialog-Close" class="jp-Dialog-button bp3-button bp3-minimal bp3-icon-cross"></button>
+    </div>
+    <div class="jp-Dialog-body">
+        <form action="/upload" method="POST" enctype="multipart/form-data" id='paste-UploadForm'>
+            <label class="bp3-file-input bp3-fill">
+                <input type="file" name="upload" accept=".ipynb" id="paste-UploadFile" />
+                <span class="bp3-file-upload-input">Choose file...</span>
+            </label>
+        </form>
+    </div>
+  </div>
+</div>
+<script>
+{% include 'upload.js' %}
+</script>
+{% endblock footer_js %}

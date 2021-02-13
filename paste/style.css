@@ -27,3 +27,13 @@
     padding-left: 4px;
 }
 
+.paste-Hidden {
+    display: none !important;
+}
+
+.jp-Dialog-header {
+    display: flex;
+}
+.jp-Dialog-header .jp-Dialog-title {
+    flex-grow: 1;
+}

@@ -5,7 +5,7 @@ import hashlib
 import tempfile
 
 from fastapi import FastAPI, UploadFile, File
-from fastapi.responses import HTMLResponse, Response
+from fastapi.responses import HTMLResponse, Response, RedirectResponse
 
 app = FastAPI()
 
@@ -34,7 +34,7 @@ async def upload(upload: UploadFile = File(...)):
         if os.path.exists(temp_path):
             os.unlink(temp_path)
 
-    return Response(f'http://localhost:8000/view/{hash}\n', media_type='text/plain')
+    return RedirectResponse(f'/view/{hash}', status_code=302)
 
 exporter = HTMLExporter(template_name="paste")
 
