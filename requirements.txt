@@ -1,0 +1,4 @@
+uvicorn
+fastapi
+nbconvert
+python-multipart
