@@ -21,21 +21,10 @@ ipynb.space
 {% endblock %}
 
 {% block footer_js %}
-<div class="jp-Dialog paste-Hidden" id="paste-UploadDialog">
-  <div class="jp-Dialog-content">
-    <div class="jp-Dialog-header">
-      <span class="jp-Dialog-title">Upload your Notebook</span>
-      <button aria-label="Close" id="paste-UploadDialog-Close" class="jp-Dialog-button bp3-button bp3-minimal bp3-icon-cross"></button>
-    </div>
-    <div class="jp-Dialog-body">
-        <form action="/upload" method="POST" enctype="multipart/form-data" id='paste-UploadForm'>
-            <label class="bp3-file-input bp3-fill">
-                <input type="file" name="upload" accept=".ipynb" id="paste-UploadFile" />
-                <span class="bp3-file-upload-input">Choose file...</span>
-            </label>
-        </form>
-    </div>
-  </div>
+<div class="paste-Hidden">
+    <form action="/upload" method="POST" enctype="multipart/form-data" id='paste-UploadForm'>
+        <input type="file" name="upload" accept=".ipynb" id="paste-UploadFile" />
+    </form>
 </div>
 <script>
 {% include 'upload.js' %}
