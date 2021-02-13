@@ -36,7 +36,7 @@ async def upload(upload: UploadFile = File(...)):
 
     return RedirectResponse(f'/view/{hash}', status_code=302)
 
-exporter = HTMLExporter(template_name="paste")
+exporter = HTMLExporter(template_name="paste", extra_template_basedirs=[BASE_PATH])
 
 @app.get('/view/{name}')
 async def render(name: str, download: bool = False):
