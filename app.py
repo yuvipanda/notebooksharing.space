@@ -10,6 +10,7 @@ from fastapi.responses import HTMLResponse, Response, RedirectResponse
 app = FastAPI()
 
 BASE_PATH = os.path.abspath(os.path.dirname(__file__))
+DATA_DIR = os.getcwd()
 
 @app.post("/upload")
 async def upload(upload: UploadFile = File(...)):
@@ -28,7 +29,7 @@ async def upload(upload: UploadFile = File(...)):
                 f.write(data)
 
         hash = sha256.hexdigest()
-        target_path = os.path.join(BASE_PATH, hash)
+        target_path = os.path.join(DATA_DIR, hash)
         shutil.move(temp_path, target_path)
     finally:
         if os.path.exists(temp_path):
@@ -40,7 +41,7 @@ exporter = HTMLExporter(template_name="paste", extra_template_basedirs=[BASE_PAT
 
 @app.get('/view/{name}')
 async def render(name: str, download: bool = False):
-    full_path = os.path.join(BASE_PATH, name)
+    full_path = os.path.join(DATA_DIR, name)
     with open(full_path) as f:
         if download:
             return Response(f.read(), headers={
