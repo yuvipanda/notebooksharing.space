@@ -1,0 +1,29 @@
+.jp-Notebook {
+    width: 970px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.paste-Header {
+    display: flex;
+    background: var(--jp-layout-color1);
+    align-items: baseline;
+    font-family: var(--jp-code-font-family);
+
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom-color: var(--jp-border-color0);
+    border-bottom-width: 1px;
+    border-bottom-style: dotted;
+}
+
+.paste-Title {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.paste-SubTitle {
+    flex-grow: 1;
+    padding-left: 4px;
+}
+
