@@ -22,6 +22,13 @@ ipynb.space
 {{ super() }}
 {% endblock %}
 
+{% block body_footer %}
+<div class="paste-Footer">
+Notebook content licensed under <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0</a>
+</div>
+{{ super() }}
+{% endblock %}
+
 {% block footer_js %}
 <div class="paste-Hidden">
     <form action="/upload" method="POST" enctype="multipart/form-data" id='paste-UploadForm'>
