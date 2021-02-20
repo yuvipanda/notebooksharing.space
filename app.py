@@ -56,7 +56,9 @@ async def render(name: str, download: bool = False):
 async def render_front():
     exporter = HTMLExporter(
         template_name="front",
+        # Both params seem to be required, unclear why
         extra_template_paths=[BASE_PATH],
+        extra_template_basedirs=[BASE_PATH]
     )
 
     # We want the exact same HTML structure we use for our notebook pages
