@@ -59,6 +59,9 @@ async def render_front():
         extra_template_paths=[BASE_PATH],
     )
 
-    with open('test.ipynb') as f:
+    # We want the exact same HTML structure we use for our notebook pages
+    # So we 'fake' an empty notebook, but override all the template blocks
+    # EVIL! MWAHAHAHAHAHA. This must violate some kinda human right.
+    with open(os.path.join(BASE_PATH, 'empty-notebook.ipynb')) as f:
         output, _ = exporter.from_file(f)
     return HTMLResponse(output)
