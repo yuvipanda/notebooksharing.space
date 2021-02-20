@@ -37,7 +37,7 @@
 }
 
 
-.paste-Front-header a {
+.paste-Front-header a, .paste-Front-howto small a {
     border-bottom: var(--jp-border-color1);
     border-bottom-style: dashed;
     border-bottom-width: 1px;
@@ -55,11 +55,18 @@
     padding-top:24px;
 }
 
+.paste-Front-howto small {
+    display: block;
+    font-size: 0.8rem;
+    line-height: 1.6rem;
+    color: var(--jp-ui-font-color3);
+}
+
 .paste-Front-howto li {
     line-height: 2.6rem;
     font-size: 1.3rem;
 }
 
-.paste-Front-howto li a {
+.paste-Front-howto li a.bp3-button {
     font-size: 1.3rem !important;
 }
