@@ -54,7 +54,7 @@
 }
 
 
-.paste-Front-header a, .paste-Front-howto small a {
+.paste-Front a, .paste-SubTitle a{
     border-bottom: var(--jp-border-color1);
     border-bottom-style: dashed;
     border-bottom-width: 1px;
@@ -84,6 +84,6 @@
     font-size: 1.3rem;
 }
 
-.paste-Front-howto li a.bp3-button {
+.paste-Front-howto li button.bp3-button {
     font-size: 1.3rem !important;
 }
