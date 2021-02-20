@@ -37,10 +37,10 @@ async def upload(upload: UploadFile = File(...)):
 
     return RedirectResponse(f'/view/{hash}', status_code=302)
 
-exporter = HTMLExporter(template_name="paste", extra_template_basedirs=[BASE_PATH])
 
 @app.get('/view/{name}')
 async def render(name: str, download: bool = False):
+    exporter = HTMLExporter(template_name="paste", extra_template_basedirs=[BASE_PATH])
     full_path = os.path.join(DATA_DIR, name)
     with open(full_path) as f:
         if download:
@@ -51,3 +51,14 @@ async def render(name: str, download: bool = False):
         else:
             output, _ = exporter.from_file(f)
             return HTMLResponse(output)
+
+@app.get('/')
+async def render_front():
+    exporter = HTMLExporter(
+        template_name="front",
+        extra_template_paths=[BASE_PATH],
+    )
+
+    with open('test.ipynb') as f:
+        output, _ = exporter.from_file(f)
+    return HTMLResponse(output)
