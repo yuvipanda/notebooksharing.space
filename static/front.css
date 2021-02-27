@@ -1,17 +1,17 @@
-.front {
+#front {
     text-align: center;
     font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace;
     font-weight: 400;
 }
 
 
-.front a {
+#front a {
     border-bottom: var(--jp-border-color1);
     border-bottom-style: dashed;
     border-bottom-width: 1px;
 }
 
-.front h1 {
+#front h1 {
     font-size: 4rem;
     margin-bottom: 8px;
     font-weight: 700;
