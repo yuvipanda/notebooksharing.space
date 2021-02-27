@@ -1,5 +1,6 @@
-uvicorn
+uvicorn[standard]
 fastapi
 nbconvert
 python-multipart
 aiofiles
+gunicorn
