@@ -63,7 +63,7 @@ async def render_front():
 
     resources = {
         'metadata': {
-            'name': 'ipynb.pub: a pastebin for your Jupyter Notebooks'
+            'name': 'ipynb.pub: a pastebin for your notebooks'
         }
     }
 
