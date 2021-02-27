@@ -61,9 +61,15 @@ async def render_front():
         extra_template_basedirs=[BASE_PATH]
     )
 
+    resources = {
+        'metadata': {
+            'name': 'ipynb.space: a pastebin for your Jupyter Notebooks'
+        }
+    }
+
     # We want the exact same HTML structure we use for our notebook pages
     # So we 'fake' an empty notebook, but override all the template blocks
     # EVIL! MWAHAHAHAHAHA. This must violate some kinda human right.
     with open(os.path.join(BASE_PATH, 'empty-notebook.ipynb')) as f:
-        output, _ = exporter.from_file(f)
+        output, _ = exporter.from_file(f, resources)
     return HTMLResponse(output)
