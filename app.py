@@ -13,7 +13,7 @@ from fastapi.templating import Jinja2Templates
 app = FastAPI()
 
 BASE_PATH = os.path.abspath(os.path.dirname(__file__))
-DATA_DIR = os.getcwd()
+DATA_DIR = os.environ.get('DATA_DIR', os.getcwd())
 
 templates = Jinja2Templates(directory=os.path.join(BASE_PATH, 'templates'))
 app.mount("/static", StaticFiles(directory=os.path.join(BASE_PATH, "static")), name="static")
