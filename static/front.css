@@ -26,6 +26,11 @@
     padding-top:24px;
 }
 
+#howto ol {
+    /* Break lines of the howto list */
+    width: 640px;
+}
+
 #howto small {
     display: block;
     font-size: 0.8rem;
