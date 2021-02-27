@@ -1,6 +1,7 @@
 from nbconvert.exporters import HTMLExporter
 import shutil
 import os
+import gzip
 import hashlib
 import tempfile
 
@@ -25,7 +26,7 @@ async def upload(upload: UploadFile = File(...)):
     _, temp_path= tempfile.mkstemp()
 
     try:
-        with open(temp_path, mode='wb') as f:
+        with gzip.open(temp_path, mode='wb') as f:
             while True:
                 data = await upload.read(4096)
                 if len(data) == 0:
@@ -47,7 +48,7 @@ async def upload(upload: UploadFile = File(...)):
 async def view(name: str, request: Request, download: bool = False):
     if download:
         full_path = os.path.join(DATA_DIR, name)
-        with open(full_path) as f:
+        with gzip.open(full_path) as f:
             return Response(f.read(), headers={
                 "Content-Type": "application/json",
                 "Content-Disposition": f'attachment; filename={name}.ipynb'
@@ -62,7 +63,7 @@ async def render(name: str):
     print('name is ', name)
     # exporter = HTMLExporter(template_name="paste", extra_template_basedirs=[BASE_PATH])
     full_path = os.path.join(DATA_DIR, name)
-    with open(full_path) as f:
+    with gzip.open(full_path) as f:
         output, _ = exporter.from_file(f)
         return HTMLResponse(output)
 
