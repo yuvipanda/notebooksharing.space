@@ -1,0 +1,25 @@
+{% extends "base.html.j2" %}
+
+{% block header_styles %}
+<link rel="stylesheet" href="/static/view.css" />
+{% endblock %}
+
+{% block content %}
+    <header id="page-header">
+        <h1> <a href="/">ipynb.pub</a> </h1>
+        <p id="page-tagline">easy web publishing for your notebooks</p>
+        <div class="page-actions">
+        <button class="btn btn-primary" tabindex="0" id="action-upload">Upload new Notebook</button>
+        <a href="?download=true" class="btn btn-light" tabindex="0">Download this Notebook</a>
+        </div>
+    </header>
+    <iframe id="content-frame" src="/render/v1/{{name}}"></iframe>
+</div>
+<script src="/static/view.js"></script>
+
+<div class="hidden">
+    <form action="/upload" method="POST" enctype="multipart/form-data" id='upload-form'>
+        <input type="file" name="upload" accept=".ipynb" id="upload-file" />
+    </form>
+</div>
+{% endblock %}

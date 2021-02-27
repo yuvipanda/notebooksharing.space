@@ -1,0 +1,29 @@
+{% extends "base.html.j2" %}
+
+{% block header_styles %}
+<link rel="stylesheet" href="/static/front.css" />
+{% endblock %}
+
+{% block content %}
+<div class="front">
+        <h1> ipynb.pub </h1>
+        <small>easy web publishing for your notebooks</small>
+
+<div id="howto">
+<ol>
+<li>
+    <button class="paste-Upload btn btn-primary" tabindex="0" id="paste-UploadButton">Upload your Notebook</button>
+    <small>It will be licensed as <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0</a> to simplify sharing</small>
+</li>
+<li>Get a link to your uploaded notebook</li>
+<li>Share the link with anyone you want!</li>
+<li>Collaboratively annotate your notebook with the <a href="https://hypothes.is/">hypothes.is</a> sidebar</li>
+</ol>
+
+</div>
+
+<div>
+</div>
+
+{% endblock %}
+

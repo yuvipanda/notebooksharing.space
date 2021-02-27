@@ -1,6 +1,0 @@
-{
-    "base_template": "paste",
-    "mimetypes": {
-        "text/html": true
-    }
-}
