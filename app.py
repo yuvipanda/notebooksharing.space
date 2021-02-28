@@ -4,11 +4,14 @@ import os
 import gzip
 import hashlib
 import tempfile
+import nbformat
 
 from fastapi import FastAPI, UploadFile, File, Request
 from fastapi.responses import HTMLResponse, Response, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+
+from storage import FileBackend
 
 app = FastAPI()
 
@@ -18,28 +21,18 @@ DATA_DIR = os.environ.get('DATA_DIR', os.getcwd())
 templates = Jinja2Templates(directory=os.path.join(BASE_PATH, 'templates'))
 app.mount("/static", StaticFiles(directory=os.path.join(BASE_PATH, "static")), name="static")
 
+
+backend = FileBackend()
+
 @app.post("/upload")
 async def upload(upload: UploadFile = File(...)):
-    # I write to a temporary file, computing a sha256 as we go.
-    # This lets me name the target file with the sha256
+    data = await upload.read()
+
     sha256 = hashlib.sha256()
-    _, temp_path= tempfile.mkstemp()
+    sha256.update(data)
+    hash = sha256.hexdigest()
 
-    try:
-        with gzip.open(temp_path, mode='wb') as f:
-            while True:
-                data = await upload.read(4096)
-                if len(data) == 0:
-                    break
-                sha256.update(data)
-                f.write(data)
-
-        hash = sha256.hexdigest()
-        target_path = os.path.join(DATA_DIR, hash)
-        shutil.move(temp_path, target_path)
-    finally:
-        if os.path.exists(temp_path):
-            os.unlink(temp_path)
+    backend.put(hash, data)
 
     return RedirectResponse(f'/view/{hash}', status_code=302)
 
@@ -47,12 +40,10 @@ async def upload(upload: UploadFile = File(...)):
 @app.get('/view/{name}')
 async def view(name: str, request: Request, download: bool = False):
     if download:
-        full_path = os.path.join(DATA_DIR, name)
-        with gzip.open(full_path) as f:
-            return Response(f.read(), headers={
-                "Content-Type": "application/json",
-                "Content-Disposition": f'attachment; filename={name}.ipynb'
-            })
+        return Response(backend.get(name), headers={
+            "Content-Type": "application/json",
+            "Content-Disposition": f'attachment; filename={name}.ipynb'
+        })
     return templates.TemplateResponse(
         'view.html.j2', { 'name': name, 'request': request }
     )
@@ -60,12 +51,9 @@ async def view(name: str, request: Request, download: bool = False):
 @app.get('/render/v1/{name}')
 async def render(name: str):
     exporter = HTMLExporter()
-    print('name is ', name)
-    # exporter = HTMLExporter(template_name="paste", extra_template_basedirs=[BASE_PATH])
-    full_path = os.path.join(DATA_DIR, name)
-    with gzip.open(full_path) as f:
-        output, _ = exporter.from_file(f)
-        return HTMLResponse(output)
+    notebook = nbformat.reads(backend.get(name), as_version=4)
+    output, _ = exporter.from_notebook_node(notebook)
+    return HTMLResponse(output)
 
 @app.get('/')
 async def render_front(request: Request):
