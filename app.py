@@ -11,7 +11,7 @@ from fastapi.responses import HTMLResponse, Response, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from storage import FileBackend
+from storage import FileBackend, S3Backend
 
 app = FastAPI()
 
@@ -22,7 +22,7 @@ templates = Jinja2Templates(directory=os.path.join(BASE_PATH, 'templates'))
 app.mount("/static", StaticFiles(directory=os.path.join(BASE_PATH, "static")), name="static")
 
 
-backend = FileBackend()
+backend = S3Backend()
 
 @app.post("/upload")
 async def upload(upload: UploadFile = File(...)):

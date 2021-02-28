@@ -4,3 +4,4 @@ nbconvert
 python-multipart
 aiofiles
 gunicorn
+aioboto3
