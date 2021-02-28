@@ -32,7 +32,7 @@ async def upload(upload: UploadFile = File(...)):
     sha256.update(data)
     hash = sha256.hexdigest()
 
-    backend.put(hash, data)
+    await backend.put(hash, data)
 
     return RedirectResponse(f'/view/{hash}', status_code=302)
 
@@ -40,7 +40,7 @@ async def upload(upload: UploadFile = File(...)):
 @app.get('/view/{name}')
 async def view(name: str, request: Request, download: bool = False):
     if download:
-        return Response(backend.get(name), headers={
+        return Response(await backend.get(name), headers={
             "Content-Type": "application/json",
             "Content-Disposition": f'attachment; filename={name}.ipynb'
         })
@@ -51,7 +51,7 @@ async def view(name: str, request: Request, download: bool = False):
 @app.get('/render/v1/{name}')
 async def render(name: str):
     exporter = HTMLExporter()
-    notebook = nbformat.reads(backend.get(name), as_version=4)
+    notebook = nbformat.reads(await backend.get(name), as_version=4)
     output, _ = exporter.from_notebook_node(notebook)
     return HTMLResponse(output)
 
