@@ -59,7 +59,10 @@ async def view(name: str, request: Request, download: bool = False):
 @app.get('/render/v1/{name}')
 async def render(name: str):
     exporter = HTMLExporter(
-        exclude_input_prompt=True
+        # Input / output prompts are empty left gutter space
+        # Let's remove them. If we want gutters, we can CSS them.
+        exclude_input_prompt=True,
+        exclude_output_prompt=True
     )
     notebook = nbformat.reads(await backend.get(name), as_version=4)
     output, resources = exporter.from_notebook_node(notebook)
