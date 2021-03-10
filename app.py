@@ -1,18 +1,14 @@
 from nbconvert.exporters import HTMLExporter
 from typing import Optional
-import shutil
 import os
-import gzip
-import hashlib
-import tempfile
 import nbformat
 
 from fastapi import FastAPI, UploadFile, File, Request, Header
-from fastapi.responses import HTMLResponse, Response, RedirectResponse
+from fastapi.responses import HTMLResponse, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from storage import FileBackend, S3Backend
+from storage import S3Backend
 import naming
 
 app = FastAPI(root_path='/')
