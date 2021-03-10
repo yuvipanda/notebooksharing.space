@@ -69,7 +69,12 @@ async def render(name: str):
     )
     notebook = nbformat.reads(await backend.get(name), as_version=4)
     output, resources = exporter.from_notebook_node(notebook)
-    return HTMLResponse(output)
+    return HTMLResponse(output, headers={
+        # Disable embedding our rendered notebook in other websites
+        # Don't want folks hotlinking our renders.
+        'Content-Security-Policy': "frame-ancestors 'self';",
+        'X-Frame-Options': 'SAMEORIGIN'
+    })
 
 @app.get('/')
 async def render_front(request: Request):
