@@ -36,4 +36,12 @@ module.exports = [
             path: path.resolve(__dirname, 'static'),
         },
     },
+    {
+        entry: './src/notebook.js',
+        module: options,
+        output: {
+            filename: 'notebook.js',
+            path: path.resolve(__dirname, 'static'),
+        },
+    },
 ];

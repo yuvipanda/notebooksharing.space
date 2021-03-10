@@ -62,7 +62,10 @@ async def render(name: str):
         # Input / output prompts are empty left gutter space
         # Let's remove them. If we want gutters, we can CSS them.
         exclude_input_prompt=True,
-        exclude_output_prompt=True
+        exclude_output_prompt=True,
+
+        extra_template_basedirs=[BASE_PATH],
+        template_name='nbconvert-template'
     )
     notebook = nbformat.reads(await backend.get(name), as_version=4)
     output, resources = exporter.from_notebook_node(notebook)

@@ -49,58 +49,14 @@ eval("var iframeResize = __webpack_require__(/*! ./iframeResizer */ \"./node_mod
 
 /***/ }),
 
-/***/ "./node_modules/bootstrap/dist/css/bootstrap.min.css":
-/*!***********************************************************!*\
-  !*** ./node_modules/bootstrap/dist/css/bootstrap.min.css ***!
-  \***********************************************************/
+/***/ "./src/notebook.js":
+/*!*************************!*\
+  !*** ./src/notebook.js ***!
+  \*************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://ipynb-pub/./node_modules/bootstrap/dist/css/bootstrap.min.css?");
-
-/***/ }),
-
-/***/ "./src/base.css":
-/*!**********************!*\
-  !*** ./src/base.css ***!
-  \**********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://ipynb-pub/./src/base.css?");
-
-/***/ }),
-
-/***/ "./src/view.css":
-/*!**********************!*\
-  !*** ./src/view.css ***!
-  \**********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://ipynb-pub/./src/view.css?");
-
-/***/ }),
-
-/***/ "./src/upload.js":
-/*!***********************!*\
-  !*** ./src/upload.js ***!
-  \***********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"setupUpload\": () => (/* binding */ setupUpload)\n/* harmony export */ });\nfunction uploadFile(file) {\n    let formData = new FormData();\n\n    formData.append(\"notebook\", file);\n    // FIXME: Error handling\n    fetch('/upload', {\n        method: \"POST\",\n        body: formData,\n        headers: {\n            'Accept': 'application/json'\n        }\n    })\n    .then(response => response.json().then(data => {\n        window.location.replace(data['url'])\n    }))\n}\n\nfunction setupUpload(uploadButton) {\n    const form = document.createElement('form');\n    form.action = \"/upload\";\n    form.method = \"POST\";\n    form.enctype= \"multipart/form-data\";\n    form.style.display = 'none';\n\n    const input = document.createElement('input')\n    input.accept = \".ipynb\";\n    input.type = 'file';\n    input.name = 'upload';\n    form.appendChild(input);\n\n    document.body.appendChild(form);\n\n    uploadButton.addEventListener('click', () => {\n        input.click();\n    })\n\n    input.addEventListener('change', () => {\n        uploadFile(input.files[0]);\n    })\n\n}\n\n\n//# sourceURL=webpack://ipynb-pub/./src/upload.js?");
-
-/***/ }),
-
-/***/ "./src/view.js":
-/*!*********************!*\
-  !*** ./src/view.js ***!
-  \*********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _upload__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./upload */ \"./src/upload.js\");\n/* harmony import */ var iframe_resizer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! iframe-resizer */ \"./node_modules/iframe-resizer/index.js\");\n/* harmony import */ var bootstrap_dist_css_bootstrap_min_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! bootstrap/dist/css/bootstrap.min.css */ \"./node_modules/bootstrap/dist/css/bootstrap.min.css\");\n/* harmony import */ var _base_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./base.css */ \"./src/base.css\");\n/* harmony import */ var _view_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./view.css */ \"./src/view.css\");\n\n\n\n\n\n\n\n\n/*\n * We want only one per-document scrollbar, not a scrollbar inside the iframe.\n * We use https://github.com/davidjbradshaw/iframe-resizer to ensure that.\n */\ndocument.addEventListener('DOMContentLoaded', function() {\n    let iframes = document.getElementsByTagName('iframe');\n    for (let iframe of iframes) {\n        iframe.addEventListener('load', (ev) => (0,iframe_resizer__WEBPACK_IMPORTED_MODULE_1__.iframeResize)({log: true}, ev.target));\n    }\n\n    let uploadButton = document.getElementById('action-upload');\n    (0,_upload__WEBPACK_IMPORTED_MODULE_0__.setupUpload)(uploadButton);\n})\n\n\n//# sourceURL=webpack://ipynb-pub/./src/view.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var iframe_resizer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! iframe-resizer */ \"./node_modules/iframe-resizer/index.js\");\n\n\n\n//# sourceURL=webpack://ipynb-pub/./src/notebook.js?");
 
 /***/ })
 
@@ -130,23 +86,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _upl
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
@@ -163,7 +102,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _upl
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./src/view.js");
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/notebook.js");
 /******/ 	
 /******/ })()
 ;
