@@ -58,10 +58,11 @@ async def view(name: str, request: Request, download: bool = False):
 
 @app.get('/render/v1/{name}')
 async def render(name: str):
-    exporter = HTMLExporter()
+    exporter = HTMLExporter(
+        exclude_input_prompt=True
+    )
     notebook = nbformat.reads(await backend.get(name), as_version=4)
     output, resources = exporter.from_notebook_node(notebook)
-    print(resources)
     return HTMLResponse(output)
 
 @app.get('/')
