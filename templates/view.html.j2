@@ -1,6 +1,7 @@
 {% extends "base.html.j2" %}
 
-{% block head_styles %}
+{% block head %}
+<meta name="dc.identifier" content="ipfs://{{ name }}" />
 <link rel="stylesheet" href="/static/view.css" />
 {% endblock %}
 
