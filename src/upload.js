@@ -1,3 +1,20 @@
+function uploadFile(file) {
+    let formData = new FormData();
+
+    formData.append("notebook", file);
+    // FIXME: Error handling
+    fetch('/upload', {
+        method: "POST",
+        body: formData,
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => response.json().then(data => {
+        window.location.replace(data['url'])
+    }))
+}
+
 export function setupUpload(uploadButton) {
     const form = document.createElement('form');
     form.action = "/upload";
@@ -18,7 +35,7 @@ export function setupUpload(uploadButton) {
     })
 
     input.addEventListener('change', () => {
-        form.submit();
+        uploadFile(input.files[0]);
     })
 
 }
