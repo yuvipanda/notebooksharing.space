@@ -13,6 +13,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from storage import FileBackend, S3Backend
+import naming
 
 app = FastAPI(root_path='/')
 
@@ -24,23 +25,23 @@ app.mount("/static", StaticFiles(directory=os.path.join(BASE_PATH, "static")), n
 
 
 backend = S3Backend()
+namer = naming.ipfs_cid
+
 
 @app.post("/upload")
 async def upload(notebook: UploadFile = File(...), host: Optional[str] = Header(None), x_forwarded_proto: str = Header('http'), accept: str = Header('text/plain')):
     data = await notebook.read()
 
-    sha256 = hashlib.sha256()
-    sha256.update(data)
-    hash = sha256.hexdigest()
-
-    await backend.put(hash, data)
+    name = await namer(data)
+    await backend.put(name, data)
 
     # FIXME: is this really the best way?
-    url = f'{x_forwarded_proto}://{host}{app.root_path}view/{hash}'
+    url = f'{x_forwarded_proto}://{host}{app.root_path}view/{name}'
     if accept == 'application/json':
         return {
             'url': url
         }
+
     else:
         return Response(url + '\n')
 
