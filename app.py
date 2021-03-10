@@ -8,7 +8,7 @@ from fastapi.responses import HTMLResponse, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from storage import S3Backend
+from storage import IPFSBackend
 import naming
 
 app = FastAPI(root_path='/')
@@ -19,17 +19,14 @@ DATA_DIR = os.environ.get('DATA_DIR', os.getcwd())
 templates = Jinja2Templates(directory=os.path.join(BASE_PATH, 'templates'))
 app.mount("/static", StaticFiles(directory=os.path.join(BASE_PATH, "static")), name="static")
 
-
-backend = S3Backend()
-namer = naming.ipfs_cid
+backend = IPFSBackend()
 
 
 @app.post("/upload")
 async def upload(notebook: UploadFile = File(...), host: Optional[str] = Header(None), x_forwarded_proto: str = Header('http'), accept: str = Header('text/plain')):
     data = await notebook.read()
 
-    name = await namer(data)
-    await backend.put(name, data)
+    name = await backend.put(data)
 
     # FIXME: is this really the best way?
     url = f'{x_forwarded_proto}://{host}{app.root_path}view/{name}'
