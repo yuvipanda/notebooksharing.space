@@ -2,12 +2,15 @@
 Storage backends for ipynb.pub
 """
 import asyncio
+import aiohttp
 import tempfile
 import shutil
 import os
 import gzip
 import aioboto3
 import naming
+from fastapi import HTTPException
+from yarl import URL
 
 
 class StorageBackend:
@@ -67,34 +70,30 @@ class S3Backend(StorageBackend):
 
 
 class IPFSBackend(StorageBackend):
-    def __init__(self, namer=None):
+    def __init__(self, namer=None, daemon_url='http://localhost:5001'):
         self.namer = namer
+        self.client = aiohttp.ClientSession()
+        self.daemon_url = URL(daemon_url)
 
     # FIXME: MAKE ALL THIS ASYNC AAAAA
     async def put(self, data: bytes):
-        with tempfile.NamedTemporaryFile() as f:
-            f.write(data)
-            f.flush()
+        url = self.daemon_url / 'api/v0/add' % {'cid-version': 1}
 
-            cmd = [
-                'ipfs', 'add', '--cid-version', '1', f.name
-            ]
-            proc = await asyncio.create_subprocess_exec(
-                *cmd,
-                stdout=asyncio.subprocess.PIPE,
-                stderr=asyncio.subprocess.PIPE)
+        files = {
+            'notebook.ipynb': data
+        }
 
-            stdout, _ = await proc.communicate()
-            return stdout.decode().split('\n')[0].split(' ')[1]
+        resp = await self.client.post(url, data=files)
+        return (await resp.json())['Hash']
+
 
     async def get(self, name: str):
-        cmd = [
-            'ipfs', 'cat', name
-        ]
-        proc = await asyncio.create_subprocess_exec(
-            *cmd,
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE)
+        url = self.daemon_url / 'api/v0/cat' % {'arg': name}
 
-        stdout, _ = await proc.communicate()
-        return stdout
+        resp = await self.client.post(url)
+        if resp.status != 200:
+            raise HTTPException(
+                status_code=resp.status,
+                detail=(await resp.text())
+            )
+        return await resp.read()

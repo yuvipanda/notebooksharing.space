@@ -61,7 +61,8 @@ async def render(name: str):
         extra_template_basedirs=[BASE_PATH],
         template_name='nbconvert-template'
     )
-    notebook = nbformat.reads(await backend.get(name), as_version=4)
+    data = await backend.get(name)
+    notebook = nbformat.reads(data, as_version=4)
     output, resources = exporter.from_notebook_node(notebook)
     return HTMLResponse(output, headers={
         # Disable embedding our rendered notebook in other websites
