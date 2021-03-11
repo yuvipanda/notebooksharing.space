@@ -65,7 +65,8 @@ async def render(name: str):
     notebook = nbformat.reads(data, as_version=4)
     output, resources = exporter.from_notebook_node(notebook, {
         # FIXME: Support other identifiers too
-        'ipfs_cid': name
+        'name': name,
+        'dublin_core_ispartof': backend.dublin_core_ispartof
     })
     return HTMLResponse(output, headers={
         # Disable embedding our rendered notebook in other websites
