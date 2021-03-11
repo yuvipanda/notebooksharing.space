@@ -77,14 +77,25 @@ class IPFSBackend(StorageBackend):
 
     # FIXME: MAKE ALL THIS ASYNC AAAAA
     async def put(self, data: bytes):
-        url = self.daemon_url / 'api/v0/add' % {'cid-version': 1}
+        add_url = self.daemon_url / 'api/v0/add' % {'cid-version': 1}
 
         files = {
             'notebook.ipynb': data
         }
 
-        resp = await self.client.post(url, data=files)
-        return (await resp.json())['Hash']
+        resp = await self.client.post(add_url, data=files)
+        cid = (await resp.json())['Hash']
+
+        # Calling `ipfs add` pins the object as well, but
+        # talking directly to the API does not. Since we want to
+        # preserve all our notebooks, we shall pin it explicitly
+        pin_url = self.daemon_url / 'api/v0/pin/add' % {'arg': cid}
+
+        await self.client.post(pin_url)
+
+        return cid
+
+
 
 
     async def get(self, name: str):
