@@ -63,11 +63,7 @@ async def render(name: str):
     )
     data = await backend.get(name)
     notebook = nbformat.reads(data, as_version=4)
-    output, resources = exporter.from_notebook_node(notebook, {
-        # FIXME: Support other identifiers too
-        'name': name,
-        'dublin_core_ispartof': backend.dublin_core_ispartof
-    })
+    output, resources = exporter.from_notebook_node(notebook, {})
     return HTMLResponse(output, headers={
         # Disable embedding our rendered notebook in other websites
         # Don't want folks hotlinking our renders.

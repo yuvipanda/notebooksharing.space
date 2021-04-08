@@ -22,9 +22,6 @@ class StorageBackend:
 
 
 class FileBackend(StorageBackend):
-    # FIXME: Not sure this is the right thing to do
-    dublin_core_ispartof = 'ipynb://'
-
     def __init__(self, namer=naming.ipfs_cid):
         self.data_path = os.environ.get('DATA_DIR', os.getcwd())
         self.namer = namer
@@ -44,9 +41,6 @@ class FileBackend(StorageBackend):
 
 
 class S3Backend(StorageBackend):
-    # FIXME: Not sure this is the right thing to do
-    dublin_core_ispartof = 'ipynb://'
-
     def __init__(self, namer=naming.ipfs_cid):
         self.endpoint_url = os.environ.get('AWS_S3_ENDPOINT_URL')
         self.bucket = os.environ['AWS_S3_BUCKET']
@@ -76,7 +70,6 @@ class S3Backend(StorageBackend):
 
 
 class IPFSBackend(StorageBackend):
-    dublin_core_ispartof = 'ipfs://'
     def __init__(self, namer=None, daemon_url='http://localhost:5001'):
         self.namer = namer
         self.client = aiohttp.ClientSession()
