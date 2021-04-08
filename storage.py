@@ -8,10 +8,14 @@ import shutil
 import os
 import gzip
 import aioboto3
-import naming
-from fastapi import HTTPException
 from yarl import URL
+import hashlib
 
+
+def sha256(data: bytes):
+    digester = hashlib.sha256()
+    digester.update(data)
+    return digester.hexdigest()
 
 class StorageBackend:
     async def put(self, name: str, path: str):
@@ -20,17 +24,15 @@ class StorageBackend:
     async def get(self, name: str) -> str:
         pass
 
-
 class FileBackend(StorageBackend):
-    def __init__(self, namer=naming.ipfs_cid):
+    def __init__(self):
         self.data_path = os.environ.get('DATA_DIR', os.getcwd())
-        self.namer = namer
 
     def path_for_name(self, name: str) -> str:
         return os.path.join(self.data_path, name)
 
     async def put(self, data: bytes):
-        name = await self.namer(data)
+        name = sha256(data)
         with gzip.open(self.path_for_name(name), 'w') as f:
             f.write(data)
         return name
@@ -41,16 +43,15 @@ class FileBackend(StorageBackend):
 
 
 class S3Backend(StorageBackend):
-    def __init__(self, namer=naming.ipfs_cid):
+    def __init__(self):
         self.endpoint_url = os.environ.get('AWS_S3_ENDPOINT_URL')
         self.bucket = os.environ['AWS_S3_BUCKET']
-        self.namer = namer
 
     def path_for_name(self, name: str) -> str:
         return f'notebooks/{name}'
 
     async def put(self, data: bytes):
-        name = await self.namer(data)
+        name = sha256(data)
         async with aioboto3.client('s3', endpoint_url=self.endpoint_url) as s3:
             await s3.put_object(
                 Key=self.path_for_name(name),
@@ -70,8 +71,7 @@ class S3Backend(StorageBackend):
 
 
 class IPFSBackend(StorageBackend):
-    def __init__(self, namer=None, daemon_url='http://localhost:5001'):
-        self.namer = namer
+    def __init__(self, daemon_url='http://localhost:5001'):
         self.client = aiohttp.ClientSession()
         self.daemon_url = URL(daemon_url)
 
@@ -90,9 +90,6 @@ class IPFSBackend(StorageBackend):
         cid = (await resp.json())['Hash']
 
         return cid
-
-
-
 
     async def get(self, name: str):
         url = self.daemon_url / 'api/v0/cat' % {'arg': name}

@@ -8,8 +8,7 @@ from fastapi.responses import HTMLResponse, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from storage import IPFSBackend
-import naming
+from storage import S3Backend
 
 app = FastAPI(root_path='/')
 
@@ -19,7 +18,7 @@ DATA_DIR = os.environ.get('DATA_DIR', os.getcwd())
 templates = Jinja2Templates(directory=os.path.join(BASE_PATH, 'templates'))
 app.mount("/static", StaticFiles(directory=os.path.join(BASE_PATH, "static")), name="static")
 
-backend = IPFSBackend()
+backend = S3Backend()
 
 
 @app.post("/upload")
