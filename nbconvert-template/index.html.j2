@@ -2,5 +2,12 @@
 
 {% block html_head_js %}
 {{ super() }}
+<!--
+The iframe should be 'invisible' to the user, so link clicks should open up in the
+top frame, rather than inside the iframe itself. Not sure if this works for JS triggered
+opens, but seems to work for regular links
+-->
+
+<base target='_top'></base>
 <script src="/static/notebook.js"></script>
 {% endblock %}
