@@ -3,7 +3,7 @@ from typing import Optional
 import os
 import nbformat
 
-from fastapi import FastAPI, UploadFile, File, Request, Header
+from fastapi import FastAPI, UploadFile, File, Request, Header, HTTPException
 from fastapi.responses import HTMLResponse, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -61,6 +61,9 @@ async def render(name: str):
         template_name='nbconvert-template'
     )
     data = await backend.get(name)
+    if data is None:
+        # No data found
+        raise HTTPException(status_code=404)
     notebook = nbformat.reads(data, as_version=4)
     output, resources = exporter.from_notebook_node(notebook, {})
     return HTMLResponse(output, headers={

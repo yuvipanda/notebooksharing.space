@@ -63,10 +63,14 @@ class S3Backend(StorageBackend):
 
     async def get(self, name: str):
         async with aioboto3.client('s3', endpoint_url=self.endpoint_url) as s3:
-            gzip_response = await (await s3.get_object(
-                Key=self.path_for_name(name),
-                Bucket=self.bucket,
-            ))['Body'].read()
+
+            try:
+                gzip_response = await (await s3.get_object(
+                    Key=self.path_for_name(name),
+                    Bucket=self.bucket,
+                ))['Body'].read()
+            except s3.exceptions.NoSuchKey:
+                return None
             return gzip.decompress(gzip_response)
 
 
