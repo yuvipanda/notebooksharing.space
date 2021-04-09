@@ -10,7 +10,10 @@
         <h1> <a href="/">ipynb.pub</a> </h1>
         <p id="page-tagline">easy web publishing for your jupyter notebooks</p>
         <div class="page-actions">
-        <button class="btn btn-primary" tabindex="0" id="action-upload">Upload new Notebook</button>
+        {% with %}
+            {% set upload_button_label = "Upload new notebook" %}
+            {% include 'upload.html.j2' %}
+        {% endwith %}
         <a href="?download=true" class="btn btn-light" tabindex="0">Download this Notebook</a>
         </div>
     </header>

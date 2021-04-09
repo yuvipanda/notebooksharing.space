@@ -25,6 +25,9 @@ a {
     text-decoration: none;
 }
 
+.hidden {
+    display: none;
+}
 #front {
     text-align: center;
     font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace;

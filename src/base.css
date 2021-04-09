@@ -18,3 +18,7 @@ a {
     color: unset;
     text-decoration: none;
 }
+
+.hidden {
+    display: none;
+}

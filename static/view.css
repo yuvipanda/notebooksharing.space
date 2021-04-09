@@ -25,6 +25,9 @@ a {
     text-decoration: none;
 }
 
+.hidden {
+    display: none;
+}
 #container {
     display: flex;
     justify-content: center;
