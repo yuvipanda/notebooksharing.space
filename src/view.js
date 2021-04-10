@@ -37,7 +37,7 @@ const View = () => {
                 <UploadForm buttonNormalLabel="Upload new notebook" />
                 <a href="?download=true" className="btn btn-light" tabIndex="0">Download this notebook</a>
                 <div>
-                    <small className="license-declaration">Notebooks are licensed as <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0</a> to simplify sharing</small>
+                    <small className="license-declaration">Notebooks will be licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY</a> to simplify sharing</small>
                 </div>
             </div>
         </header>

@@ -15,7 +15,7 @@ const Front = () => {
             <ol>
                 <li>
                     <UploadForm buttonClassName="big-button" buttonNormalLabel="Upload your notebook" />
-                    <small className="license-declaration">It will be licensed as <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0</a> to simplify sharing</small>
+                    <small className="license-declaration">Notebooks will be licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY</a> to simplify sharing</small>
                 </li>
                 <li> Get an immutable link to your notebook </li>
                 <li> Share the link with anyone you want! </li>
