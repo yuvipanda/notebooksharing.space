@@ -31,8 +31,10 @@ const View = () => {
     }
     return <>
         <header id="page-header">
-            <h1> <a href="/">ipynb.pub</a> </h1>
-            <p id="page-tagline">easy web publishing for your jupyter notebooks</p>
+            <div className="brand">
+                <h1> <a href="/">ipynb.pub</a> </h1>
+                <span id="page-tagline">easy web publishing for your jupyter notebooks</span>
+            </div>
             <div className="page-actions">
                 <UploadForm buttonNormalLabel="Upload new notebook" />
                 <a href="?download=true" className="btn btn-light" tabIndex="0">Download this notebook</a>

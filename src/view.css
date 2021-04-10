@@ -13,24 +13,28 @@
 
 #page-header {
     display: flex;
-    align-items: baseline;
+    align-items: end;
     margin-top: 16px;
     margin-bottom: 16px;
     padding-bottom: 8px;
     border-bottom-color: lightgrey;
     border-bottom-width: 1px;
     border-bottom-style: dotted;
+    font-family: var(--jp-code-font-family);
 }
 
-#page-header > h1 {
-    font-family: var(--jp-code-font-family);
+#page-header h1 {
     font-size: 2rem;
 }
 
+#page-header .brand {
+    flex-grow: 1;
+    display: flex;
+    align-items: baseline;
+}
 #page-header #page-tagline {
     flex-grow: 1;
     margin-left: 8px;
-    font-family: var(--jp-code-font-family);
 }
 
 #frame-loading-spinner {
