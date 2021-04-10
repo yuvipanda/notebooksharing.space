@@ -42,7 +42,7 @@ const View = () => {
             </div>
         </header>
         <div className={"d-flex justify-content-center " + (hasLoaded ? "hidden" : "")} >
-            <div className="spinner-grow" id="frame-loading-spinner" role="status">
+            <div className="spinner-border" id="frame-loading-spinner" role="status">
                 <span className="sr-only">Loading...</span>
             </div>
         </div>
