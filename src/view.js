@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { render } from "react-dom";
 
 import { UploadForm } from "./upload";
@@ -21,6 +21,7 @@ const getNotebookID = (path) => {
 const View = () => {
     // Expects path to be /view/<id>.
     // FIXME: This doesn't work with basepath
+    const [hasLoaded, setHasLoaded] = useState(false);
     const notebookId = document.location.pathname.split('/')[2];
     console.log(notebookId)
     if (notebookId.match(/^[0-9a-f]{64,64}$/) === null) {
@@ -37,8 +38,17 @@ const View = () => {
                 <a href="?download=true" className="btn btn-light" tabIndex="0">Download this Notebook</a>
             </div>
         </header>
+        <div className={"d-flex justify-content-center " + (hasLoaded ? "hidden" : "")} >
+            <div className="spinner-grow" id="frame-loading-spinner" role="status">
+                <span className="sr-only">Loading...</span>
+            </div>
+        </div>
         <iframe id="content-frame"
-            onLoad={(ev) => iframeResize({}, ev.target)}
+            className={hasLoaded ? "" : "hidden"}
+            onLoad={(ev) => {
+                iframeResize({}, ev.target);
+                setHasLoaded(true);
+            }}
             src={"/render/v1/" + notebookId}>
         </iframe>
     </>

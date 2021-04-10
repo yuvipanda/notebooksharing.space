@@ -35,7 +35,7 @@ const UploadButton = ({ onClick, uploadStatus, className }) => {
         case UPLOAD_STATUS.IN_PROGRESS:
             return <button className={classNames} disabled>
                 Uploading...
-                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
             </button>
         case UPLOAD_STATUS.COMPLETED:
             return <button className={classNames} disabled>

@@ -44,7 +44,7 @@ a {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 #container {
@@ -87,3 +87,8 @@ a {
     font-family: var(--jp-code-font-family);
 }
 
+#frame-loading-spinner {
+    margin-top: 32px;
+    width: 64px;
+    height: 64px;
+}
