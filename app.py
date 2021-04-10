@@ -88,6 +88,11 @@ async def render(name: str = ID_VALIDATOR):
             # Don't want folks hotlinking our renders.
             "Content-Security-Policy": "frame-ancestors 'self';",
             "X-Frame-Options": "SAMEORIGIN",
+            # Intensely cache everything here.
+            # We can cache bust by purging everything with the cloudflare API,
+            # or with query params. This is much simpler than caching on
+            # the server side
+            "Cache-Control": "public, max-age=604800, immutable",
         },
     )
 
