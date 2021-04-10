@@ -2,9 +2,19 @@ button {
     font-family: -apple-system;
 }
 
-.upload-button .spinner-border {
+.big-button .upload-button .spinner-border {
     margin-left: 4px;
     margin-bottom: 4px;
+}
+
+.upload-button .spinner-border {
+    margin-left: 2px;
+    margin-bottom: 2px;
+}
+
+.big-button {
+    /* This matches the size of the other <li> */
+    font-size: 1.3rem;
 }
 /*!
  * Bootstrap v4.6.0 (https://getbootstrap.com/)

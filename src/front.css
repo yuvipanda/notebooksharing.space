@@ -38,10 +38,6 @@
     color: var(--jp-ui-font-color3);
 }
 
-.big-button {
-    /* This matches the size of the other <li> */
-    font-size: 1.3rem;
-}
 
 #howto li {
     line-height: 2.6rem;
