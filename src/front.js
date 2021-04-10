@@ -26,7 +26,7 @@ const Front = () => {
 
             </div>
         </div>
-        <footer className="container">
+        <footer className="container sticky">
             <CreditFooter />
         </footer>
     </>;

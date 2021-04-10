@@ -49,7 +49,7 @@ const View = () => {
             src={"/render/v1/" + notebookId}>
         </iframe>
 
-        <footer>
+        <footer className={"container " + (hasLoaded ? "" : "sticky")}>
             <LicenseFooter />
             <CreditFooter />
         </footer>

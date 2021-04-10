@@ -465,11 +465,6 @@ a {
     line-height: 2.6rem;
     font-size: 1.3rem;
 }
-
-footer {
-    position: fixed;
-    bottom: 0px;
-}
 footer {
     border-top-color: lightgrey;
     border-top-width: 1px;
@@ -478,6 +473,7 @@ footer {
     font-family: var(--jp-code-font-family);
     line-height: 2rem;
     text-align: center;
+    padding-top: 16px;
 }
 
 footer a {
@@ -485,6 +481,11 @@ footer a {
     border-bottom-style: dashed;
     border-bottom-width: 1px;
     color: inherit;
+}
+
+footer.sticky {
+    position: fixed;
+    bottom: 0px;
 }
 button {
     font-family: -apple-system;

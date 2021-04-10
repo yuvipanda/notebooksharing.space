@@ -24,6 +24,7 @@ footer {
     font-family: var(--jp-code-font-family);
     line-height: 2rem;
     text-align: center;
+    padding-top: 16px;
 }
 
 footer a {
@@ -31,6 +32,11 @@ footer a {
     border-bottom-style: dashed;
     border-bottom-width: 1px;
     color: inherit;
+}
+
+footer.sticky {
+    position: fixed;
+    bottom: 0px;
 }
 /*!
  * Bootstrap v4.6.0 (https://getbootstrap.com/)
@@ -510,4 +516,8 @@ a {
     margin-top: 32px;
     width: 64px;
     height: 64px;
+}
+
+footer {
+    margin-top: 128px;
 }
