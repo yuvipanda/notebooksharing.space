@@ -10,15 +10,12 @@ import gzip
 import aioboto3
 from yarl import URL
 import hashlib
-import BaseEmoji
-
-anybase = BaseEmoji.anybase()
 
 
 def sha256(data: bytes):
     digester = hashlib.sha256()
     digester.update(data)
-    return anybase.encode(digester.digest())
+    return digester.hexdigest()
 
 
 class StorageBackend:

@@ -4,7 +4,7 @@ from typing import Optional
 import os
 import nbformat
 
-from fastapi import FastAPI, UploadFile, File, Request, Header, HTTPException
+from fastapi import FastAPI, UploadFile, File, Request, Header, HTTPException, Path
 from fastapi.responses import HTMLResponse, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -15,6 +15,12 @@ app = FastAPI(root_path="/")
 
 BASE_PATH = os.path.abspath(os.path.dirname(__file__))
 DATA_DIR = os.environ.get("DATA_DIR", os.getcwd())
+ID_VALIDATOR = Path(
+    ...,
+    min_length=64,
+    max_length=64,
+    regex=r"^[0-9a-f]{64,64}$",
+)
 
 templates = Jinja2Templates(directory=os.path.join(BASE_PATH, "templates"))
 app.mount(
@@ -45,7 +51,7 @@ async def upload(
 
 
 @app.get("/view/{name}")
-async def view(name: str, request: Request, download: bool = False):
+async def view(request: Request, name: str = ID_VALIDATOR, download: bool = False):
     if download:
         return Response(
             await backend.get(name),
@@ -60,7 +66,7 @@ async def view(name: str, request: Request, download: bool = False):
 
 
 @app.get("/render/v1/{name}")
-async def render(name: str):
+async def render(name: str = ID_VALIDATOR):
     exporter = HTMLExporter(
         # Input / output prompts are empty left gutter space
         # Let's remove them. If we want gutters, we can CSS them.
