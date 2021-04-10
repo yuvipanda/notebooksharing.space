@@ -9,6 +9,17 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/notebook.js":
+/*!*************************!*\
+  !*** ./src/notebook.js ***!
+  \*************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var iframe_resizer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! iframe-resizer */ \"./node_modules/iframe-resizer/index.js\");\n\n\n//# sourceURL=webpack://ipynb-pub/./src/notebook.js?");
+
+/***/ }),
+
 /***/ "./node_modules/iframe-resizer/index.js":
 /*!**********************************************!*\
   !*** ./node_modules/iframe-resizer/index.js ***!
@@ -46,17 +57,6 @@ eval("var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPAC
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 eval("var iframeResize = __webpack_require__(/*! ./iframeResizer */ \"./node_modules/iframe-resizer/js/iframeResizer.js\")\n\nexports.iframeResize = iframeResize\nexports.iframeResizer = iframeResize // Backwards compatability\nexports.iframeResizerContentWindow = __webpack_require__(/*! ./iframeResizer.contentWindow */ \"./node_modules/iframe-resizer/js/iframeResizer.contentWindow.js\")\n\n\n//# sourceURL=webpack://ipynb-pub/./node_modules/iframe-resizer/js/index.js?");
-
-/***/ }),
-
-/***/ "./src/notebook.js":
-/*!*************************!*\
-  !*** ./src/notebook.js ***!
-  \*************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var iframe_resizer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! iframe-resizer */ \"./node_modules/iframe-resizer/index.js\");\n\n\n\n//# sourceURL=webpack://ipynb-pub/./src/notebook.js?");
 
 /***/ })
 

@@ -2,26 +2,9 @@
 
 {% block head %}
 <link rel="stylesheet" href="/static/front.css" />
+<script src="/static/front.js"></script>
 {% endblock %}
 
 {% block content %}
-<div id="front">
-        <h1> ipynb.pub </h1>
-        <p>easy web publishing for your jupyter notebooks</p>
-
-<div id="howto">
-<ol>
-<li>
-{% include 'upload.html.j2' %}
-    <small>It will be licensed as <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0</a> to simplify sharing</small>
-</li>
-<li> Get an immutable link to your notebook </li>
-<li> Share the link with anyone you want! </li>
-</ol>
-
-</div>
-
-
-<script src="/static/front.js"></script>
 {% endblock %}
 

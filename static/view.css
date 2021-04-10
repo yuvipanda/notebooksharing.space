@@ -1,3 +1,11 @@
+button {
+    font-family: -apple-system;
+}
+
+.upload-button .spinner-border {
+    margin-left: 4px;
+    margin-bottom: 4px;
+}
 /*!
  * Bootstrap v4.6.0 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors
@@ -28,6 +36,7 @@ a {
 .hidden {
     display: none;
 }
+
 #container {
     display: flex;
     justify-content: center;

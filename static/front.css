@@ -28,6 +28,7 @@ a {
 .hidden {
     display: none;
 }
+
 #front {
     text-align: center;
     font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace;
@@ -68,7 +69,7 @@ a {
     color: var(--jp-ui-font-color3);
 }
 
-#action-upload {
+.big-button {
     /* This matches the size of the other <li> */
     font-size: 1.3rem;
 }
@@ -77,8 +78,11 @@ a {
     line-height: 2.6rem;
     font-size: 1.3rem;
 }
-
 button {
     font-family: -apple-system;
 }
 
+.upload-button .spinner-border {
+    margin-left: 4px;
+    margin-bottom: 4px;
+}
