@@ -65,4 +65,7 @@ const uploadFile = (file, setUploadStatus) => {
         }))
 }
 
-export { UploadForm };
+const LicenseDeclaration = () => {
+    return <small className="license-declaration">Notebooks will be licensed under <abbr title="Creative Commons Attribution License"><a href="https://creativecommons.org/licenses/by/4.0/">CC BY</a></abbr> to simplify sharing</small>
+}
+export { UploadForm, LicenseDeclaration };

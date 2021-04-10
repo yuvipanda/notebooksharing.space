@@ -16,6 +16,22 @@ button {
     /* This matches the size of the other <li> */
     font-size: 1.3rem;
 }
+footer {
+    border-top-color: lightgrey;
+    border-top-width: 1px;
+    border-top-style: dotted;
+    color: var(--jp-ui-font-color3);
+    font-family: var(--jp-code-font-family);
+    line-height: 2rem;
+    text-align: center;
+}
+
+footer a {
+    border-bottom: var(--jp-border-color1);
+    border-bottom-style: dashed;
+    border-bottom-width: 1px;
+    color: inherit;
+}
 /*!
  * Bootstrap v4.6.0 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors
