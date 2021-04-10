@@ -34,8 +34,8 @@ const View = () => {
             <h1> <a href="/">ipynb.pub</a> </h1>
             <p id="page-tagline">easy web publishing for your jupyter notebooks</p>
             <div className="page-actions">
-                <UploadForm />
-                <a href="?download=true" className="btn btn-light" tabIndex="0">Download this Notebook</a>
+                <UploadForm buttonNormalLabel="Upload new notebook" />
+                <a href="?download=true" className="btn btn-light" tabIndex="0">Download this notebook</a>
                 <div>
                     <small className="license-declaration">Notebooks are licensed as <a href="https://creativecommons.org/share-your-work/public-domain/cc0/">CC0</a> to simplify sharing</small>
                 </div>

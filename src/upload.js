@@ -8,7 +8,7 @@ const UPLOAD_STATUS = {
     COMPLETED: 4
 }
 
-const UploadForm = ({ buttonClassName }) => {
+const UploadForm = ({ buttonClassName, buttonNormalLabel }) => {
     const fileUploadRef = useRef(null);
     const [uploadStatus, setUploadStatus] = useState(UPLOAD_STATUS.NORMAL);
     return <>
@@ -21,21 +21,23 @@ const UploadForm = ({ buttonClassName }) => {
         >
             <input accept=".ipynb" type="file" ref={fileUploadRef}></input>
         </form>
-        <UploadButton className={buttonClassName} uploadStatus={uploadStatus} onClick={() => fileUploadRef.current.click()} />
+        <UploadButton
+            className={buttonClassName} normalLabel={buttonNormalLabel}
+            uploadStatus={uploadStatus} onClick={() => fileUploadRef.current.click()} />
     </>;
 
 }
-const UploadButton = ({ onClick, uploadStatus, className }) => {
+const UploadButton = ({ onClick, uploadStatus, className, normalLabel }) => {
     const classNames = "btn btn-primary upload-button " + className;
     switch (uploadStatus) {
         case UPLOAD_STATUS.NORMAL:
             return <button className={classNames} tabIndex="0" onClick={onClick}>
-                Upload your notebook
+                {normalLabel}
             </button >
         case UPLOAD_STATUS.IN_PROGRESS:
             return <button className={classNames} disabled>
                 Uploading...
-                <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             </button>
         case UPLOAD_STATUS.COMPLETED:
             return <button className={classNames} disabled>
