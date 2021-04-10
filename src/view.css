@@ -27,11 +27,6 @@
     font-size: 2rem;
 }
 
-#page-header a {
-    text-decoration: none;
-    color: black;
-}
-
 #page-header #page-tagline {
     flex-grow: 1;
     margin-left: 8px;

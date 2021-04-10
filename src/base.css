@@ -1,4 +1,5 @@
 @import "lab-css-variables.css";
+
 body {
     line-height: 1.28581;
     letter-spacing: 0;
@@ -22,4 +23,18 @@ a {
 
 .hidden {
     display: none !important;
+}
+
+.license-declaration {
+    display: block;
+    font-size: 0.8rem;
+    line-height: 1.6rem;
+    color: var(--jp-ui-font-color3);
+}
+
+.license-declaration a {
+    border-bottom: var(--jp-border-color1);
+    border-bottom-style: dashed;
+    border-bottom-width: 1px;
+    color: inherit;
 }
