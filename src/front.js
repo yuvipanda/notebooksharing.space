@@ -11,7 +11,7 @@ const Front = () => {
     return <>
         <div id="front">
             <h1> ipynb.pub </h1>
-            <p>easy web publishing for your jupyter notebooks</p>
+            <p>fastest way to publish your jupyter notebooks on the web</p>
 
             <div id="howto">
                 <ol>

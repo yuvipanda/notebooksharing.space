@@ -514,10 +514,8 @@ a {
 
 #frame-loading-spinner {
     margin-top: 32px;
+    margin-bottom: 32px;
     width: 64px;
     height: 64px;
 }
 
-footer {
-    margin-top: 128px;
-}
