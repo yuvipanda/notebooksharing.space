@@ -18,6 +18,14 @@ const makeDownloadLink = (notebookId) => {
     return "/view/" + notebookId + "?download=true"
 }
 
+const makeIFrameLink = (notebookId) => {
+    // FIXME This is not safe
+    // Incrememnt cache version here whenever we make a change in HTML
+    // structure of the rendered notebook.
+    return "/render/v1/" + notebookId + "?cacheVersion=1";
+
+}
+
 const updateFragmentOptions = (options) => {
     let loc = new URL(window.location);
     const fragmentParams = querystring.parse(window.location.hash.replace(/^#/, ''))
@@ -121,7 +129,7 @@ const View = () => {
                         iframeResize({}, ev.target);
                         setHasLoaded(true);
                     }}
-                    src={"/render/v1/" + notebookId}>
+                    src={makeIFrameLink(notebookId)}>
                 </iframe>
             </div>
             <Center>
