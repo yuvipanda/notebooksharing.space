@@ -9,6 +9,17 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/messages.js":
+/*!*************************!*\
+  !*** ./src/messages.js ***!
+  \*************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"MESSAGE_TYPES\": () => (/* binding */ MESSAGE_TYPES),\n/* harmony export */   \"handleMessages\": () => (/* binding */ handleMessages),\n/* harmony export */   \"postMessage\": () => (/* binding */ postMessage)\n/* harmony export */ });\n/**\n * This file is included in the notebook iframe too.\n * Any imports here will increase that bundle size. Think\n * twice before adding imports here\n */\nvar MESSAGE_TYPES = {\n  SET_VIEW_OPTION: 1\n};\n/**\n * Differentiate different message senders / receivers.\n * \n * In particular, differentiate from the messages the iframeresizer sends.\n * \n * https://github.com/davidjbradshaw/iframe-resizer/blob/a519ec84ad4efb8eaadf40fc072b5e523ffe45ac/js/iframeResizer.contentWindow.js#L1243\n */\n\nvar MESSAGE_ID = \"[ipynb.space]\";\n/**\n * Setup inside notebook iframe to respond to messages\n */\n\nvar handleMessages = function handleMessages(event) {\n  if (String(event.data.substr(0, MESSAGE_ID.length)) !== MESSAGE_ID) {\n    return;\n  }\n\n  var data = JSON.parse(event.data.substr(MESSAGE_ID.length));\n  var body = document.getElementsByTagName('body')[0];\n\n  switch (data.type) {\n    case MESSAGE_TYPES.SET_VIEW_OPTION:\n      var _data$payload = data.payload,\n          option = _data$payload.option,\n          selected = _data$payload.selected;\n      var className = \"option-\" + option;\n\n      if (selected) {\n        body.classList.add(className);\n      } else {\n        body.classList.remove(className);\n      }\n\n  }\n};\n\nvar postMessage = function postMessage(iframe, type, payload) {\n  iframe.postMessage(MESSAGE_ID + JSON.stringify({\n    type: type,\n    payload: payload\n  }));\n};\n\n\n\n//# sourceURL=webpack://ipynb-pub/./src/messages.js?");
+
+/***/ }),
+
 /***/ "./src/notebook.js":
 /*!*************************!*\
   !*** ./src/notebook.js ***!
@@ -16,7 +27,7 @@
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var iframe_resizer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! iframe-resizer */ \"./node_modules/iframe-resizer/index.js\");\n\n\n//# sourceURL=webpack://ipynb-pub/./src/notebook.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var iframe_resizer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! iframe-resizer */ \"./node_modules/iframe-resizer/index.js\");\n/* harmony import */ var _messages__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./messages */ \"./src/messages.js\");\n/* harmony import */ var _notebook_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./notebook.css */ \"./src/notebook.css\");\n\n\n\nwindow.addEventListener('message', _messages__WEBPACK_IMPORTED_MODULE_1__.handleMessages);\n\n//# sourceURL=webpack://ipynb-pub/./src/notebook.js?");
 
 /***/ }),
 
@@ -58,6 +69,17 @@ eval("var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPAC
 
 eval("var iframeResize = __webpack_require__(/*! ./iframeResizer */ \"./node_modules/iframe-resizer/js/iframeResizer.js\")\n\nexports.iframeResize = iframeResize\nexports.iframeResizer = iframeResize // Backwards compatability\nexports.iframeResizerContentWindow = __webpack_require__(/*! ./iframeResizer.contentWindow */ \"./node_modules/iframe-resizer/js/iframeResizer.contentWindow.js\")\n\n\n//# sourceURL=webpack://ipynb-pub/./node_modules/iframe-resizer/js/index.js?");
 
+/***/ }),
+
+/***/ "./src/notebook.css":
+/*!**************************!*\
+  !*** ./src/notebook.css ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://ipynb-pub/./src/notebook.css?");
+
 /***/ })
 
 /******/ 	});
@@ -86,6 +108,23 @@ eval("var iframeResize = __webpack_require__(/*! ./iframeResizer */ \"./node_mod
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports

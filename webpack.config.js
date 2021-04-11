@@ -44,6 +44,11 @@ module.exports = [
     {
         entry: './src/notebook.js',
         module: options,
+        plugins: [
+            new MiniCssExtractPlugin({
+                filename: 'notebook.css'
+            })
+        ],
         output: {
             filename: 'notebook.js',
             path: path.resolve(__dirname, 'static'),
