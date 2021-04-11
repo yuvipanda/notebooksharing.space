@@ -5,7 +5,7 @@
  */
 
 const MESSAGE_TYPES = {
-    SET_VIEW_OPTION: 1,
+    SET_DISPLAY_OPTIONS: 1,
 }
 
 /**
@@ -27,14 +27,16 @@ const handleMessages = (event) => {
     const data = JSON.parse(event.data.substr(MESSAGE_ID.length));
     const body = document.getElementsByTagName('body')[0];
     switch (data.type) {
-        case MESSAGE_TYPES.SET_VIEW_OPTION:
-            const { option, selected } = data.payload;
-            const className = "option-" + option;
-            if (selected) {
-                body.classList.add(className)
-            } else {
-                body.classList.remove(className)
-            }
+        case MESSAGE_TYPES.SET_DISPLAY_OPTIONS:
+            const { availableDisplayOptions, selectedDisplayOptions } = data.payload;
+            Object.keys(availableDisplayOptions).forEach(option => {
+                if (selectedDisplayOptions.includes(option)) {
+                    body.classList.add('option-' + option)
+                } else {
+                    body.classList.remove('option-' + option)
+                }
+            })
+            break;
     }
 }
 

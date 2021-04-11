@@ -14,17 +14,17 @@
 #page-header {
     display: flex;
     align-items: end;
-    margin-top: 16px;
+    padding-top: 16px;
     margin-bottom: 16px;
     padding-bottom: 8px;
     border-bottom-color: lightgrey;
     border-bottom-width: 1px;
     border-bottom-style: dotted;
-    font-family: var(--jp-code-font-family);
 }
 
 #page-header h1 {
     font-size: 2rem;
+    font-family: var(--jp-code-font-family);
 }
 
 #page-header .brand {
@@ -35,6 +35,7 @@
 #page-header #page-tagline {
     flex-grow: 1;
     margin-left: 8px;
+    font-family: var(--jp-code-font-family);
 }
 
 #frame-loading-spinner {
@@ -42,4 +43,9 @@
     margin-bottom: 32px;
     width: 64px;
     height: 64px;
+}
+
+#btn-download {
+    display: flex;
+    align-items: center;
 }

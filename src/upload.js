@@ -1,57 +1,36 @@
 import React, { useRef, useState } from "react";
 import './upload.css';
-
-const UPLOAD_STATUS = {
-    NORMAL: 1,
-    IN_PROGRESS: 2,
-    FAILED: 3,
-    COMPLETED: 4
-}
+import { Button, Tooltip } from '@chakra-ui/react';
+import { QuestionIcon } from "@chakra-ui/icons"
 
 const UploadForm = ({ buttonClassName, buttonNormalLabel }) => {
     const fileUploadRef = useRef(null);
-    const [uploadStatus, setUploadStatus] = useState(UPLOAD_STATUS.NORMAL);
+    const [isUploading, setIsUploading] = useState(false);
     return <>
         <form action="/upload" method="POST"
             encType="multipart/form-data"
             style={{ display: 'none' }}
             onChange={() => {
-                uploadFile(fileUploadRef.current.files[0], setUploadStatus)
+                uploadFile(fileUploadRef.current.files[0], setIsUploading)
             }}
         >
             <input accept=".ipynb" type="file" ref={fileUploadRef}></input>
         </form>
-        <UploadButton
-            className={buttonClassName} normalLabel={buttonNormalLabel}
-            uploadStatus={uploadStatus} onClick={() => fileUploadRef.current.click()} />
+        <Button variant="contained" loadingText="Uploading..."
+            isLoading={isUploading} onClick={() => fileUploadRef.current.click()}
+            colorScheme="blue" variant="solid">
+            {buttonNormalLabel}
+        </Button >
     </>;
 
 }
-const UploadButton = ({ onClick, uploadStatus, className, normalLabel }) => {
-    const classNames = "btn btn-primary upload-button " + className;
-    switch (uploadStatus) {
-        case UPLOAD_STATUS.NORMAL:
-            return <button className={classNames} tabIndex="0" onClick={onClick}>
-                {normalLabel}
-            </button >
-        case UPLOAD_STATUS.IN_PROGRESS:
-            return <button className={classNames} disabled>
-                Uploading...
-                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            </button>
-        case UPLOAD_STATUS.COMPLETED:
-            return <button className={classNames} disabled>
-                Redirecting...
-            </button>
-    }
-}
 
-const uploadFile = (file, setUploadStatus) => {
+const uploadFile = (file, setIsUploading) => {
     let formData = new FormData();
 
     formData.append("notebook", file);
 
-    setUploadStatus(UPLOAD_STATUS.IN_PROGRESS);
+    setIsUploading(true)
     // FIXME: Error handling
     fetch('/upload', {
         method: "POST",
@@ -66,6 +45,11 @@ const uploadFile = (file, setUploadStatus) => {
 }
 
 const LicenseDeclaration = () => {
-    return <small className="license-declaration">Notebooks will be licensed under <abbr title="Creative Commons Attribution License"><a href="https://creativecommons.org/licenses/by/4.0/">CC BY</a></abbr> to simplify sharing</small>
+
+    return <small className="license-declaration">Notebooks will be licensed under the <abbr title="Creative Commons Attribution License"><a href="https://creativecommons.org/licenses/by/4.0/">CC BY</a></abbr> license&nbsp;
+    <Tooltip textAlign="center" hasArrow label="Users are required to provide attribution when they use your notebook">
+            <QuestionIcon />
+        </Tooltip>
+    </small >
 }
 export { UploadForm, LicenseDeclaration };

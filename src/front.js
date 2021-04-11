@@ -1,34 +1,38 @@
 import { render } from "react-dom";
 import React from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './base.css';
 import './front.css';
 
 import { CreditFooter } from "./footer";
 import { UploadForm, LicenseDeclaration } from './upload';
+import { ChakraProvider, Container, Center } from "@chakra-ui/react"
 
 const Front = () => {
     return <>
-        <div id="front">
-            <h1> ipynb.pub </h1>
-            <p>fastest way to publish your jupyter notebooks on the web</p>
+        <Container maxW='container.lg'>
+            <div id="front">
+                <h1> ipynb.pub </h1>
+                <p>fastest way to publish your jupyter notebooks on the web</p>
 
-            <div id="howto">
-                <ol>
-                    <li>
-                        <UploadForm buttonClassName="big-button" buttonNormalLabel="Upload your notebook" />
+                <div id="howto">
+                    <ol>
+                        <li>
+                            <UploadForm buttonNormalLabel="Upload your notebook" />
 
-                        <LicenseDeclaration />
-                    </li>
-                    <li> Get an immutable link to your notebook </li>
-                    <li> Share the link with anyone you want! </li>
-                </ol>
+                            <LicenseDeclaration />
+                        </li>
+                        <li> Get an immutable link to your notebook </li>
+                        <li> Share the link with anyone you want! </li>
+                    </ol>
 
+                </div>
             </div>
-        </div>
-        <footer className="container sticky">
-            <CreditFooter />
-        </footer>
+            <Center>
+                <footer className="sticky">
+                    <CreditFooter />
+                </footer>
+            </Center>
+        </Container>
     </>;
 
 }
@@ -36,7 +40,9 @@ const Front = () => {
 document.addEventListener('DOMContentLoaded', function () {
 
     render(
-        <Front />,
+        <ChakraProvider>
+            <Front />
+        </ChakraProvider>,
         document.getElementById("content")
     );
 })
