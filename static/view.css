@@ -462,9 +462,6 @@ a {
 }
 
 .license-declaration a {
-    border-bottom: var(--jp-border-color1);
-    border-bottom-style: dashed;
-    border-bottom-width: 1px;
     color: inherit;
 }
 #container {
