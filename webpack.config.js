@@ -1,6 +1,10 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+const optimization = {
+    usedExports: true
+}
+
 const options = {
     rules: [
         {
@@ -27,6 +31,7 @@ module.exports = [
             filename: 'view.js',
             path: path.resolve(__dirname, 'static'),
         },
+        optimization: optimization
     },
     {
         entry: './src/front.js',
@@ -40,6 +45,7 @@ module.exports = [
             filename: 'front.js',
             path: path.resolve(__dirname, 'static'),
         },
+        optimization: optimization
     },
     {
         entry: './src/notebook.js',
@@ -53,5 +59,6 @@ module.exports = [
             filename: 'notebook.js',
             path: path.resolve(__dirname, 'static'),
         },
+        optimization: optimization
     },
 ];
