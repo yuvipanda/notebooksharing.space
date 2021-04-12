@@ -4,7 +4,7 @@ import { render } from "react-dom";
 import querystring from "querystring";
 import { LicenseDeclaration, UploadForm } from "./upload";
 import { CreditFooter, LicenseFooter } from "./footer";
-import { postMessage, MESSAGE_TYPES } from './messages';
+import { postMessage, MESSAGE_TYPES, parseMessage } from './messages';
 import { Button, ButtonGroup, Menu, MenuItem, MenuList, MenuOptionGroup, MenuItemOption, CircularProgress } from '@chakra-ui/react';
 import { ChevronDownIcon, DownloadIcon, } from '@chakra-ui/icons'
 import { Container, Center, Link } from "@chakra-ui/react"
@@ -104,21 +104,32 @@ const ViewOptions = ({ iframeRef, notebookId, hasFrameLoaded }) => {
     </Menu >;
 }
 
-const Hypothesis = () => {
-}
-
 const View = () => {
-    const [hasLoaded, setHasLoaded] = useState(false);
-    const iframeRef = useRef(null);
     // Expects path to be /view/<id>.
     // FIXME: This doesn't work with basepath
     const notebookId = document.location.pathname.split('/')[2];
-    console.log(notebookId)
     if (notebookId.match(/^[0-9a-f]{64,64}$/) === null) {
         console.log(notebookId + ' is not a valid id on ipynb.space')
         // TODO: Add a nice error page here
         return null;
     }
+
+    const [hasLoaded, setHasLoaded] = useState(false);
+    const iframeRef = useRef(null);
+
+    useEffect(() => {
+        // Can't connect to DOMContentLoaded of iframe from parent, so
+        // we explicitly listen for a message from child instead.
+        window.addEventListener('message', (event) => {
+            const data = parseMessage(event);
+            if (data && data.type == MESSAGE_TYPES.FRAME_DOM_CONTENT_LOADED) {
+                setHasLoaded(true)
+                iframeResize({ checkOrigin: false }, iframeRef.current);
+                // FIXME: Remove this event listener
+            }
+        })
+    }, [])
+
     return <>
         <Container maxW='container.lg'>
             <header id="page-header">
@@ -147,10 +158,6 @@ const View = () => {
                 <iframe id="content-frame"
                     ref={iframeRef}
                     enable-annotation="true"
-                    onLoad={(ev) => {
-                        iframeResize({ checkOrigin: false }, ev.target);
-                        setHasLoaded(true);
-                    }}
                     src={makeIFrameLink(notebookId)}>
                 </iframe>
             </div>

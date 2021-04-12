@@ -6,6 +6,7 @@
 
 const MESSAGE_TYPES = {
     SET_DISPLAY_OPTIONS: 1,
+    FRAME_DOM_CONTENT_LOADED: 2
 }
 
 /**
@@ -17,14 +18,21 @@ const MESSAGE_TYPES = {
  */
 const MESSAGE_ID = "[ipynb.space]";
 
+const parseMessage = (message) => {
+    if (String(event.data).substr(0, MESSAGE_ID.length) !== MESSAGE_ID) {
+        return null;
+    }
+    return JSON.parse(event.data.substr(MESSAGE_ID.length));
+}
+
 /**
  * Setup inside notebook iframe to respond to messages
  */
 const handleMessages = (event) => {
-    if (String(event.data).substr(0, MESSAGE_ID.length) !== MESSAGE_ID) {
+    const data = parseMessage(event.data);
+    if (data === null) {
         return;
     }
-    const data = JSON.parse(event.data.substr(MESSAGE_ID.length));
     const body = document.getElementsByTagName('body')[0];
     switch (data.type) {
         case MESSAGE_TYPES.SET_DISPLAY_OPTIONS:
@@ -40,11 +48,11 @@ const handleMessages = (event) => {
     }
 }
 
-const postMessage = (iframe, type, payload) => {
-    iframe.postMessage(MESSAGE_ID + JSON.stringify({
+const postMessage = (dest, type, payload) => {
+    dest.postMessage(MESSAGE_ID + JSON.stringify({
         type: type,
         payload: payload
     }))
 }
 
-export { MESSAGE_TYPES, handleMessages, postMessage }
+export { MESSAGE_TYPES, handleMessages, postMessage, parseMessage }
