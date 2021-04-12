@@ -21,7 +21,7 @@ const MESSAGE_ID = "[ipynb.space]";
  * Setup inside notebook iframe to respond to messages
  */
 const handleMessages = (event) => {
-    if (String(event.data.substr(0, MESSAGE_ID.length)) !== MESSAGE_ID) {
+    if (String(event.data).substr(0, MESSAGE_ID.length) !== MESSAGE_ID) {
         return;
     }
     const data = JSON.parse(event.data.substr(MESSAGE_ID.length));
