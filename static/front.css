@@ -422,9 +422,6 @@ a {
 }
 
 .license-declaration a {
-    border-bottom: var(--jp-border-color1);
-    border-bottom-style: dashed;
-    border-bottom-width: 1px;
     color: inherit;
 }
 #front {
@@ -433,12 +430,6 @@ a {
     font-weight: 400;
 }
 
-
-#front a {
-    border-bottom: var(--jp-border-color1);
-    border-bottom-style: dashed;
-    border-bottom-width: 1px;
-}
 
 #front h1 {
     font-size: 4rem;

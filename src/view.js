@@ -40,13 +40,16 @@ const getDisplayOptions = () => {
         return fragmentOptions.displayOptions.split('|')
     }
     return []
-
 }
+
+
 const ViewOptions = ({ iframeRef, notebookId, hasFrameLoaded }) => {
     const availableDisplayOptions = {
-        'hide-inputs': 'Hide code cells'
+        'hide-inputs': 'Hide code cells',
+        'enable-annotations': 'Enable annotations'
     }
     const [displayOptions, setDisplayOptions] = useState(getDisplayOptions())
+    const [annotationsEnabled, setAnnotationsEnabled] = useState(false);
 
     useEffect(() => {
         postMessage(iframeRef.current.contentWindow, MESSAGE_TYPES.SET_DISPLAY_OPTIONS, {
@@ -54,7 +57,22 @@ const ViewOptions = ({ iframeRef, notebookId, hasFrameLoaded }) => {
             selectedDisplayOptions: displayOptions
         });
         updateFragmentOptions(displayOptions)
+        setAnnotationsEnabled(displayOptions.includes('enable-annotations'))
     }, [displayOptions])
+
+    useEffect(() => {
+        const body = document.getElementsByTagName('body')[0];
+        if (annotationsEnabled) {
+            const script = document.createElement('script');
+            script.src = "https://hypothes.is/embed.js"
+            body.appendChild(script);
+            body.dataset.isAnnotationScriptAdded = true;
+        } else {
+            if (body.dataset.isAnnotationScriptAdded) {
+                location.reload()
+            }
+        }
+    }, [annotationsEnabled])
 
     useEffect(() => {
         // FIXME: Fix this duplication
@@ -66,7 +84,7 @@ const ViewOptions = ({ iframeRef, notebookId, hasFrameLoaded }) => {
 
     return <Menu>
         <MenuButton as={Button} variant="ghost" rightIcon={<ChevronDownIcon />}>
-            More actions
+            More options
             </MenuButton>
 
         <MenuList >
@@ -84,6 +102,9 @@ const ViewOptions = ({ iframeRef, notebookId, hasFrameLoaded }) => {
             </MenuOptionGroup>
         </MenuList>
     </Menu >;
+}
+
+const Hypothesis = () => {
 }
 
 const View = () => {
@@ -125,8 +146,9 @@ const View = () => {
                 className={hasLoaded ? "" : "hidden"}>
                 <iframe id="content-frame"
                     ref={iframeRef}
+                    enable-annotation="true"
                     onLoad={(ev) => {
-                        iframeResize({}, ev.target);
+                        iframeResize({ checkOrigin: false }, ev.target);
                         setHasLoaded(true);
                     }}
                     src={makeIFrameLink(notebookId)}>
