@@ -1,3 +1,3 @@
-body.option-hide-inputs .jp-CodeCell {
+body.option-hide-inputs .jp-CodeCell .jp-Cell-inputWrapper {
     display: none;
 }
