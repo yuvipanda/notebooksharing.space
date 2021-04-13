@@ -22,7 +22,7 @@ const FileDisplay = ({ file, setFile }) => {
 }
 
 const UploadDropZone = ({ setSelectedFile }) => {
-    return <Dropzone accept=".ipynb" multiple={false} onDrop={(acceptedFiles) => {
+    return <Dropzone accept=".ipynb,.py,.md,.Rmd" multiple={false} onDrop={(acceptedFiles) => {
         setSelectedFile(acceptedFiles[0]);
     }}>
         {({ getRootProps, getInputProps }) => (
