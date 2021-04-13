@@ -104,28 +104,3 @@ class S3Backend(StorageBackend):
             except s3.exceptions.NoSuchKey:
                 return None
             return (data, metadata)
-
-
-class IPFSBackend(StorageBackend):
-    def __init__(self, daemon_url="http://localhost:5001"):
-        self.client = aiohttp.ClientSession()
-        self.daemon_url = URL(daemon_url)
-
-    # FIXME: MAKE ALL THIS ASYNC AAAAA
-    async def put(self, data: bytes):
-        add_url = self.daemon_url / "api/v0/add" % {"cid-version": 1, "pin": "true"}
-
-        files = {"notebook.ipynb": data}
-
-        resp = await self.client.post(add_url, data=files)
-        cid = (await resp.json())["Hash"]
-
-        return cid
-
-    async def get(self, name: str):
-        url = self.daemon_url / "api/v0/cat" % {"arg": name}
-
-        resp = await self.client.post(url)
-        if resp.status != 200:
-            raise HTTPException(status_code=resp.status, detail=(await resp.text()))
-        return await resp.read()
