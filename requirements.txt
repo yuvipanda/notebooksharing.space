@@ -7,3 +7,4 @@ gunicorn
 aioboto3
 aiohttp[speedups]
 yarl
+jupytext

@@ -3,6 +3,7 @@ from nbconvert.exporters import HTMLExporter
 from typing import Optional
 import os
 import nbformat
+from jupytext import reads, writes
 
 from fastapi import FastAPI, UploadFile, File, Request, Header, HTTPException, Path
 from fastapi.responses import HTMLResponse, Response
@@ -38,8 +39,13 @@ async def upload(
     accept: str = Header("text/plain"),
 ):
     data = await notebook.read()
+    _, ext = os.path.splitext(notebook.filename)
+    # Remove leading .
+    # FIXME: Restrict what formats can be uploaded. Let's stick to notebook-like formats
+    fmt = ext[1:]
 
-    name = await backend.put(data)
+    converted_data = nbformat.writes(reads(data.decode(), fmt=fmt)).encode()
+    name = await backend.put(converted_data)
 
     # FIXME: is this really the best way?
     url = f"{x_forwarded_proto}://{host}{app.root_path}view/{name}"

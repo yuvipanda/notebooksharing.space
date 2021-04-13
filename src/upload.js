@@ -14,7 +14,8 @@ const UploadForm = ({ buttonClassName, buttonNormalLabel }) => {
                 uploadFile(fileUploadRef.current.files[0], setIsUploading)
             }}
         >
-            <input accept=".ipynb" type="file" ref={fileUploadRef}></input>
+            {/* TODO: Only accept notebook-like formats here. .md supports jupytext*/}
+            <input accept=".ipynb,.Rmd,.md" type="file" ref={fileUploadRef}></input>
         </form>
         <Button variant="contained" loadingText="Uploading..."
             isLoading={isUploading} onClick={() => fileUploadRef.current.click()}
