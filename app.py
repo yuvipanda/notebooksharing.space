@@ -3,7 +3,7 @@ from nbconvert.exporters import HTMLExporter
 from typing import Optional
 import os
 import nbformat
-from jupytext import reads, writes
+import jupytext
 
 from fastapi import FastAPI, UploadFile, File, Request, Header, HTTPException, Path
 from fastapi.responses import HTMLResponse, Response
@@ -39,16 +39,9 @@ async def upload(
     accept: str = Header("text/plain"),
 ):
     data = await notebook.read()
-    _, ext = os.path.splitext(notebook.filename)
-    # Remove leading .
-    # FIXME: Restrict what formats can be uploaded. Let's stick to notebook-like formats
-    # https://github.com/mwouts/jupytext#which-text-format
-    fmt = ext[1:]
-
-    converted_data = nbformat.writes(reads(data.decode(), fmt=fmt)).encode()
 
     raw_metadata = {"filename": notebook.filename}
-    name = await backend.put(converted_data, raw_metadata)
+    name = await backend.put(data, raw_metadata)
 
     # FIXME: is this really the best way?
     url = f"{x_forwarded_proto}://{host}{app.root_path}view/{name}"
@@ -67,7 +60,7 @@ async def view(request: Request, name: str = ID_VALIDATOR, download: bool = Fals
             data,
             headers={
                 "Content-Type": "application/json",
-                "Content-Disposition": f"attachment; filename={metadata.filename}.ipynb",
+                "Content-Disposition": f"attachment; filename={metadata.filename}",
             },
         )
     return templates.TemplateResponse(
@@ -89,7 +82,11 @@ async def render(name: str = ID_VALIDATOR):
     if data is None:
         # No data found
         raise HTTPException(status_code=404)
-    notebook = nbformat.reads(data, as_version=4)
+
+    if metadata.format == "ipynb":
+        notebook = nbformat.reads(data.decode(), as_version=4)
+    else:
+        notebook = jupytext.reads(data.decode(), metadata.format)
     output, resources = exporter.from_notebook_node(notebook, {})
     return HTMLResponse(
         output,

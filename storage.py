@@ -22,17 +22,21 @@ def sha256(data: bytes, raw_metadata: dict):
 
 class Metadata:
     def __init__(self, name: str, raw_metadata: dict):
-        self.filename = raw_metadata.get("filename", name)
+        self.filename = raw_metadata.get("filename", f"{name}.ipynb")
 
     def to_dict(self):
         return {"filename": self.filename}
 
+    @property
+    def format(self):
+        return os.path.splitext(self.filename)[-1][1:]
+
 
 class StorageBackend:
-    async def put(self, name: str, path: str, metadata: Metadata):
+    async def put(self, data: bytes, raw_metadata: dict):
         pass
 
-    async def get(self, name: str) -> (str, Metadata):
+    async def get(self, name: str) -> (bytes, Metadata):
         pass
 
 
@@ -54,7 +58,7 @@ class FileBackend(StorageBackend):
             json.dump(raw_metadata, f)
         return name
 
-    async def get(self, name: str) -> bytes:
+    async def get(self, name: str) -> (bytes, Metadata):
         with gzip.open(self.data_path_for_name(name)) as f:
             data = f.read()
 
@@ -76,7 +80,7 @@ class S3Backend(StorageBackend):
     def path_for_name(self, name: str) -> str:
         return f"notebooks/{name}"
 
-    async def put(self, data: bytes, raw_metadata: dict):
+    async def put(self, data: bytes, raw_metadata: dict) -> bytes:
         name = sha256(data, raw_metadata)
         async with aioboto3.client("s3", endpoint_url=self.endpoint_url) as s3:
             await s3.put_object(
@@ -87,7 +91,7 @@ class S3Backend(StorageBackend):
             )
         return name
 
-    async def get(self, name: str):
+    async def get(self, name: str) -> (bytes, Metadata):
         async with aioboto3.client("s3", endpoint_url=self.endpoint_url) as s3:
 
             try:
