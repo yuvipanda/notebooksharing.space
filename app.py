@@ -42,6 +42,7 @@ async def upload(
     _, ext = os.path.splitext(notebook.filename)
     # Remove leading .
     # FIXME: Restrict what formats can be uploaded. Let's stick to notebook-like formats
+    # https://github.com/mwouts/jupytext#which-text-format
     fmt = ext[1:]
 
     converted_data = nbformat.writes(reads(data.decode(), fmt=fmt)).encode()
