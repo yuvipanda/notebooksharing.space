@@ -10,7 +10,7 @@ from fastapi.responses import HTMLResponse, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from storage import S3Backend
+from storage import S3Backend, FileBackend, Metadata
 
 app = FastAPI(root_path="/")
 
@@ -46,7 +46,9 @@ async def upload(
     fmt = ext[1:]
 
     converted_data = nbformat.writes(reads(data.decode(), fmt=fmt)).encode()
-    name = await backend.put(converted_data)
+
+    raw_metadata = {"filename": notebook.filename}
+    name = await backend.put(converted_data, raw_metadata)
 
     # FIXME: is this really the best way?
     url = f"{x_forwarded_proto}://{host}{app.root_path}view/{name}"
@@ -60,11 +62,12 @@ async def upload(
 @app.get("/view/{name}")
 async def view(request: Request, name: str = ID_VALIDATOR, download: bool = False):
     if download:
+        data, metadata = await backend.get(name)
         return Response(
-            await backend.get(name),
+            data,
             headers={
                 "Content-Type": "application/json",
-                "Content-Disposition": f"attachment; filename={name}.ipynb",
+                "Content-Disposition": f"attachment; filename={metadata.filename}.ipynb",
             },
         )
     return templates.TemplateResponse(
@@ -82,7 +85,7 @@ async def render(name: str = ID_VALIDATOR):
         extra_template_basedirs=[BASE_PATH],
         template_name="nbconvert-template",
     )
-    data = await backend.get(name)
+    data, metadata = await backend.get(name)
     if data is None:
         # No data found
         raise HTTPException(status_code=404)

@@ -6,23 +6,33 @@ import aiohttp
 import tempfile
 import shutil
 import os
+import json
 import gzip
 import aioboto3
 from yarl import URL
 import hashlib
 
 
-def sha256(data: bytes):
+def sha256(data: bytes, raw_metadata: dict):
     digester = hashlib.sha256()
     digester.update(data)
+    digester.update(json.dumps(raw_metadata, sort_keys=True).encode())
     return digester.hexdigest()
 
 
+class Metadata:
+    def __init__(self, name: str, raw_metadata: dict):
+        self.filename = raw_metadata.get("filename", name)
+
+    def to_dict(self):
+        return {"filename": self.filename}
+
+
 class StorageBackend:
-    async def put(self, name: str, path: str):
+    async def put(self, name: str, path: str, metadata: Metadata):
         pass
 
-    async def get(self, name: str) -> str:
+    async def get(self, name: str) -> (str, Metadata):
         pass
 
 
@@ -30,18 +40,32 @@ class FileBackend(StorageBackend):
     def __init__(self):
         self.data_path = os.environ.get("DATA_DIR", os.getcwd())
 
-    def path_for_name(self, name: str) -> str:
+    def data_path_for_name(self, name: str) -> str:
         return os.path.join(self.data_path, name)
 
-    async def put(self, data: bytes):
-        name = sha256(data)
-        with gzip.open(self.path_for_name(name), "w") as f:
+    def metadata_path_for_name(self, name: str) -> str:
+        return os.path.join(self.data_path, name + ".metadata.json")
+
+    async def put(self, data: bytes, raw_metadata: dict):
+        name = sha256(data, raw_metadata)
+        with gzip.open(self.data_path_for_name(name), "w") as f:
             f.write(data)
+        with open(self.metadata_path_for_name(name), "w") as f:
+            json.dump(raw_metadata, f)
         return name
 
     async def get(self, name: str) -> bytes:
-        with gzip.open(self.path_for_name(name)) as f:
-            return f.read()
+        with gzip.open(self.data_path_for_name(name)) as f:
+            data = f.read()
+
+        # Metadata is optional
+        try:
+            with open(self.metadata_path_for_name(name)) as f:
+                raw_metadata = json.load(f)
+        except FileNotFoundError:
+            raw_metadata = {}
+
+        return (data, Metadata(name, raw_metadata))
 
 
 class S3Backend(StorageBackend):
@@ -52,13 +76,14 @@ class S3Backend(StorageBackend):
     def path_for_name(self, name: str) -> str:
         return f"notebooks/{name}"
 
-    async def put(self, data: bytes):
-        name = sha256(data)
+    async def put(self, data: bytes, raw_metadata: dict):
+        name = sha256(data, raw_metadata)
         async with aioboto3.client("s3", endpoint_url=self.endpoint_url) as s3:
             await s3.put_object(
                 Key=self.path_for_name(name),
                 Bucket=self.bucket,
                 Body=gzip.compress(data),
+                Metadata=raw_metadata,
             )
         return name
 
@@ -66,15 +91,15 @@ class S3Backend(StorageBackend):
         async with aioboto3.client("s3", endpoint_url=self.endpoint_url) as s3:
 
             try:
-                gzip_response = await (
-                    await s3.get_object(
-                        Key=self.path_for_name(name),
-                        Bucket=self.bucket,
-                    )
-                )["Body"].read()
+                response = await s3.get_object(
+                    Key=self.path_for_name(name),
+                    Bucket=self.bucket,
+                )
+                data = gzip.decompress(await response["Body"].read())
+                metadata = Metadata(name, response["Metadata"])
             except s3.exceptions.NoSuchKey:
                 return None
-            return gzip.decompress(gzip_response)
+            return (data, metadata)
 
 
 class IPFSBackend(StorageBackend):
