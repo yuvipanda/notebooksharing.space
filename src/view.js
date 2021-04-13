@@ -5,7 +5,7 @@ import querystring from "querystring";
 import { LicenseDeclaration, UploadForm } from "./upload";
 import { CreditFooter, LicenseFooter } from "./footer";
 import { postMessage, MESSAGE_TYPES, parseMessage } from './messages';
-import { Button, ButtonGroup, Menu, MenuItem, MenuList, MenuOptionGroup, MenuItemOption, CircularProgress } from '@chakra-ui/react';
+import { Button, ButtonGroup, Menu, MenuItem, MenuList, MenuOptionGroup, MenuItemOption, Spinner } from '@chakra-ui/react';
 import { ChevronDownIcon, DownloadIcon, } from '@chakra-ui/icons'
 import { Container, Center, Link } from "@chakra-ui/react"
 
@@ -150,7 +150,7 @@ const View = () => {
             </header>
             {hasLoaded ||
                 <Center>
-                    <CircularProgress isIndeterminate color="orange" />
+                    <Spinner color="orange" size="xl" />
                 </Center>
             }
             <div id="content-frame-container"
