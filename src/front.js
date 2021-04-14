@@ -4,7 +4,7 @@ import './base.css';
 import './front.css';
 
 import { CreditFooter } from "./footer";
-import { UploadForm, LicenseDeclaration } from './upload';
+import { UploadForm } from './upload';
 import { ChakraProvider, Container, Center } from "@chakra-ui/react"
 
 const Front = () => {
@@ -18,8 +18,6 @@ const Front = () => {
                     <ol>
                         <li>
                             <UploadForm buttonNormalLabel="Upload your notebook" />
-
-                            <LicenseDeclaration />
                         </li>
                         <li> Get an immutable link to your notebook </li>
                         <li> Share the link with anyone you want! </li>

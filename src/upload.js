@@ -3,9 +3,8 @@ import './upload.css';
 import { Button, Stack, Tooltip, useDisclosure, Box, Center, Text, HStack } from '@chakra-ui/react';
 import { Modal, ModalBody, ModalHeader, ModalCloseButton, ModalOverlay, ModalContent, ModalFooter } from '@chakra-ui/react';
 import { FormControl, FormLabel, Input, FormHelperText, Checkbox, VStack, StackDivider, Link, Icon, Flex, IconButton } from '@chakra-ui/react';
-import { QuestionIcon } from "@chakra-ui/icons"
 import { BsFileEarmarkText, BsX } from "react-icons/bs";
-import { FaFileAlt } from "react-icons/fa"
+import { FaFileAlt, FaCreativeCommons, FaCreativeCommonsBy } from "react-icons/fa"
 import Dropzone from "react-dropzone";
 
 const FileDisplay = ({ file, setFile }) => {
@@ -29,7 +28,7 @@ const UploadDropZone = ({ setSelectedFile }) => {
             <Center width="100%" height={36} border="dashed 1px" borderColor="gray.400" backgroundColor="gray.50" {...getRootProps()}>
                 <input {...getInputProps()} />
                 <Flex direction="column">
-                    <Text fontSize="md">
+                    <Text fontSize="lg">
                         Drag notebook here to upload, or click to select
                     </Text>
                 </Flex>
@@ -47,23 +46,21 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
             <ModalHeader>Upload your notebook</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-                <VStack>
-                    <VStack width="100%" spacing={4}>
-                        {selectedFile ? <FileDisplay file={selectedFile} setFile={setSelectedFile} /> : <UploadDropZone setSelectedFile={setSelectedFile} />}
+                <VStack width="100%" spacing={4}>
+                    {selectedFile ? <FileDisplay file={selectedFile} setFile={setSelectedFile} /> : <UploadDropZone setSelectedFile={setSelectedFile} />}
+                    {/* <FormControl id="enableIndexing">
+                        <Checkbox>
+                            Allow search engines to index this notebook
+                        </Checkbox>
+                    </FormControl> */}
 
-                        {/* <FormControl id="enableAnnotations">
-                            <Checkbox>
-                                Allow viewer annotations
-                        </Checkbox>
-                            <FormHelperText>Add annotations via <Link href="https://web.hypothes.is/">hypothes.is</Link> </FormHelperText>
-                        </FormControl>
-                        <FormControl id="enableIndexing">
-                            <Checkbox>
-                                Allow search engines indexing
-                        </Checkbox>
-                        </FormControl> */}
-                    </VStack>
+                    <HStack width="100%" color="gray.400" paddingTop={8}>
+                        <Icon as={FaCreativeCommons} height={8} width={8} />
+                        <Icon as={FaCreativeCommonsBy} height={8} width={8} />
+                        <Text size="md" color="gray.500">Notebooks will be licensed under a <Link href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution</Link> license, unless otherwise explicitly specified</Text>
+                    </HStack>
                 </VStack>
+
             </ModalBody>
 
             <ModalFooter>
@@ -104,12 +101,4 @@ const uploadFile = (file, setIsUploading) => {
         }))
 }
 
-const LicenseDeclaration = () => {
-
-    return <small className="license-declaration">Notebooks will be licensed under the <abbr title="Creative Commons Attribution License"><a href="https://creativecommons.org/licenses/by/4.0/">CC BY</a></abbr> license&nbsp;
-    <Tooltip textAlign="center" hasArrow label="Users are required to provide attribution when they use your notebook">
-            <QuestionIcon />
-        </Tooltip>
-    </small >
-}
-export { UploadForm, LicenseDeclaration };
+export { UploadForm };

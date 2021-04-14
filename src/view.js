@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { ChakraProvider, MenuButton } from "@chakra-ui/react"
 import { render } from "react-dom";
 import querystring from "querystring";
-import { LicenseDeclaration, UploadForm } from "./upload";
+import { UploadForm } from "./upload";
 import { CreditFooter, LicenseFooter } from "./footer";
 import { postMessage, MESSAGE_TYPES, parseMessage } from './messages';
 import { Button, ButtonGroup, Menu, MenuItem, MenuList, MenuOptionGroup, MenuItemOption, Spinner } from '@chakra-ui/react';
@@ -143,9 +143,6 @@ const View = () => {
                         <UploadForm buttonNormalLabel="Upload new notebook" />
                         <ViewOptions notebookId={notebookId} iframeRef={iframeRef} hasFrameLoaded={hasLoaded} />
                     </ButtonGroup>
-                    <div className="text-right">
-                        <LicenseDeclaration />
-                    </div>
                 </div>
             </header>
             {hasLoaded ||
