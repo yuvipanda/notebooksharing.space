@@ -42,7 +42,7 @@ backend = S3Backend()
 
 @app.post("/upload")
 async def upload(
-    shouldIndex: str = Form(...),
+    enable_indexing: str = Form(..., alias="enable-indexing"),
     notebook: UploadFile = File(...),
     host: Optional[str] = Header(None),
     x_forwarded_proto: str = Header("http"),
@@ -50,7 +50,7 @@ async def upload(
 ):
     data = await notebook.read()
 
-    raw_metadata = {"filename": notebook.filename, "should-index": shouldIndex}
+    raw_metadata = {"filename": notebook.filename, "enable-indexing": enable_indexing}
     name = await backend.put(data, raw_metadata)
 
     # FIXME: is this really the best way?
@@ -77,7 +77,7 @@ async def view(request: Request, name: str = ID_VALIDATOR, download: bool = Fals
     # FIXME: Cache this somewhere
     metadata = await backend.get_metadata(name)
     return templates.TemplateResponse(
-        "view.html.j2", {"name": name, "request": request, "metadata": metadata}
+        "view.html.j2", {"name": name, "request": request, "object_metadata": metadata}
     )
 
 
@@ -101,7 +101,7 @@ async def render(name: str = ID_VALIDATOR):
     else:
         notebook = jupytext.reads(data.decode(), metadata.format)
     output, resources = exporter.from_notebook_node(
-        notebook, {"should_index": metadata.should_index}
+        notebook, {"object_metadata": metadata}
     )
     return HTMLResponse(
         output,

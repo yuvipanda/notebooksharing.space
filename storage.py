@@ -23,7 +23,7 @@ def sha256(data: bytes, raw_metadata: dict):
 class Metadata:
     def __init__(self, name: str, raw_metadata: dict):
         self.filename = raw_metadata.get("filename", f"{name}.ipynb")
-        self.should_index = raw_metadata.get("should-index", "false") == "true"
+        self.enable_indexing = raw_metadata.get("enable-indexing", "false") == "true"
 
     def to_dict(self):
         return {"filename": self.filename}

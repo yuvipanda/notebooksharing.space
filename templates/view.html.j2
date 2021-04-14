@@ -1,7 +1,7 @@
 {% extends "base.html.j2" %}
 
 {% block head %}
-{% if not metadata.should_index %}
+{% if not object_metadata.enable_indexing %}
 <meta name="robots" rel="noindex" />
 {% endif %}
 

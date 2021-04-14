@@ -2,7 +2,7 @@
 
 {% block html_head_js %}
 {{ super() }}
-{% if not resources.should_index %}
+{% if not resources.object_metadata.enable_indexing %}
 <meta name="robots" rel="noindex" />
 {% endif %}
 <!--

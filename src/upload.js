@@ -39,7 +39,7 @@ const UploadDropZone = ({ setSelectedFile }) => {
 }
 const UploadModal = ({ isOpen, onClose, onOpen }) => {
     const [selectedFile, setSelectedFile] = useState(null);
-    const [shouldIndex, setShouldIndex] = useState(false);
+    const [enableIndexing, setEnableIndexing] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
     return <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />
@@ -50,7 +50,7 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
                 <VStack width="100%" spacing={4}>
                     {selectedFile ? <FileDisplay file={selectedFile} setFile={setSelectedFile} /> : <UploadDropZone setSelectedFile={setSelectedFile} />}
                     <FormControl id="enableIndexing">
-                        <Checkbox onChange={(ev) => { setShouldIndex(ev.target.checked) }}>
+                        <Checkbox onChange={(ev) => { setEnableIndexing(ev.target.checked) }}>
                             Allow search engines to index this notebook
                         </Checkbox>
                     </FormControl>
@@ -68,7 +68,7 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
                 <Button colorScheme="blue" mr={3} isLoading={isUploading} onClick={() => {
                     const params = {
                         notebook: selectedFile,
-                        shouldIndex: shouldIndex
+                        "enable-indexing": enableIndexing
                     }
                     uploadFile(params, setIsUploading);
                 }} disabled={!Boolean(selectedFile)}>
