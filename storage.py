@@ -103,7 +103,7 @@ class S3Backend(StorageBackend):
                 metadata = Metadata(name, response["Metadata"])
             except s3.exceptions.NoSuchKey:
                 return None
-            return Metadata
+            return metadata
 
     async def get(self, name: str) -> (bytes, Metadata):
         async with aioboto3.client("s3", endpoint_url=self.endpoint_url) as s3:
