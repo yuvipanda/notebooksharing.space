@@ -390,46 +390,19 @@ all of MD as it is not optimized for dense, information rich UIs.
 }
 
 body {
-    line-height: 1.28581;
-    letter-spacing: 0;
-    font-size: 14px;
-    font-weight: 400;
-    color: #182026;
     font-family: var(--jp-ui-font-family);
-    text-transform: none;
-    background-color: var(--jp-layout-color0);
 }
 
-a:hover {
-    color: unset;
-    text-decoration: none;
-}
 
-a {
-    color: unset;
-    text-decoration: none;
-}
-
-.hidden {
-    display: none !important;
-}
-
-.license-declaration {
-    display: block;
-    font-size: 0.8rem;
-    line-height: 1.6rem;
-    color: var(--jp-ui-font-color3);
-}
-
-.license-declaration a {
-    color: inherit;
+.mono {
+    font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace !important;
+    font-weight: 400;
 }
 #front {
     text-align: center;
     font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace;
     font-weight: 400;
 }
-
 
 #front h1 {
     font-size: 4rem;

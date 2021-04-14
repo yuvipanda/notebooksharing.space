@@ -430,89 +430,12 @@ all of MD as it is not optimized for dense, information rich UIs.
 }
 
 body {
-    line-height: 1.28581;
-    letter-spacing: 0;
-    font-size: 14px;
-    font-weight: 400;
-    color: #182026;
     font-family: var(--jp-ui-font-family);
-    text-transform: none;
-    background-color: var(--jp-layout-color0);
 }
 
-a:hover {
-    color: unset;
-    text-decoration: none;
-}
 
-a {
-    color: unset;
-    text-decoration: none;
-}
-
-.hidden {
-    display: none !important;
-}
-
-.license-declaration {
-    display: block;
-    font-size: 0.8rem;
-    line-height: 1.6rem;
-    color: var(--jp-ui-font-color3);
-}
-
-.license-declaration a {
-    color: inherit;
-}
-#container {
-    display: flex;
-    justify-content: center;
-    height: 100%;
-}
-#content-frame {
-    border: 0;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-}
-
-#page-header {
-    display: flex;
-    align-items: end;
-    padding-top: 16px;
-    margin-bottom: 16px;
-    padding-bottom: 8px;
-    border-bottom-color: lightgrey;
-    border-bottom-width: 1px;
-    border-bottom-style: dotted;
-}
-
-#page-header h1 {
-    font-size: 2rem;
-    font-family: var(--jp-code-font-family);
-}
-
-#page-header .brand {
-    flex-grow: 1;
-    display: flex;
-    align-items: baseline;
-}
-#page-header #page-tagline {
-    flex-grow: 1;
-    margin-left: 8px;
-    font-family: var(--jp-code-font-family);
-}
-
-#frame-loading-spinner {
-    margin-top: 32px;
-    margin-bottom: 32px;
-    width: 64px;
-    height: 64px;
-}
-
-#btn-download {
-    display: flex;
-    align-items: center;
+.mono {
+    font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace !important;
+    font-weight: 400;
 }
 

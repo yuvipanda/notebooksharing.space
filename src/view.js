@@ -7,7 +7,7 @@ import { CreditFooter, LicenseFooter } from "./footer";
 import { postMessage, MESSAGE_TYPES, parseMessage } from './messages';
 import { Button, ButtonGroup, Menu, MenuItem, MenuList, MenuOptionGroup, MenuItemOption, Spinner } from '@chakra-ui/react';
 import { ChevronDownIcon, DownloadIcon, } from '@chakra-ui/icons'
-import { Container, Center, Link } from "@chakra-ui/react"
+import { Container, Center, Link, Spacer, Flex, Heading, Text, Box } from "@chakra-ui/react"
 
 import { iframeResize } from 'iframe-resizer';
 
@@ -132,32 +132,28 @@ const View = () => {
 
     return <>
         <Container maxW='container.lg'>
-            <header id="page-header">
-                <div className="brand">
-                    <h1> <a href="/">ipynb.pub</a> </h1>
-                    <span id="page-tagline">fastest way to publish your notebooks on the web</span>
-                </div>
-                <div className="page-actions">
+            <Flex alignItems="end" paddingBottom={4} borderBottom="1px solid" borderColor="gray.200" marginTop={4}>
+                <Flex direction="column">
+                    <Heading className="mono"><Link _hover={{ textDecoration: "none" }} href="/">ipynb.pub</Link></Heading>
+                    <Text fontSize="md">the fastest way to publish your notebooks on the web</Text>
+                </Flex>
+                <Spacer />
+                <ButtonGroup isAttached>
+                    <UploadForm buttonNormalLabel="Upload new notebook" />
+                    <ViewOptions notebookId={notebookId} iframeRef={iframeRef} hasFrameLoaded={hasLoaded} />
+                </ButtonGroup>
 
-                    <ButtonGroup isAttached>
-                        <UploadForm buttonNormalLabel="Upload new notebook" />
-                        <ViewOptions notebookId={notebookId} iframeRef={iframeRef} hasFrameLoaded={hasLoaded} />
-                    </ButtonGroup>
-                </div>
-            </header>
+            </Flex>
             {hasLoaded ||
                 <Center>
                     <Spinner color="orange" size="xl" />
-                </Center>
-            }
-            <div id="content-frame-container"
-                className={hasLoaded ? "" : "hidden"}>
-                <iframe id="content-frame"
-                    ref={iframeRef}
-                    enable-annotation="true"
-                    src={makeIFrameLink(notebookId)}>
-                </iframe>
-            </div>
+                </Center>}
+            <iframe width="100%"
+                className={hasLoaded ? "" : "hidden"}
+                ref={iframeRef}
+                enable-annotation="true"
+                src={makeIFrameLink(notebookId)}>
+            </iframe>
             <Center>
                 <footer className={hasLoaded ? "" : "sticky"}>
                     <LicenseFooter />
