@@ -29,7 +29,7 @@ const UploadDropZone = ({ setSelectedFile }) => {
                 <input {...getInputProps()} />
                 <Flex direction="column">
                     <Text fontSize="lg">
-                        Drag notebook here to upload, or click to select
+                        Drag here to upload, or click to select a notebook
                     </Text>
                 </Flex>
             </Center>
@@ -39,6 +39,7 @@ const UploadDropZone = ({ setSelectedFile }) => {
 }
 const UploadModal = ({ isOpen, onClose, onOpen }) => {
     const [selectedFile, setSelectedFile] = useState(null);
+    const [shouldIndex, setShouldIndex] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
     return <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />
@@ -48,16 +49,16 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
             <ModalBody>
                 <VStack width="100%" spacing={4}>
                     {selectedFile ? <FileDisplay file={selectedFile} setFile={setSelectedFile} /> : <UploadDropZone setSelectedFile={setSelectedFile} />}
-                    {/* <FormControl id="enableIndexing">
-                        <Checkbox>
+                    <FormControl id="enableIndexing">
+                        <Checkbox onChange={(ev) => { setShouldIndex(ev.target.checked) }}>
                             Allow search engines to index this notebook
                         </Checkbox>
-                    </FormControl> */}
+                    </FormControl>
 
                     <HStack width="100%" color="gray.400" paddingTop={8}>
-                        <Icon as={FaCreativeCommons} height={8} width={8} />
-                        <Icon as={FaCreativeCommonsBy} height={8} width={8} />
-                        <Text size="md" color="gray.500">Notebooks will be licensed under a <Link href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution</Link> license, unless otherwise explicitly specified</Text>
+                        <Icon as={FaCreativeCommons} height={6} width={6} />
+                        <Icon as={FaCreativeCommonsBy} height={6} width={6} />
+                        <Text fontSize="sm" color="gray.500">Notebooks will be licensed under a <Link _hover={{ textDecoration: "underline" }} href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution</Link> license, unless otherwise explicitly specified.</Text>
                     </HStack>
                 </VStack>
 
@@ -65,7 +66,11 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
 
             <ModalFooter>
                 <Button colorScheme="blue" mr={3} isLoading={isUploading} onClick={() => {
-                    uploadFile(selectedFile, setIsUploading);
+                    const params = {
+                        notebook: selectedFile,
+                        shouldIndex: shouldIndex
+                    }
+                    uploadFile(params, setIsUploading);
                 }} disabled={!Boolean(selectedFile)}>
                     Upload
                 </Button>
@@ -82,10 +87,10 @@ const UploadForm = ({ buttonNormalLabel }) => {
     </>;
 }
 
-const uploadFile = (file, setIsUploading) => {
+const uploadFile = (params, setIsUploading) => {
     let formData = new FormData();
 
-    formData.append("notebook", file);
+    Object.keys(params).forEach(key => formData.append(key, params[key]));
 
     setIsUploading(true)
     // FIXME: Error handling

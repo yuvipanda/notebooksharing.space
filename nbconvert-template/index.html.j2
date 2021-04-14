@@ -2,6 +2,9 @@
 
 {% block html_head_js %}
 {{ super() }}
+{% if not resources.should_index %}
+<meta name="robots" rel="noindex" />
+{% endif %}
 <!--
 The iframe should be 'invisible' to the user, so link clicks should open up in the
 top frame, rather than inside the iframe itself. Not sure if this works for JS triggered

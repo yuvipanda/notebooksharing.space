@@ -5,7 +5,16 @@ import os
 import nbformat
 import jupytext
 
-from fastapi import FastAPI, UploadFile, File, Request, Header, HTTPException, Path
+from fastapi import (
+    FastAPI,
+    UploadFile,
+    File,
+    Request,
+    Header,
+    HTTPException,
+    Path,
+    Form,
+)
 from fastapi.responses import HTMLResponse, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -33,6 +42,7 @@ backend = S3Backend()
 
 @app.post("/upload")
 async def upload(
+    shouldIndex: str = Form(...),
     notebook: UploadFile = File(...),
     host: Optional[str] = Header(None),
     x_forwarded_proto: str = Header("http"),
@@ -40,7 +50,7 @@ async def upload(
 ):
     data = await notebook.read()
 
-    raw_metadata = {"filename": notebook.filename}
+    raw_metadata = {"filename": notebook.filename, "should-index": shouldIndex}
     name = await backend.put(data, raw_metadata)
 
     # FIXME: is this really the best way?
@@ -87,7 +97,9 @@ async def render(name: str = ID_VALIDATOR):
         notebook = nbformat.reads(data.decode(), as_version=4)
     else:
         notebook = jupytext.reads(data.decode(), metadata.format)
-    output, resources = exporter.from_notebook_node(notebook, {})
+    output, resources = exporter.from_notebook_node(
+        notebook, {"should_index": metadata.should_index}
+    )
     return HTMLResponse(
         output,
         headers={
