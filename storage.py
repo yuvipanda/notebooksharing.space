@@ -59,18 +59,20 @@ class FileBackend(StorageBackend):
             json.dump(raw_metadata, f)
         return name
 
-    async def get(self, name: str) -> (bytes, Metadata):
-        with gzip.open(self.data_path_for_name(name)) as f:
-            data = f.read()
-
-        # Metadata is optional
+    async def get_metadata(self, name: str) -> Metadata:
         try:
             with open(self.metadata_path_for_name(name)) as f:
                 raw_metadata = json.load(f)
         except FileNotFoundError:
             raw_metadata = {}
 
-        return (data, Metadata(name, raw_metadata))
+        return Metadata(raw_metadata)
+
+    async def get(self, name: str) -> (bytes, Metadata):
+        with gzip.open(self.data_path_for_name(name)) as f:
+            data = f.read()
+
+        return (data, await self.get_metadata(name))
 
 
 class S3Backend(StorageBackend):
@@ -91,6 +93,17 @@ class S3Backend(StorageBackend):
                 Metadata=raw_metadata,
             )
         return name
+
+    async def get_metadata(self, name: str) -> Metadata:
+        async with aioboto3.client("s3", endpoint_url=self.endpoint_url) as s3:
+            try:
+                response = await s3.head_object(
+                    Key=self.path_for_name(name), Bucket=self.bucket
+                )
+                metadata = Metadata(name, response["Metadata"])
+            except s3.exceptions.NoSuchKey:
+                return None
+            return Metadata
 
     async def get(self, name: str) -> (bytes, Metadata):
         async with aioboto3.client("s3", endpoint_url=self.endpoint_url) as s3:

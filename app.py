@@ -73,8 +73,11 @@ async def view(request: Request, name: str = ID_VALIDATOR, download: bool = Fals
                 "Content-Disposition": f"attachment; filename={metadata.filename}",
             },
         )
+
+    # FIXME: Cache this somewhere
+    metadata = await backend.get_metadata(name)
     return templates.TemplateResponse(
-        "view.html.j2", {"name": name, "request": request}
+        "view.html.j2", {"name": name, "request": request, "metadata": metadata}
     )
 
 
