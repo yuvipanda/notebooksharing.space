@@ -2,17 +2,20 @@ import React, { useRef, useState } from "react";
 import './upload.css';
 import { Button, Stack, Tooltip, useDisclosure, Box, Center, Text, HStack } from '@chakra-ui/react';
 import { Modal, ModalBody, ModalHeader, ModalCloseButton, ModalOverlay, ModalContent, ModalFooter } from '@chakra-ui/react';
-import { FormControl, Spacer, Alert, AlertTitle, AlertDescription, AlertIcon, Checkbox, VStack, CloseButton, Link, Icon, Flex, IconButton } from '@chakra-ui/react';
+import { FormControl, Spacer, Alert, AlertTitle, AlertDescription, Spinner, AlertIcon, Checkbox, VStack, CloseButton, Link, Icon, Flex, IconButton } from '@chakra-ui/react';
 import { BsFileEarmarkText, BsX } from "react-icons/bs";
 import { FaFileAlt, FaCreativeCommons, FaCreativeCommonsBy, FaAltQuestionCircle, FaRegQuestionCircle } from "react-icons/fa"
 import Dropzone from "react-dropzone";
 
-const FileDisplay = ({ file, setFile }) => {
+const FileDisplay = ({ file, setFile, isUploading }) => {
     return <HStack h={36} w="100%" paddingLeft={12} border="dashed 1px" borderColor="gray.400" backgroundColor="green.50">
-        <Icon as={FaFileAlt} w={12} h={12} />
+        {isUploading ? <Spinner w={12} h={12} /> :
+            <Icon as={FaFileAlt} w={12} h={12} />
+        }
         <Flex direction="column">
             <Text fontSize="lg">{file.name}
-                <IconButton icon={<BsX />} variant="ghost" size="sm" onClick={() => setFile(null)} />
+                {isUploading ||
+                    <IconButton icon={<BsX />} variant="ghost" size="sm" onClick={() => setFile(null)} />}
             </Text>
             <Text fontSize="sm">{file.size} bytes</Text>
         </Flex>
@@ -70,14 +73,14 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
     return <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />
         <ModalContent>
-            <ModalHeader>Upload your notebook</ModalHeader>
-            <ModalCloseButton />
+            <ModalHeader>{isUploading ? "Uploading your notebook..." : "Upload your notebook"}</ModalHeader>
+            <ModalCloseButton isDisabled={isUploading} />
             <ModalBody>
                 <VStack width="100%" spacing={4}>
-                    {selectedFile ? <FileDisplay file={selectedFile} setFile={setSelectedFile} /> : <UploadDropZone setSelectedFile={setSelectedFile} />}
+                    {selectedFile ? <FileDisplay file={selectedFile} setFile={setSelectedFile} isUploading={isUploading} /> : <UploadDropZone setSelectedFile={setSelectedFile} />}
                     <HStack width="100%">
                         <FormControl>
-                            <Checkbox defaultChecked={isDiscoverable} onChange={(ev) => { setIsDiscoverable(ev.target.checked) }}>
+                            <Checkbox isDisabled={isUploading} defaultChecked={isDiscoverable} onChange={(ev) => { setIsDiscoverable(ev.target.checked) }}>
                                 Discoverable
                                 <Tooltip label="Make this notebook discoverable by search engines" hasArrow>
                                     <span>
@@ -88,7 +91,7 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
                         </FormControl>
 
                         <FormControl>
-                            <Checkbox onChange={(ev) => { setEnableAnnotations(ev.target.checked) }}>
+                            <Checkbox isDisabled={isUploading} onChange={(ev) => { setEnableAnnotations(ev.target.checked) }}>
                                 Viewer annotations
                                 <Tooltip label="Enable collaborative annotations on this notebook" hasArrow>
                                     <span>
@@ -108,15 +111,15 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
             </ModalBody>
 
             <ModalFooter>
-                <Button colorScheme="blue" mr={3} isLoading={isUploading} onClick={() => {
+                <Button colorScheme="blue" mr={3} onClick={() => {
                     const params = {
                         notebook: selectedFile,
                         "enable-discovery": isDiscoverable,
                         "enable-annotations": enableAnnotations
                     }
                     uploadFile(params, setIsUploading);
-                }} disabled={!Boolean(selectedFile)}>
-                    Upload
+                }} disabled={!Boolean(selectedFile) || isUploading}>
+                    {isUploading ? "Uploading..." : "Upload"}
                 </Button>
             </ModalFooter>
         </ModalContent>
