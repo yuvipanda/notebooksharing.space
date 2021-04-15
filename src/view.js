@@ -93,7 +93,7 @@ const NotebookOptions = ({ iframeRef, notebookId, hasFrameLoaded }) => {
 
 const ContentHeader = ({ filename, notebookId, iframeRef, hasFrameLoaded }) => {
     return <Flex alignItems="baseline" width="100%" margin={4} marginTop={8} paddingBottom={1} borderBottom="1px dotted" borderColor="gray.600">
-        <Text fontSize="3xl">{filename}</Text>
+        <Text fontSize="4xl" fontWeight="450">{filename}</Text>
         <NotebookOptions iframeRef={iframeRef} notebookId={notebookId} hasFrameLoaded={hasFrameLoaded} />
     </Flex>
 }

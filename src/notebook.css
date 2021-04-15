@@ -1,7 +1,12 @@
+.jp-Notebook h1, .jp-Notebook h2, .jp-Notebook h3, .jp-Notebook h4, .jp-Notebook h5, .jp-Notebook h6 {
+    /* FIXME: Find a way to override this CSS variable without having to specify all selectors */
+     --jp-content-heading-font-weight: 350;
+}
 body.jp-Notebook {
     /* Flush against the iframe, lets us control layout from view.css */
     /* body.jp-Notebook is more specific than .jp-Notebook, so overrides it */
     padding: 0px;
+
 }
 body.option-hide-inputs .jp-CodeCell .jp-Cell-inputWrapper {
     display: none;

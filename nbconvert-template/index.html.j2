@@ -11,7 +11,10 @@ top frame, rather than inside the iframe itself. Not sure if this works for JS t
 opens, but seems to work for regular links
 -->
 
-<base target='_top'></base>
-<link rel="stylesheet" href="/static/notebook.css" />
 <script src="/static/notebook.js"></script>
+<base target='_top'></base>
+{% endblock %}
+
+{% block html_head_css %}
+<link rel="stylesheet" href="/static/notebook.css" />
 {% endblock %}
