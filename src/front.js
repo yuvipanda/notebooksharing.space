@@ -12,14 +12,14 @@ const Front = () => {
         <Container maxW='container.lg'>
             <div id="front">
                 <h1> ipynb.pub </h1>
-                <p>fastest way to publish your jupyter notebooks on the web</p>
+                <p>the fastest way to share your notebooks via the web</p>
 
                 <div id="howto">
                     <ol>
                         <li>
                             <UploadForm buttonNormalLabel="Upload your notebook" />
                         </li>
-                        <li> Get an immutable link to your notebook </li>
+                        <li> Get an immutable link to your notebooks via the web</li>
                         <li> Share the link with anyone you want! </li>
                     </ol>
 

@@ -122,7 +122,7 @@ const View = ({ pageProperties }) => {
                 <Flex alignItems="top" paddingBottom={4} paddingTop={4}>
                     <Flex direction="row" alignItems="baseline">
                         <Text fontSize="4xl" className="mono"><Link _hover={{ textDecoration: "none" }} href="/">ipynb.pub</Link></Text>
-                        <Text fontSize="md" marginLeft={2}>the fastest way to publish your notebooks on the web</Text>
+                        <Text fontSize="md" marginLeft={2}>the fastest way to share your notebooks via the web</Text>
                     </Flex>
                     <Spacer />
                     <UploadForm />
