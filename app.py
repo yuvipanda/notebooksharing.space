@@ -41,6 +41,10 @@ app = FastAPI(
     root_path="/",
     title="ipynb.pub",
     description="fastest way to publish your notebooks on the web",
+    openapi_tags=[
+        {"name": "api", "description": "REST API, for machines"},
+        {"name": "website", "description": "Website, for humans"},
+    ],
 )
 app.mount(
     "/static", StaticFiles(directory=os.path.join(BASE_PATH, "static")), name="static"
@@ -59,6 +63,7 @@ class NotebookUploadResponse(BaseModel):
 @app.post(
     "/api/notebook",
     summary="Upload a notebook",
+    tags=["api"],
     response_model=Union[NotebookUploadResponse, str],
     responses={
         200: {
@@ -119,6 +124,7 @@ async def upload(
 @app.get(
     "/api/notebook/{notebook_id}",
     summary="Download a notebook",
+    tags=["api"],
     response_class=PlainTextResponse,
 )
 async def download(request: Request, notebook_id: str = ID_VALIDATOR):
@@ -136,7 +142,7 @@ async def download(request: Request, notebook_id: str = ID_VALIDATOR):
     )
 
 
-@app.get("/view/{notebook_id}")
+@app.get("/view/{notebook_id}", tags=["website"])
 async def view(request: Request, notebook_id: str = ID_VALIDATOR):
     # FIXME: Cache this somewhere
     metadata = await backend.get_metadata(notebook_id)
@@ -155,7 +161,7 @@ async def view(request: Request, notebook_id: str = ID_VALIDATOR):
     )
 
 
-@app.get("/render/v1/{notebook_id}")
+@app.get("/render/v1/{notebook_id}", tags=["website"])
 async def render(notebook_id: str = ID_VALIDATOR):
     exporter = HTMLExporter(
         # Input / output prompts are empty left gutter space
@@ -193,6 +199,6 @@ async def render(notebook_id: str = ID_VALIDATOR):
     )
 
 
-@app.get("/")
+@app.get("/", tags=["website"])
 async def render_front(request: Request):
     return templates.TemplateResponse("front.html.j2", {"request": request})
