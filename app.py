@@ -42,7 +42,8 @@ backend = S3Backend()
 
 @app.post("/upload")
 async def upload(
-    enable_indexing: str = Form(..., alias="enable-indexing"),
+    enable_discovery: str = Form(..., alias="enable-discovery"),
+    enable_annotations: str = Form(..., alias="enable-annotations"),
     notebook: UploadFile = File(...),
     host: Optional[str] = Header(None),
     x_forwarded_proto: str = Header("http"),
@@ -50,7 +51,11 @@ async def upload(
 ):
     data = await notebook.read()
 
-    raw_metadata = {"filename": notebook.filename, "enable-indexing": enable_indexing}
+    raw_metadata = {
+        "filename": notebook.filename,
+        "enable-discovery": enable_discovery,
+        "enable-annotations": enable_annotations,
+    }
     name = await backend.put(data, raw_metadata)
 
     # FIXME: is this really the best way?
@@ -76,8 +81,18 @@ async def view(request: Request, name: str = ID_VALIDATOR, download: bool = Fals
 
     # FIXME: Cache this somewhere
     metadata = await backend.get_metadata(name)
+    # Metadata that affects display of page only
+    # Let's not change HTML unless we have to - better cache hit ratio this way
+    page_properties = {"id": name}
     return templates.TemplateResponse(
-        "view.html.j2", {"name": name, "request": request, "object_metadata": metadata}
+        "view.html.j2",
+        {
+            "name": name,
+            "request": request,
+            "object_metadata": metadata,
+            "enable_annotations": metadata.enable_annotations,
+            "page_properties": page_properties,
+        },
     )
 
 

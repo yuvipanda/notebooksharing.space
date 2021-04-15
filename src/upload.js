@@ -4,7 +4,7 @@ import { Button, Stack, Tooltip, useDisclosure, Box, Center, Text, HStack } from
 import { Modal, ModalBody, ModalHeader, ModalCloseButton, ModalOverlay, ModalContent, ModalFooter } from '@chakra-ui/react';
 import { FormControl, FormLabel, Input, FormHelperText, Checkbox, VStack, StackDivider, Link, Icon, Flex, IconButton } from '@chakra-ui/react';
 import { BsFileEarmarkText, BsX } from "react-icons/bs";
-import { FaFileAlt, FaCreativeCommons, FaCreativeCommonsBy } from "react-icons/fa"
+import { FaFileAlt, FaCreativeCommons, FaCreativeCommonsBy, FaAltQuestionCircle, FaRegQuestionCircle } from "react-icons/fa"
 import Dropzone from "react-dropzone";
 
 const FileDisplay = ({ file, setFile }) => {
@@ -39,7 +39,8 @@ const UploadDropZone = ({ setSelectedFile }) => {
 }
 const UploadModal = ({ isOpen, onClose, onOpen }) => {
     const [selectedFile, setSelectedFile] = useState(null);
-    const [enableIndexing, setEnableIndexing] = useState(false);
+    const [isDiscoverable, setIsDiscoverable] = useState(false);
+    const [enableAnnotations, setEnableAnnotations] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
     return <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />
@@ -49,12 +50,29 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
             <ModalBody>
                 <VStack width="100%" spacing={4}>
                     {selectedFile ? <FileDisplay file={selectedFile} setFile={setSelectedFile} /> : <UploadDropZone setSelectedFile={setSelectedFile} />}
-                    <FormControl id="enableIndexing">
-                        <Checkbox onChange={(ev) => { setEnableIndexing(ev.target.checked) }}>
-                            Allow search engines to index this notebook
-                        </Checkbox>
-                    </FormControl>
+                    <HStack width="100%">
+                        <FormControl>
+                            <Checkbox defaultChecked={isDiscoverable} onChange={(ev) => { setIsDiscoverable(ev.target.checked) }}>
+                                Discoverable
+                                <Tooltip label="Make this notebook discoverable by search engines" hasArrow>
+                                    <span>
+                                        <Icon as={FaAltQuestionCircle} width={4} height={4} marginLeft={1} color="gray.400"></Icon>
+                                    </span>
+                                </Tooltip>
+                            </Checkbox>
+                        </FormControl>
 
+                        <FormControl>
+                            <Checkbox onChange={(ev) => { setEnableAnnotations(ev.target.checked) }}>
+                                Viewer annotations
+                                <Tooltip label="Enable collaborative annotations on this notebook" hasArrow>
+                                    <span>
+                                        <Icon as={FaAltQuestionCircle} width={4} height={4} marginLeft={1} color="gray.400"></Icon>
+                                    </span>
+                                </Tooltip>
+                            </Checkbox>
+                        </FormControl>
+                    </HStack>
                     <HStack width="100%" color="gray.400" paddingTop={8}>
                         <Icon as={FaCreativeCommons} height={6} width={6} />
                         <Icon as={FaCreativeCommonsBy} height={6} width={6} />
@@ -68,7 +86,8 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
                 <Button colorScheme="blue" mr={3} isLoading={isUploading} onClick={() => {
                     const params = {
                         notebook: selectedFile,
-                        "enable-indexing": enableIndexing
+                        "enable-discovery": isDiscoverable,
+                        "enable-annotations": enableAnnotations
                     }
                     uploadFile(params, setIsUploading);
                 }} disabled={!Boolean(selectedFile)}>

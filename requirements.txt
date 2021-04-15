@@ -5,6 +5,6 @@ python-multipart
 aiofiles
 gunicorn
 aioboto3
-aiohttp[speedups]
+aiohttp
 yarl
 jupytext

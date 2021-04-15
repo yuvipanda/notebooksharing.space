@@ -46,10 +46,8 @@ const getDisplayOptions = () => {
 const ViewOptions = ({ iframeRef, notebookId, hasFrameLoaded }) => {
     const availableDisplayOptions = {
         'hide-inputs': 'Hide code cells',
-        'enable-annotations': 'Enable annotations'
     }
     const [displayOptions, setDisplayOptions] = useState(getDisplayOptions())
-    const [annotationsEnabled, setAnnotationsEnabled] = useState(false);
 
     useEffect(() => {
         postMessage(iframeRef.current.contentWindow, MESSAGE_TYPES.SET_DISPLAY_OPTIONS, {
@@ -57,22 +55,7 @@ const ViewOptions = ({ iframeRef, notebookId, hasFrameLoaded }) => {
             selectedDisplayOptions: displayOptions
         });
         updateFragmentOptions(displayOptions)
-        setAnnotationsEnabled(displayOptions.includes('enable-annotations'))
     }, [displayOptions])
-
-    useEffect(() => {
-        const body = document.getElementsByTagName('body')[0];
-        if (annotationsEnabled) {
-            const script = document.createElement('script');
-            script.src = "https://hypothes.is/embed.js"
-            body.appendChild(script);
-            body.dataset.isAnnotationScriptAdded = true;
-        } else {
-            if (body.dataset.isAnnotationScriptAdded) {
-                location.reload()
-            }
-        }
-    }, [annotationsEnabled])
 
     useEffect(() => {
         // FIXME: Fix this duplication
@@ -104,16 +87,8 @@ const ViewOptions = ({ iframeRef, notebookId, hasFrameLoaded }) => {
     </Menu >;
 }
 
-const View = () => {
-    // Expects path to be /view/<id>.
-    // FIXME: This doesn't work with basepath
-    const notebookId = document.location.pathname.split('/')[2];
-    if (notebookId.match(/^[0-9a-f]{64,64}$/) === null) {
-        console.log(notebookId + ' is not a valid id on ipynb.space')
-        // TODO: Add a nice error page here
-        return null;
-    }
-
+const View = ({ pageProperties }) => {
+    const notebookId = pageProperties.id;
     const [hasLoaded, setHasLoaded] = useState(false);
     const iframeRef = useRef(null);
 
@@ -166,9 +141,10 @@ const View = () => {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
+    const pageProperties = window.pageProperties;
     render(
         <ChakraProvider>
-            <View />
+            <View pageProperties={pageProperties} />
         </ChakraProvider>,
         document.getElementById('content')
     )
