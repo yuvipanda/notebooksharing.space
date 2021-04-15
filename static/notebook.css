@@ -1,3 +1,8 @@
+body.jp-Notebook {
+    /* Flush against the iframe, lets us control layout from view.css */
+    /* body.jp-Notebook is more specific than .jp-Notebook, so overrides it */
+    padding: 0px;
+}
 body.option-hide-inputs .jp-CodeCell .jp-Cell-inputWrapper {
     display: none;
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { ChakraProvider, MenuButton } from "@chakra-ui/react"
+import { ChakraProvider, HStack, IconButton, MenuButton } from "@chakra-ui/react"
 import { render } from "react-dom";
 import querystring from "querystring";
 import { UploadForm } from "./upload";
@@ -13,6 +13,7 @@ import { iframeResize } from 'iframe-resizer';
 
 import './base.css';
 import './view.css';
+import { FaChevronDown, FaCaretDown, FaCloudDownloadAlt } from "react-icons/fa";
 
 const makeDownloadLink = (notebookId) => {
     return "/api/notebook/" + notebookId;
@@ -43,7 +44,7 @@ const getDisplayOptions = () => {
 }
 
 
-const ViewOptions = ({ iframeRef, notebookId, hasFrameLoaded }) => {
+const NotebookOptions = ({ iframeRef, notebookId, hasFrameLoaded }) => {
     const availableDisplayOptions = {
         'hide-inputs': 'Hide code cells',
     }
@@ -66,14 +67,17 @@ const ViewOptions = ({ iframeRef, notebookId, hasFrameLoaded }) => {
     }, [hasFrameLoaded])
 
     return <Menu>
-        <MenuButton as={Button} variant="ghost" rightIcon={<ChevronDownIcon />}>
-            More options
-            </MenuButton>
+        <MenuButton
+            as={IconButton}
+            aria-label="Options"
+            icon={<FaChevronDown />}
+            variant="ghost"
+        />
 
         <MenuList >
             {/* Explicitly set hover style here, we don't want the underline to show up*/}
             <MenuItem icon={<DownloadIcon />} as={Link} href={makeDownloadLink(notebookId)} _hover={{ textDecoration: 'none' }}>
-                Download this notebook
+                Download notebook
             </MenuItem>
 
             <MenuOptionGroup title="Display options" type="checkbox" onChange={setDisplayOptions} value={displayOptions}>
@@ -85,6 +89,13 @@ const ViewOptions = ({ iframeRef, notebookId, hasFrameLoaded }) => {
             </MenuOptionGroup>
         </MenuList>
     </Menu >;
+}
+
+const ContentHeader = ({ filename, notebookId, iframeRef, hasFrameLoaded }) => {
+    return <Flex alignItems="baseline" width="100%" margin={4} marginTop={8} paddingBottom={1} borderBottom="1px dotted" borderColor="gray.600">
+        <Text fontSize="3xl">{filename}</Text>
+        <NotebookOptions iframeRef={iframeRef} notebookId={notebookId} hasFrameLoaded={hasFrameLoaded} />
+    </Flex>
 }
 
 const View = ({ pageProperties }) => {
@@ -106,19 +117,22 @@ const View = ({ pageProperties }) => {
     }, [])
 
     return <>
-        <Container maxW='container.lg'>
-            <Flex alignItems="end" paddingBottom={4} borderBottom="1px solid" borderColor="gray.200" marginTop={4}>
-                <Flex direction="column">
-                    <Heading className="mono"><Link _hover={{ textDecoration: "none" }} href="/">ipynb.pub</Link></Heading>
-                    <Text fontSize="md">the fastest way to publish your notebooks on the web</Text>
+        <Box boxShadow="lg">
+            <Container maxW="container.lg">
+                <Flex alignItems="top" paddingBottom={4} paddingTop={4}>
+                    <Flex direction="row" alignItems="baseline">
+                        <Text fontSize="4xl" className="mono"><Link _hover={{ textDecoration: "none" }} href="/">ipynb.pub</Link></Text>
+                        <Text fontSize="md" marginLeft={2}>the fastest way to publish your notebooks on the web</Text>
+                    </Flex>
+                    <Spacer />
+                    <UploadForm />
                 </Flex>
-                <Spacer />
-                <ButtonGroup isAttached>
-                    <UploadForm buttonNormalLabel="Upload new notebook" />
-                    <ViewOptions notebookId={notebookId} iframeRef={iframeRef} hasFrameLoaded={hasLoaded} />
-                </ButtonGroup>
 
-            </Flex>
+            </Container>
+        </Box>
+        <Container maxW='container.lg'>
+
+            <ContentHeader filename={pageProperties.filename} notebookId={pageProperties.notebookId} iframeRef={iframeRef} hasFrameLoaded={hasLoaded} />
             {hasLoaded ||
                 <Center>
                     <Spinner color="orange" size="xl" />

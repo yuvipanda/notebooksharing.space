@@ -126,10 +126,10 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
     </Modal >
 }
 
-const UploadForm = ({ buttonNormalLabel }) => {
+const UploadForm = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     return <>
-        <Button variant="contained" colorScheme="blue" variant="solid" onClick={onOpen}>Upload your notebook</Button>
+        <Button variant="contained" size="lg" colorScheme="blue" variant="solid" onClick={onOpen}>Upload your notebook</Button>
         <UploadModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
     </>;
 }
