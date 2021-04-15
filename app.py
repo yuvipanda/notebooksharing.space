@@ -19,6 +19,7 @@ from fastapi.responses import HTMLResponse, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
+from content_size_limit_asgi import ContentSizeLimitMiddleware
 from storage import S3Backend, FileBackend, Metadata
 
 app = FastAPI(root_path="/")
@@ -36,6 +37,8 @@ templates = Jinja2Templates(directory=os.path.join(BASE_PATH, "templates"))
 app.mount(
     "/static", StaticFiles(directory=os.path.join(BASE_PATH, "static")), name="static"
 )
+# No files larger than 10MB
+app.add_middleware(ContentSizeLimitMiddleware, max_content_size=10 * 1024 * 1024)
 
 backend = S3Backend()
 

@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import './upload.css';
 import { Button, Stack, Tooltip, useDisclosure, Box, Center, Text, HStack } from '@chakra-ui/react';
 import { Modal, ModalBody, ModalHeader, ModalCloseButton, ModalOverlay, ModalContent, ModalFooter } from '@chakra-ui/react';
-import { FormControl, FormLabel, Input, FormHelperText, Checkbox, VStack, StackDivider, Link, Icon, Flex, IconButton } from '@chakra-ui/react';
+import { FormControl, Spacer, Alert, AlertTitle, AlertDescription, AlertIcon, Checkbox, VStack, CloseButton, Link, Icon, Flex, IconButton } from '@chakra-ui/react';
 import { BsFileEarmarkText, BsX } from "react-icons/bs";
 import { FaFileAlt, FaCreativeCommons, FaCreativeCommonsBy, FaAltQuestionCircle, FaRegQuestionCircle } from "react-icons/fa"
 import Dropzone from "react-dropzone";
@@ -20,21 +20,46 @@ const FileDisplay = ({ file, setFile }) => {
 
 }
 
+// No files over 10MB
+const MAX_ACCEPTED_SIZE_BYTES = 10 * 1024 * 1024;
+
 const UploadDropZone = ({ setSelectedFile }) => {
-    return <Dropzone accept=".ipynb,.py,.md,.Rmd" multiple={false} onDrop={(acceptedFiles) => {
-        setSelectedFile(acceptedFiles[0]);
-    }}>
-        {({ getRootProps, getInputProps }) => (
-            <Center width="100%" height={36} border="dashed 1px" borderColor="gray.400" backgroundColor="gray.50" {...getRootProps()}>
-                <input {...getInputProps()} />
-                <Flex direction="column">
-                    <Text fontSize="lg">
-                        Drag here to upload, or click to select a notebook
+    const [errorMesssage, setErrorMessage] = useState(null);
+    return <VStack width="100%">
+        {errorMesssage &&
+            <Alert status="error">
+                <AlertIcon />
+                {errorMesssage}
+                <CloseButton position="absolute" right="8px" top="8px" />
+            </Alert>
+        }
+        <Dropzone accept=".ipynb,.py,.md,.Rmd" multiple={false} onDrop={(files) => {
+            const file = files[0];
+            console.log(file)
+            if (file.size > MAX_ACCEPTED_SIZE_BYTES) {
+                setErrorMessage(
+                    <>
+                        <AlertTitle>{file.name}  is too big</AlertTitle>
+                        <AlertDescription>Maximum size is 10MB</AlertDescription>
+                    </>
+                )
+            } else {
+                setErrorMessage(null)
+                setSelectedFile(file);
+            }
+        }}>
+            {({ getRootProps, getInputProps }) => (
+                <Center width="100%" height={36} border="dashed 1px" borderColor="gray.400" backgroundColor="gray.50" {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    <Flex direction="column">
+                        <Text fontSize="lg">
+                            Drag here to upload, or click to select a notebook
                     </Text>
-                </Flex>
-            </Center>
-        )}
-    </Dropzone>
+                    </Flex>
+                </Center>
+            )}
+        </Dropzone>
+    </VStack>
 
 }
 const UploadModal = ({ isOpen, onClose, onOpen }) => {

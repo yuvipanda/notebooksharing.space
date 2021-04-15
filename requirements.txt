@@ -8,3 +8,4 @@ aioboto3
 aiohttp
 yarl
 jupytext
+content-size-limit-asgi
