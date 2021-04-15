@@ -85,19 +85,23 @@ async def upload(
     enable_discovery: bool = Form(
         ...,
         alias="enable-discovery",
+        description="Allow search engines to index this notebook",
     ),
-    enable_annotations: bool = Form(..., alias="enable-annotations"),
-    notebook: UploadFile = File(...),
+    enable_annotations: bool = Form(
+        ...,
+        alias="enable-annotations",
+        description="Enable hypothes.is based annotations UI when this notebook is rendered",
+    ),
+    notebook: UploadFile = File(
+        ...,
+        description="Notebook data, in any format supported by Jupytext (.ipynb, .md, .Rmd, .py, etc)",
+    ),
     host: Optional[str] = Header(None),
     x_forwarded_proto: str = Header("http"),
     accept: str = Header("text/plain"),
 ):
     """
     Upload a new notebook
-
-    - **enable-discovery**: Allow search engines to index this notebook
-    - **enable-annotations**: Enable hypothes.is based annotations UI when this notebook is rendered
-    - **notebook**: Notebook data in any format supported by Jupytext (.ipynb, .md, .Rmd, .py, etc)
     """
 
     data = await notebook.read()
