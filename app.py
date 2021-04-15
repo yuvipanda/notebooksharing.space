@@ -15,14 +15,15 @@ from fastapi import (
     Path,
     Form,
 )
-from fastapi.responses import HTMLResponse, Response
+from fastapi.responses import HTMLResponse, Response, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from pydantic import BaseModel
+from typing import Union
 
 from content_size_limit_asgi import ContentSizeLimitMiddleware
 from storage import S3Backend, FileBackend, Metadata
 
-app = FastAPI(root_path="/")
 
 BASE_PATH = os.path.abspath(os.path.dirname(__file__))
 DATA_DIR = os.environ.get("DATA_DIR", os.getcwd())
@@ -31,9 +32,16 @@ ID_VALIDATOR = Path(
     min_length=64,
     max_length=64,
     regex=r"^[0-9a-f]{64,64}$",
+    description="Notebook ID",
 )
 
 templates = Jinja2Templates(directory=os.path.join(BASE_PATH, "templates"))
+
+app = FastAPI(
+    root_path="/",
+    title="ipynb.pub",
+    description="fastest way to publish your notebooks on the web",
+)
 app.mount(
     "/static", StaticFiles(directory=os.path.join(BASE_PATH, "static")), name="static"
 )
@@ -43,54 +51,102 @@ app.add_middleware(ContentSizeLimitMiddleware, max_content_size=10 * 1024 * 1024
 backend = S3Backend()
 
 
-@app.post("/upload")
+class NotebookUploadResponse(BaseModel):
+    url: str
+    notebookId: str
+
+
+@app.post(
+    "/api/notebook",
+    summary="Upload a notebook",
+    response_model=Union[NotebookUploadResponse, str],
+    responses={
+        200: {
+            "content": {
+                "application/json": {
+                    "example": {
+                        "url": "https://ipynb.pub/view/b7d0bf3209dd925ca41ce068660860624ba229127ed27855fbf4c7a22044b79f",
+                        "notebookId": "b7d0bf3209dd925ca41ce068660860624ba229127ed27855fbf4c7a22044b79f",
+                    }
+                },
+                "text/plain": {
+                    "example": "https://ipynb.pub/view/b7d0bf3209dd925ca41ce068660860624ba229127ed27855fbf4c7a22044b79f"
+                },
+            }
+        }
+    },
+)
 async def upload(
-    enable_discovery: str = Form(..., alias="enable-discovery"),
-    enable_annotations: str = Form(..., alias="enable-annotations"),
+    enable_discovery: bool = Form(
+        ...,
+        alias="enable-discovery",
+    ),
+    enable_annotations: bool = Form(..., alias="enable-annotations"),
     notebook: UploadFile = File(...),
     host: Optional[str] = Header(None),
     x_forwarded_proto: str = Header("http"),
     accept: str = Header("text/plain"),
 ):
-    data = await notebook.read()
+    """
+    Upload a new notebook
 
-    raw_metadata = {
-        "filename": notebook.filename,
-        "enable-discovery": enable_discovery,
-        "enable-annotations": enable_annotations,
-    }
-    name = await backend.put(data, raw_metadata)
+    - **enable-discovery**: Allow search engines to index this notebook
+    - **enable-annotations**: Enable hypothes.is based annotations UI when this notebook is rendered
+    - **notebook**: Notebook data in any format supported by Jupytext (.ipynb, .md, .Rmd, .py, etc)
+    """
+
+    data = await notebook.read()
+    print("a", enable_annotations)
+    print("d", enable_discovery)
+
+    metadata = Metadata(
+        filename=notebook.filename,
+        enable_discovery=enable_discovery,
+        enable_annotations=enable_annotations,
+    )
+    print(metadata.to_dict())
+    notebook_id = await backend.put(data, metadata)
 
     # FIXME: is this really the best way?
-    url = f"{x_forwarded_proto}://{host}{app.root_path}view/{name}"
+    url = f"{x_forwarded_proto}://{host}{app.root_path}view/{notebook_id}"
     if accept == "application/json":
-        return {"url": url}
+        return {"url": url, "notebookId": notebook_id}
 
     else:
-        return Response(url + "\n")
+        return Response(url + "\n", media_type="text/plain")
 
 
-@app.get("/view/{name}")
-async def view(request: Request, name: str = ID_VALIDATOR, download: bool = False):
-    if download:
-        data, metadata = await backend.get(name)
-        return Response(
-            data,
-            headers={
-                "Content-Type": "application/json",
-                "Content-Disposition": f"attachment; filename={metadata.filename}",
-            },
-        )
+@app.get(
+    "/api/notebook/{notebook_id}",
+    summary="Download a notebook",
+    response_class=PlainTextResponse,
+)
+async def download(request: Request, notebook_id: str = ID_VALIDATOR):
+    """
+    Download a notebook.
 
+    Notebook will be in the same format it was uploaded in.
+    """
+    data, metadata = await backend.get(notebook_id)
+    return PlainTextResponse(
+        data,
+        headers={
+            "Content-Disposition": f"attachment; filename={metadata.filename}",
+        },
+    )
+
+
+@app.get("/view/{notebook_id}")
+async def view(request: Request, notebook_id: str = ID_VALIDATOR):
     # FIXME: Cache this somewhere
-    metadata = await backend.get_metadata(name)
+    metadata = await backend.get_metadata(notebook_id)
     # Metadata that affects display of page only
     # Let's not change HTML unless we have to - better cache hit ratio this way
-    page_properties = {"id": name}
+    page_properties = {"id": notebook_id}
     return templates.TemplateResponse(
         "view.html.j2",
         {
-            "name": name,
+            "notebook_id": notebook_id,
             "request": request,
             "object_metadata": metadata,
             "enable_annotations": metadata.enable_annotations,
@@ -99,8 +155,8 @@ async def view(request: Request, name: str = ID_VALIDATOR, download: bool = Fals
     )
 
 
-@app.get("/render/v1/{name}")
-async def render(name: str = ID_VALIDATOR):
+@app.get("/render/v1/{notebook_id}")
+async def render(notebook_id: str = ID_VALIDATOR):
     exporter = HTMLExporter(
         # Input / output prompts are empty left gutter space
         # Let's remove them. If we want gutters, we can CSS them.
@@ -109,7 +165,7 @@ async def render(name: str = ID_VALIDATOR):
         extra_template_basedirs=[BASE_PATH],
         template_name="nbconvert-template",
     )
-    data, metadata = await backend.get(name)
+    data, metadata = await backend.get(notebook_id)
     if data is None:
         # No data found
         raise HTTPException(status_code=404)

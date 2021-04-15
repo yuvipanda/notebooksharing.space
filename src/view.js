@@ -15,7 +15,7 @@ import './base.css';
 import './view.css';
 
 const makeDownloadLink = (notebookId) => {
-    return "/view/" + notebookId + "?download=true"
+    return "/api/notebook/" + notebookId;
 }
 
 const makeIFrameLink = (notebookId) => {

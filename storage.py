@@ -21,15 +21,32 @@ def sha256(data: bytes, raw_metadata: dict):
 
 
 class Metadata:
-    def __init__(self, name: str, raw_metadata: dict):
-        self.filename = raw_metadata.get("filename", f"{name}.ipynb")
-        self.enable_discovery = raw_metadata.get("enable-discovery", "false") == "true"
-        self.enable_annotations = (
-            raw_metadata.get("enable-annotations", "false") == "true"
+    @classmethod
+    def from_dict(cls, raw_metadata):
+        """
+        Create metadata object from raw dictionary.
+
+        - Keys and values can be only strings - that is what S3 metadata accepts
+        - "true" and "false" used for bools. BREAKS MY HEART
+        - Defaults for unset metadata is specified here
+        """
+        return cls(
+            filename=raw_metadata["filename"],
+            enable_discovery=raw_metadata.get("enable-discovery") == "true",
+            enable_annotations=raw_metadata.get("enable-annotations") == "true",
         )
 
+    def __init__(self, filename: str, enable_discovery: bool, enable_annotations: bool):
+        self.filename = filename
+        self.enable_discovery = enable_discovery
+        self.enable_annotations = enable_annotations
+
     def to_dict(self):
-        return {"filename": self.filename}
+        return {
+            "filename": self.filename,
+            "enable-discovery": "true" if self.enable_discovery else "false",
+            "enable-annotations": "true" if self.enable_annotations else "false",
+        }
 
     @property
     def format(self):
@@ -54,12 +71,12 @@ class FileBackend(StorageBackend):
     def metadata_path_for_name(self, name: str) -> str:
         return os.path.join(self.data_path, name + ".metadata.json")
 
-    async def put(self, data: bytes, raw_metadata: dict):
-        name = sha256(data, raw_metadata)
+    async def put(self, data: bytes, metadata: Metadata):
+        name = sha256(data, metadata.to_dict())
         with gzip.open(self.data_path_for_name(name), "w") as f:
             f.write(data)
         with open(self.metadata_path_for_name(name), "w") as f:
-            json.dump(raw_metadata, f)
+            json.dump(metadata.to_dict(), f)
         return name
 
     async def get_metadata(self, name: str) -> Metadata:
@@ -69,7 +86,7 @@ class FileBackend(StorageBackend):
         except FileNotFoundError:
             raw_metadata = {}
 
-        return Metadata(raw_metadata)
+        return Metadata.from_dict(raw_metadata)
 
     async def get(self, name: str) -> (bytes, Metadata):
         with gzip.open(self.data_path_for_name(name)) as f:
@@ -86,14 +103,14 @@ class S3Backend(StorageBackend):
     def path_for_name(self, name: str) -> str:
         return f"notebooks/{name}"
 
-    async def put(self, data: bytes, raw_metadata: dict) -> bytes:
-        name = sha256(data, raw_metadata)
+    async def put(self, data: bytes, metadata: Metadata) -> bytes:
+        name = sha256(data, metadata.to_dict())
         async with aioboto3.client("s3", endpoint_url=self.endpoint_url) as s3:
             await s3.put_object(
                 Key=self.path_for_name(name),
                 Bucket=self.bucket,
                 Body=gzip.compress(data),
-                Metadata=raw_metadata,
+                Metadata=metadata.to_dict(),
             )
         return name
 
@@ -103,7 +120,7 @@ class S3Backend(StorageBackend):
                 response = await s3.head_object(
                     Key=self.path_for_name(name), Bucket=self.bucket
                 )
-                metadata = Metadata(name, response["Metadata"])
+                metadata = Metadata.from_dict(response["Metadata"])
             except s3.exceptions.NoSuchKey:
                 return None
             return metadata
@@ -117,7 +134,7 @@ class S3Backend(StorageBackend):
                     Bucket=self.bucket,
                 )
                 data = gzip.decompress(await response["Body"].read())
-                metadata = Metadata(name, response["Metadata"])
+                metadata = Metadata.from_dict(response["Metadata"])
             except s3.exceptions.NoSuchKey:
                 return None
             return (data, metadata)

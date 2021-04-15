@@ -138,7 +138,7 @@ const uploadFile = (params, setIsUploading) => {
 
     setIsUploading(true)
     // FIXME: Error handling
-    fetch('/upload', {
+    fetch('/api/notebook', {
         method: "POST",
         body: formData,
         headers: {
