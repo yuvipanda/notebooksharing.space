@@ -6,8 +6,7 @@
 
 const MESSAGE_TYPES = {
     SET_DISPLAY_OPTIONS: 1,
-    FRAME_DOM_CONTENT_LOADED: 2,
-    LOAD_HYPOTHESIS: 3
+    FRAME_DOM_CONTENT_LOADED: 2
 }
 
 /**
@@ -46,12 +45,6 @@ const handleMessages = (event) => {
                 }
             })
             break;
-        case MESSAGE_TYPES.LOAD_HYPOTHESIS:
-            const script = document.createElement('script')
-            script.src = "https://hypothes.is/embed.js";
-            script.async = true;
-            document.head.appendChild(script);
-            break
     }
 }
 

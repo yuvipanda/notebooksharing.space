@@ -180,13 +180,22 @@ async def render(notebook_id: str = ID_VALIDATOR):
         # No data found
         raise HTTPException(status_code=404)
 
-    if metadata.format == "ipynb":
-        notebook = nbformat.reads(data.decode(), as_version=4)
+    if metadata.format == "html":
+        # R notebooks
+        # I HATE THIS BUT WHAT TO DO?
+        # We need notebook.js inside the iframe to respond to messages,
+        # and resize iframe appropriately. We don't have control over the HTML
+        # and I don't want to parse it. Instead, we just shove this in there.
+        # VALID HTML!? WHO KNOWS?!
+        output = "<script src='/static/notebook.js'></script>\n" + data.decode()
     else:
-        notebook = jupytext.reads(data.decode(), metadata.format)
-    output, resources = exporter.from_notebook_node(
-        notebook, {"object_metadata": metadata}
-    )
+        if metadata.format == "ipynb":
+            notebook = nbformat.reads(data.decode(), as_version=4)
+        else:
+            notebook = jupytext.reads(data.decode(), metadata.format)
+        output, resources = exporter.from_notebook_node(
+            notebook, {"object_metadata": metadata}
+        )
     return HTMLResponse(
         output,
         headers={

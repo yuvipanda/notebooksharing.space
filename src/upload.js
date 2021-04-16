@@ -36,7 +36,7 @@ const UploadDropZone = ({ setSelectedFile }) => {
                 <CloseButton position="absolute" right="8px" top="8px" />
             </Alert>
         }
-        <Dropzone accept=".ipynb,.py,.md,.Rmd" multiple={false} onDrop={(files) => {
+        <Dropzone accept=".ipynb,.py,.md,.Rmd,.html" multiple={false} onDrop={(files) => {
             const file = files[0];
             console.log(file)
             if (file.size > MAX_ACCEPTED_SIZE_BYTES) {
