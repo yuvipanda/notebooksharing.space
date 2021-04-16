@@ -3,10 +3,9 @@
      --jp-content-heading-font-weight: 350;
 }
 body.jp-Notebook {
-    /* Flush against the iframe, lets us control layout from view.css */
-    /* body.jp-Notebook is more specific than .jp-Notebook, so overrides it */
-    padding: 0px;
-
+    max-width: 960px;
+    margin-left: auto;
+    margin-right: auto;
 }
 body.option-hide-inputs .jp-CodeCell .jp-Cell-inputWrapper {
     display: none;

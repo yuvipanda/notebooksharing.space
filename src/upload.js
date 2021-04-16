@@ -111,7 +111,7 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
             </ModalBody>
 
             <ModalFooter>
-                <Button colorScheme="blue" mr={3} onClick={() => {
+                <Button colorScheme="teal" mr={3} onClick={() => {
                     const params = {
                         notebook: selectedFile,
                         "enable-discovery": isDiscoverable,
@@ -126,10 +126,10 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
     </Modal >
 }
 
-const UploadForm = () => {
+const UploadForm = ({ ...props }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     return <>
-        <Button variant="contained" size="lg" colorScheme="blue" variant="solid" onClick={onOpen}>Upload your notebook</Button>
+        <Button variant="contained" colorScheme="teal" variant="solid" {...props} onClick={onOpen}>Upload your notebook</Button>
         <UploadModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
     </>;
 }

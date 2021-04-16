@@ -5,14 +5,14 @@ import querystring from "querystring";
 import { UploadForm } from "./upload";
 import { CreditFooter, LicenseFooter } from "./footer";
 import { postMessage, MESSAGE_TYPES, parseMessage } from './messages';
-import { Button, ButtonGroup, Menu, MenuItem, MenuList, MenuOptionGroup, MenuItemOption, Spinner } from '@chakra-ui/react';
+import { Button, ButtonGroup, Menu, MenuItem, MenuList, MenuOptionGroup, MenuItemOption, Spinner, Image } from '@chakra-ui/react';
 import { ChevronDownIcon, DownloadIcon, } from '@chakra-ui/icons'
 import { Container, Center, Link, Spacer, Flex, Heading, Text, Box } from "@chakra-ui/react"
 
 import { iframeResize } from 'iframe-resizer';
+import logo from "./logo.svg";
 
 import './base.css';
-import './view.css';
 import { FaChevronDown, FaCaretDown, FaCloudDownloadAlt } from "react-icons/fa";
 
 const makeDownloadLink = (notebookId) => {
@@ -111,38 +111,41 @@ const View = ({ pageProperties }) => {
             if (data && data.type == MESSAGE_TYPES.FRAME_DOM_CONTENT_LOADED) {
                 setHasLoaded(true)
                 iframeResize({ checkOrigin: false }, iframeRef.current);
+                postMessage(iframeRef.current.contentWindow, MESSAGE_TYPES.LOAD_HYPOTHESIS, {});
                 // FIXME: Remove this event listener
             }
         })
     }, [])
 
     return <>
-        <Box boxShadow="lg">
+        <Box boxShadow="md">
             <Container maxW="container.lg">
                 <Flex alignItems="top" paddingBottom={4} paddingTop={4}>
-                    <Flex direction="row" alignItems="baseline">
-                        <Text fontSize="4xl" className="mono"><Link _hover={{ textDecoration: "none" }} href="/">ipynb.pub</Link></Text>
-                        <Text fontSize="md" marginLeft={2}>the fastest way to share your notebooks via the web</Text>
+                    <Flex direction="column" alignItems="baseline">
+                        <Link _hover={{ textDecoration: "none" }} href="/" marginTop={1}><Image src={logo} width="sm" /></Link>
+                        <Text fontSize="md" marginTop={1}>the fastest way to share your notebooks</Text>
                     </Flex>
                     <Spacer />
-                    <UploadForm />
+                    <UploadForm size="lg" />
                 </Flex>
 
             </Container>
         </Box>
-        <Container maxW='container.lg'>
 
+        <Container maxW="container.lg">
             <ContentHeader filename={pageProperties.filename} notebookId={pageProperties.notebookId} iframeRef={iframeRef} hasFrameLoaded={hasLoaded} />
             {hasLoaded ||
                 <Center>
                     <Spinner color="orange" size="xl" />
                 </Center>}
-            <iframe width="100%"
-                className={hasLoaded ? "" : "hidden"}
-                ref={iframeRef}
-                enable-annotation="true"
-                src={makeIFrameLink(notebookId)}>
-            </iframe>
+        </Container>
+        <iframe width="100%"
+            className={hasLoaded ? "" : "hidden"}
+            ref={iframeRef}
+            enable-annotation="true"
+            src={makeIFrameLink(notebookId)}>
+        </iframe>
+        <Container maxW="container.lg">
             <Center>
                 <footer className={hasLoaded ? "" : "sticky"}>
                     <LicenseFooter />
@@ -150,7 +153,6 @@ const View = ({ pageProperties }) => {
                 </footer>
             </Center>
         </Container>
-
     </>
 };
 
