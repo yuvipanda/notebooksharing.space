@@ -31,22 +31,26 @@ const NotebookFormats = ({ ...props }) => {
             logo: jupyterLogo,
             url: "https://jupyter.org",
             title: ".ipynb notebooks from Jupyter",
+            alt: "Jupyter logo"
         },
         {
             logo: rstudioLogo,
             url: "https://rmarkdown.rstudio.com/",
             title: ".Rmd notebooks from RStudio",
+            alt: "RStudio logo"
         },
         {
             logo: colabLogo,
             url: "https://colab.research.google.com/",
             title: ".ipynb notebooks from Google Colab",
+            alt: "Google Colab logo"
 
         },
         {
             logo: vscodeLogo,
             url: "https://code.visualstudio.com",
-            title: ".py, .ipynb notebooks from vscode"
+            title: ".py, .ipynb notebooks from vscode",
+            alt: "Visual Studio Code logo"
         }
     ]
     return <Flex direction="row" alignItems="center" {...props} height={16}>
@@ -54,7 +58,7 @@ const NotebookFormats = ({ ...props }) => {
         {/* Too many colors can distract from CTA. We make these grayscale. They get color + size on hover */}
         {formats.map(f => {
             return <Link marginLeft={1} title={f.title} href={f.url} key={f.url} opacity="30%" _hover={{ opacity: "100%" }}>
-                <Image src={f.logo} width={10} _hover={{ width: 16, filter: "saturate(100%)" }} filter='saturate(0)' />
+                <Image src={f.logo} alt={f.alt} width={10} _hover={{ width: 16, filter: "saturate(100%)" }} filter='saturate(0)' />
             </Link>
         })}
     </Flex >
