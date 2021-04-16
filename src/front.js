@@ -4,7 +4,7 @@ import './base.css';
 
 import { CreditFooter } from "./footer";
 import { UploadForm } from './upload';
-import { ChakraProvider, Container, Center, Image, Link, Text, Box, Flex, Grid, GridItem, HStack, Spacer, IconButton } from "@chakra-ui/react"
+import { ChakraProvider, Container, SimpleGrid, Center, Image, Link, Text, Box, Flex, Grid, GridItem, HStack, Spacer, IconButton } from "@chakra-ui/react"
 import { FaGithub } from "react-icons/fa"
 import logo from "./logo.svg";
 import jupyterLogo from "./logos/jupyter.svg";
@@ -15,13 +15,13 @@ import colabLogo from "./logos/colab.png";
 const ActionItem = ({ number, content, description }) => {
     return <GridItem rowSpan={1} colSpan={2}>
         <Flex flexDirection="row" alignItems="baseline">
-            <Text fontSize="2xl" color="gray.400" width={6}>{number}</Text>
+            <Text fontSize="2xl" color="gray.600" width={6}>{number}</Text>
             {typeof (content) === 'string' ?
                 <Text fontSize="2xl">{content}</Text> :
                 content
             }
         </Flex>
-        <Text fontSize="md" color="gray.500" marginLeft={6}>{description}</Text>
+        <Text fontSize="md" color="gray.600" marginLeft={6}>{description}</Text>
     </GridItem>
 }
 
@@ -50,7 +50,7 @@ const NotebookFormats = ({ ...props }) => {
         }
     ]
     return <Flex direction="row" alignItems="center" {...props} height={16}>
-        <Text fontSize="xl" opacity="30%" marginRight={1}>Supports</Text>
+        <Text fontSize="xl" color="gray.400" marginRight={1}>Supports</Text>
         {/* Too many colors can distract from CTA. We make these grayscale. They get color + size on hover */}
         {formats.map(f => {
             return <Link marginLeft={1} title={f.title} href={f.url} key={f.url} opacity="30%" _hover={{ opacity: "100%" }}>
@@ -78,7 +78,7 @@ const Front = () => {
             </Container>
         </Box>
         <Container maxW='container.lg' marginTop={12}>
-            <Grid templateColumns="repeat(5, 1fr)" rowGap={8} columnGap={8}>
+            <SimpleGrid columns={{ sm: 3, lg: 5 }} rowGap={8} columnGap={8}>
                 <GridItem rowSpan={3} colSpan={3} borderRight="1px solid" borderColor="gray.200">
                     <Text fontSize="6xl">the fastest way to share your notebooks</Text>
                     <NotebookFormats marginTop={4} />
@@ -88,12 +88,10 @@ const Front = () => {
                 } />
                 <ActionItem number={2} content="Get a link to your notebook" description="The link will permanently point to your notebook" />
                 <ActionItem number={3} content="Share the link with anyone!" description="Anyone with the link can view your notebook" />
-            </Grid>
-            <Center>
-                <footer className="sticky">
-                    <CreditFooter />
-                </footer>
-            </Center>
+            </SimpleGrid>
+            <footer className="sticky">
+                <CreditFooter />
+            </footer>
         </Container>
     </>;
 

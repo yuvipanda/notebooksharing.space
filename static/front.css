@@ -6,23 +6,17 @@ footer {
     border-top-color: lightgrey;
     border-top-width: 1px;
     border-top-style: dotted;
-    color: var(--jp-ui-font-color3);
-    font-family: var(--jp-code-font-family);
-    line-height: 2rem;
+    color: gray;
     text-align: center;
     padding-top: 16px;
+    margin-top: 64px;
 }
 
 footer a {
-    border-bottom: var(--jp-border-color1);
+    border-bottom: lightgray;
     border-bottom-style: dashed;
     border-bottom-width: 1px;
     color: inherit;
-}
-
-footer.sticky {
-    position: fixed;
-    bottom: 0px;
 }
 button {
     font-family: -apple-system;
