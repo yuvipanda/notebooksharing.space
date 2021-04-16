@@ -74,13 +74,13 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
         <ModalOverlay />
         <ModalContent>
             <ModalHeader>{isUploading ? "Uploading your notebook..." : "Upload your notebook"}</ModalHeader>
-            <ModalCloseButton isDisabled={isUploading} />
+            <ModalCloseButton isDisabled={isUploading} colorScheme="teal" />
             <ModalBody>
                 <VStack width="100%" spacing={4}>
                     {selectedFile ? <FileDisplay file={selectedFile} setFile={setSelectedFile} isUploading={isUploading} /> : <UploadDropZone setSelectedFile={setSelectedFile} />}
                     <HStack width="100%">
                         <FormControl>
-                            <Checkbox isDisabled={isUploading} defaultChecked={isDiscoverable} onChange={(ev) => { setIsDiscoverable(ev.target.checked) }}>
+                            <Checkbox colorScheme="teal" isDisabled={isUploading} defaultChecked={isDiscoverable} onChange={(ev) => { setIsDiscoverable(ev.target.checked) }}>
                                 Discoverable
                                 <Tooltip label="Make this notebook discoverable by search engines" hasArrow>
                                     <span>
@@ -91,7 +91,7 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
                         </FormControl>
 
                         <FormControl>
-                            <Checkbox isDisabled={isUploading} onChange={(ev) => { setEnableAnnotations(ev.target.checked) }}>
+                            <Checkbox colorScheme="teal" isDisabled={isUploading} onChange={(ev) => { setEnableAnnotations(ev.target.checked) }}>
                                 Viewer annotations
                                 <Tooltip label="Enable collaborative annotations on this notebook" hasArrow>
                                     <span>
