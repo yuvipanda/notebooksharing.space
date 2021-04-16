@@ -7,6 +7,10 @@ import { UploadForm } from './upload';
 import { ChakraProvider, Container, Center, Image, Link, Text, Box, Flex, Grid, GridItem, HStack, Spacer, IconButton } from "@chakra-ui/react"
 import { FaGithub } from "react-icons/fa"
 import logo from "./logo.svg";
+import jupyterLogo from "./logos/jupyter.svg";
+import rstudioLogo from "./logos/rstudio.svg";
+import vscodeLogo from "./logos/vscode.svg";
+import colabLogo from "./logos/colab.png";
 
 const ActionItem = ({ number, content, description }) => {
     return <GridItem rowSpan={1} colSpan={2}>
@@ -19,7 +23,41 @@ const ActionItem = ({ number, content, description }) => {
         </Flex>
         <Text fontSize="md" color="gray.500" marginLeft={6}>{description}</Text>
     </GridItem>
+}
 
+const NotebookFormats = ({ ...props }) => {
+    const formats = [
+        {
+            logo: jupyterLogo,
+            url: "https://jupyter.org",
+            title: ".ipynb notebooks from Jupyter",
+        },
+        {
+            logo: rstudioLogo,
+            url: "https://rmarkdown.rstudio.com/",
+            title: ".Rmd notebooks from RStudio",
+        },
+        {
+            logo: colabLogo,
+            url: "https://colab.research.google.com/",
+            title: ".ipynb notebooks from Google Colab",
+
+        },
+        {
+            logo: vscodeLogo,
+            url: "https://code.visualstudio.com",
+            title: ".py, .ipynb notebooks from vscode"
+        }
+    ]
+    return <Flex direction="row" alignItems="center" {...props} height={16}>
+        <Text fontSize="xl" opacity="30%" marginRight={1}>Supports</Text>
+        {/* Too many colors can distract from CTA. We make these grayscale. They get color + size on hover */}
+        {formats.map(f => {
+            return <Link marginLeft={1} title={f.title} href={f.url} key={f.url} opacity="30%" _hover={{ opacity: "100%" }}>
+                <Image src={f.logo} width={10} _hover={{ width: 16, filter: "saturate(100%)" }} filter='saturate(0)' />
+            </Link>
+        })}
+    </Flex >
 }
 const Front = () => {
     return <>
@@ -43,6 +81,7 @@ const Front = () => {
             <Grid templateColumns="repeat(5, 1fr)" rowGap={8} columnGap={8}>
                 <GridItem rowSpan={3} colSpan={3} borderRight="1px solid" borderColor="gray.200">
                     <Text fontSize="6xl">the fastest way to share your notebooks</Text>
+                    <NotebookFormats marginTop={4} />
                 </GridItem>
                 <ActionItem number={1} content={
                     <UploadForm size="lg" fontSize={24} padding={8} boxShadow="lg" />
