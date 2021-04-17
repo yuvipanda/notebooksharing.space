@@ -7,7 +7,7 @@ import { BsFileEarmarkText, BsX } from "react-icons/bs";
 import { FaFileAlt, FaCreativeCommons, FaCreativeCommonsBy, FaAltQuestionCircle, FaRegQuestionCircle } from "react-icons/fa"
 import Dropzone from "react-dropzone";
 
-const FileDisplay = ({ file, setFile, isUploading }) => {
+const FileDisplay = ({ file, setFile, isUploading, setErrorMessage }) => {
     return <HStack h={36} w="100%" paddingLeft={12} border="dashed 1px" borderColor="gray.400" backgroundColor="green.50">
         {isUploading ? <Spinner w={12} h={12} /> :
             <Icon as={FaFileAlt} w={12} h={12} />
@@ -15,7 +15,10 @@ const FileDisplay = ({ file, setFile, isUploading }) => {
         <Flex direction="column">
             <Text fontSize="lg">{file.name}
                 {isUploading ||
-                    <IconButton icon={<BsX />} variant="ghost" size="sm" onClick={() => setFile(null)} />}
+                    <IconButton icon={<BsX />} variant="ghost" size="sm" onClick={() => {
+                        setFile(null);
+                        setErrorMessage(null);
+                    }} />}
             </Text>
             <Text fontSize="sm">{file.size} bytes</Text>
         </Flex>
@@ -26,43 +29,32 @@ const FileDisplay = ({ file, setFile, isUploading }) => {
 // No files over 10MB
 const MAX_ACCEPTED_SIZE_BYTES = 10 * 1024 * 1024;
 
-const UploadDropZone = ({ setSelectedFile }) => {
-    const [errorMesssage, setErrorMessage] = useState(null);
-    return <VStack width="100%">
-        {errorMesssage &&
-            <Alert status="error">
-                <AlertIcon />
-                {errorMesssage}
-                <CloseButton position="absolute" right="8px" top="8px" />
-            </Alert>
+const UploadDropZone = ({ setSelectedFile, setErrorMessage }) => {
+    return <Dropzone accept=".ipynb,.py,.md,.Rmd,.html" multiple={false} onDrop={(files) => {
+        const file = files[0];
+        if (file.size > MAX_ACCEPTED_SIZE_BYTES) {
+            setErrorMessage(
+                <>
+                    <AlertTitle>{file.name}  is too big</AlertTitle>
+                    <AlertDescription>Maximum size is 10MB</AlertDescription>
+                </>
+            )
+        } else {
+            setErrorMessage(null)
+            setSelectedFile(file);
         }
-        <Dropzone accept=".ipynb,.py,.md,.Rmd,.html" multiple={false} onDrop={(files) => {
-            const file = files[0];
-            console.log(file)
-            if (file.size > MAX_ACCEPTED_SIZE_BYTES) {
-                setErrorMessage(
-                    <>
-                        <AlertTitle>{file.name}  is too big</AlertTitle>
-                        <AlertDescription>Maximum size is 10MB</AlertDescription>
-                    </>
-                )
-            } else {
-                setErrorMessage(null)
-                setSelectedFile(file);
-            }
-        }}>
-            {({ getRootProps, getInputProps }) => (
-                <Center width="100%" height={36} border="dashed 1px" borderColor="gray.400" backgroundColor="gray.50" {...getRootProps()}>
-                    <input {...getInputProps()} />
-                    <Flex direction="column">
-                        <Text fontSize="lg">
-                            Drag here to upload, or click to select a notebook
+    }}>
+        {({ getRootProps, getInputProps }) => (
+            <Center width="100%" height={36} border="dashed 1px" borderColor="gray.400" backgroundColor="gray.50" {...getRootProps()}>
+                <input {...getInputProps()} />
+                <Flex direction="column">
+                    <Text fontSize="lg">
+                        Drag here to upload, or click to select a notebook
                     </Text>
-                    </Flex>
-                </Center>
-            )}
-        </Dropzone>
-    </VStack>
+                </Flex>
+            </Center>
+        )}
+    </Dropzone>
 
 }
 const UploadModal = ({ isOpen, onClose, onOpen }) => {
@@ -70,6 +62,8 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
     const [isDiscoverable, setIsDiscoverable] = useState(false);
     const [enableAnnotations, setEnableAnnotations] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
+
+    const [errorMesssage, setErrorMessage] = useState(null);
     return <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />
         <ModalContent>
@@ -77,7 +71,17 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
             <ModalCloseButton isDisabled={isUploading} colorScheme="teal" />
             <ModalBody>
                 <VStack width="100%" spacing={4}>
-                    {selectedFile ? <FileDisplay file={selectedFile} setFile={setSelectedFile} isUploading={isUploading} /> : <UploadDropZone setSelectedFile={setSelectedFile} />}
+                    {errorMesssage &&
+                        <Alert status="error">
+                            <AlertIcon />
+                            {errorMesssage}
+                            <CloseButton position="absolute" right="8px" top="8px" onClick={() => setErrorMessage(null)} />
+                        </Alert>
+                    }
+                    {selectedFile ?
+                        <FileDisplay file={selectedFile} setFile={setSelectedFile} isUploading={isUploading} setErrorMessage={setErrorMessage} /> :
+                        <UploadDropZone setSelectedFile={setSelectedFile} setErrorMessage={setErrorMessage} />
+                    }
                     <HStack width="100%">
                         <FormControl>
                             <Checkbox colorScheme="teal" isDisabled={isUploading} defaultChecked={isDiscoverable} onChange={(ev) => { setIsDiscoverable(ev.target.checked) }}>
@@ -117,7 +121,7 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
                         "enable-discovery": isDiscoverable,
                         "enable-annotations": enableAnnotations
                     }
-                    uploadFile(params, setIsUploading);
+                    uploadFile(params, setIsUploading, setErrorMessage);
                 }} disabled={!Boolean(selectedFile) || isUploading}>
                     {isUploading ? "Uploading..." : "Upload"}
                 </Button>
@@ -134,23 +138,37 @@ const UploadForm = ({ ...props }) => {
     </>;
 }
 
-const uploadFile = (params, setIsUploading) => {
+const uploadFile = (params, setIsUploading, setErrorMessage) => {
     let formData = new FormData();
 
     Object.keys(params).forEach(key => formData.append(key, params[key]));
 
     setIsUploading(true)
-    // FIXME: Error handling
+    // When we're uploading, we aren't in error state yet!
+    setErrorMessage(null);
+
     fetch('/api/notebook', {
         method: "POST",
         body: formData,
         headers: {
             'Accept': 'application/json'
         }
+    }).then(response => {
+        if (!response.ok) {
+            response.text().then(text => setErrorMessage(text))
+            setIsUploading(false)
+        } else {
+            response.json().then(data => {
+                window.location.replace(data['url'])
+            }).catch(err => {
+                setErrorMessage(String(err));
+                setIsUploading(false)
+            })
+        }
+    }).catch(err => {
+        setErrorMessage(String(err))
+        setIsUploading(false)
     })
-        .then(response => response.json().then(data => {
-            window.location.replace(data['url'])
-        }))
 }
 
 export { UploadForm };

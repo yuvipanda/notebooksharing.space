@@ -105,22 +105,18 @@ async def upload(
     """
 
     data = await notebook.read()
-    print("a", enable_annotations)
-    print("d", enable_discovery)
 
     metadata = Metadata(
         filename=notebook.filename,
         enable_discovery=enable_discovery,
         enable_annotations=enable_annotations,
     )
-    print(metadata.to_dict())
     notebook_id = await backend.put(data, metadata)
 
     # FIXME: is this really the best way?
     url = f"{x_forwarded_proto}://{host}{app.root_path}view/{notebook_id}"
     if accept == "application/json":
         return {"url": url, "notebookId": notebook_id}
-
     else:
         return Response(url + "\n", media_type="text/plain")
 
