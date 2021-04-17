@@ -4,6 +4,7 @@
 {% if not object_metadata.enable_discovery %}
 <meta name="robots" rel="noindex" />
 {% endif %}
+<title>{{ page_properties.filename }} | NotebookSharing.space</title>
 
 <script>
 window.pageProperties = {{ page_properties|tojson }}
