@@ -44,7 +44,7 @@ const getDisplayOptions = () => {
 }
 
 
-const NotebookOptions = ({ iframeRef, notebookId, hasFrameLoaded }) => {
+const NotebookOptions = ({ iframeRef, notebookId, hasFrameLoaded, ...props }) => {
     const availableDisplayOptions = {
         'hide-inputs': 'Hide code cells',
     }
@@ -66,7 +66,7 @@ const NotebookOptions = ({ iframeRef, notebookId, hasFrameLoaded }) => {
         });
     }, [hasFrameLoaded])
 
-    return <Menu>
+    return <Menu {...props}>
         <MenuButton
             as={IconButton}
             aria-label="Options"
@@ -91,10 +91,10 @@ const NotebookOptions = ({ iframeRef, notebookId, hasFrameLoaded }) => {
     </Menu >;
 }
 
-const ContentHeader = ({ filename, notebookId, iframeRef, hasFrameLoaded }) => {
-    return <Flex alignItems="baseline" width="100%" margin={4} marginTop={8} paddingBottom={1} borderBottom="1px dotted" borderColor="gray.600">
-        <Text fontSize="4xl" fontWeight="450">{filename}</Text>
-        <NotebookOptions iframeRef={iframeRef} notebookId={notebookId} hasFrameLoaded={hasFrameLoaded} />
+const ContentHeader = ({ filename, notebookId, iframeRef, hasFrameLoaded, ...props }) => {
+    return <Flex alignItems="baseline" {...props}>
+        <Text fontSize="3xl" fontWeight="450">{filename}</Text>
+        <NotebookOptions iframeRef={iframeRef} notebookId={notebookId} hasFrameLoaded={hasFrameLoaded} color="black" />
     </Flex>
 }
 
@@ -118,7 +118,7 @@ const View = ({ pageProperties }) => {
     }, [])
 
     return <>
-        <Box boxShadow="md">
+        <Box>
             <Container maxW="container.lg">
                 <Flex alignItems="top" paddingBottom={4} paddingTop={4}>
                     <Flex direction="column" alignItems="baseline">
@@ -132,19 +132,30 @@ const View = ({ pageProperties }) => {
             </Container>
         </Box>
 
-        <Container maxW="container.lg">
-            <ContentHeader filename={pageProperties.filename} notebookId={pageProperties.notebookId} iframeRef={iframeRef} hasFrameLoaded={hasLoaded} />
-            {hasLoaded ||
-                <Center>
-                    <Spinner color="orange" size="xl" />
-                </Center>}
+        <Container maxW="container.lg" boxShadow="0px 0px 12px -4px #939393" marginTop={6}>
+            <ContentHeader
+                filename={pageProperties.filename} notebookId={pageProperties.notebookId}
+                iframeRef={iframeRef} hasFrameLoaded={hasLoaded}
+                padding={4}
+                paddingLeft={16}
+                marginLeft={-4}
+                marginRight={-4}
+                borderBottom="1px dotted"
+                borderBottomColor="gray.400"
+            />
+            <Box padding={8} paddingTop={2}>
+                {hasLoaded ||
+                    <Center>
+                        <Spinner color="orange" size="xl" />
+                    </Center>}
+                <iframe width="100%"
+                    className={hasLoaded ? "" : "hidden"}
+                    ref={iframeRef}
+                    enable-annotation="true"
+                    src={makeIFrameLink(notebookId)}>
+                </iframe>
+            </Box>
         </Container>
-        <iframe width="100%"
-            className={hasLoaded ? "" : "hidden"}
-            ref={iframeRef}
-            enable-annotation="true"
-            src={makeIFrameLink(notebookId)}>
-        </iframe>
         <Container maxW="container.lg">
             <Center>
                 <footer className={hasLoaded ? "" : "sticky"}>
