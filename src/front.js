@@ -1,16 +1,15 @@
-import { render } from "react-dom";
+import { Box, ChakraProvider, Container, Flex, GridItem, IconButton, Image, Link, SimpleGrid, Spacer, Text } from "@chakra-ui/react";
 import React from "react";
-import './base.css';
-
-import { CreditFooter } from "./footer";
-import { UploadForm } from './upload';
-import { ChakraProvider, Container, SimpleGrid, Center, Image, Link, Text, Box, Flex, Grid, GridItem, HStack, Spacer, IconButton } from "@chakra-ui/react"
-import { FaGithub } from "react-icons/fa"
+import { render } from "react-dom";
+import { FaGithub } from "react-icons/fa";
+import { Footer } from "./footer";
 import logo from "./logo.svg";
+import colabLogo from "./logos/colab.png";
 import jupyterLogo from "./logos/jupyter.svg";
 import rstudioLogo from "./logos/rstudio.svg";
 import vscodeLogo from "./logos/vscode.svg";
-import colabLogo from "./logos/colab.png";
+import { UploadForm } from './upload';
+
 
 const ActionItem = ({ number, content, description }) => {
     return <GridItem rowSpan={1} colSpan={2}>
@@ -93,9 +92,7 @@ const Front = () => {
                 <ActionItem number={2} content="Get a link to your notebook" description="The link will permanently point to your notebook" />
                 <ActionItem number={3} content="Share the link with anyone!" description="Anyone with the link can view your notebook" />
             </SimpleGrid>
-            <footer className="sticky">
-                <CreditFooter />
-            </footer>
+            <Footer showsContent={false} marginTop={72} paddingTop={8} marginBottom={8} />
         </Container>
     </>;
 

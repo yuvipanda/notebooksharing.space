@@ -1,11 +1,8 @@
-import React, { useRef, useState } from "react";
-import './upload.css';
-import { Button, Stack, Tooltip, useDisclosure, Box, Center, Text, HStack } from '@chakra-ui/react';
-import { Modal, ModalBody, ModalHeader, ModalCloseButton, ModalOverlay, ModalContent, ModalFooter } from '@chakra-ui/react';
-import { FormControl, Spacer, Alert, AlertTitle, AlertDescription, Spinner, AlertIcon, Checkbox, VStack, CloseButton, Link, Icon, Flex, IconButton } from '@chakra-ui/react';
-import { BsFileEarmarkText, BsX } from "react-icons/bs";
-import { FaFileAlt, FaCreativeCommons, FaCreativeCommonsBy, FaAltQuestionCircle, FaRegQuestionCircle } from "react-icons/fa"
+import { Alert, AlertDescription, AlertIcon, AlertTitle, Button, Center, Checkbox, CloseButton, Flex, FormControl, HStack, Icon, IconButton, Link, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Text, Tooltip, useDisclosure, VStack } from '@chakra-ui/react';
+import React, { useState } from "react";
 import Dropzone from "react-dropzone";
+import { BsX } from "react-icons/bs";
+import { FaAltQuestionCircle, FaCreativeCommons, FaCreativeCommonsBy, FaFileAlt } from "react-icons/fa";
 
 const FileDisplay = ({ file, setFile, isUploading, setErrorMessage }) => {
     return <HStack h={36} w="100%" paddingLeft={12} border="dashed 1px" borderColor="gray.400" backgroundColor="green.50">

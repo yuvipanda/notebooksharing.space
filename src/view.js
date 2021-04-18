@@ -1,19 +1,16 @@
-import React, { useEffect, useState, useRef } from "react";
-import { ChakraProvider, HStack, IconButton, MenuButton } from "@chakra-ui/react"
-import { render } from "react-dom";
-import querystring from "querystring";
-import { UploadForm } from "./upload";
-import { CreditFooter, LicenseFooter } from "./footer";
-import { postMessage, MESSAGE_TYPES, parseMessage } from './messages';
-import { Button, ButtonGroup, Menu, MenuItem, MenuList, MenuOptionGroup, MenuItemOption, Spinner, Image } from '@chakra-ui/react';
-import { ChevronDownIcon, DownloadIcon, } from '@chakra-ui/icons'
-import { Container, Center, Link, Spacer, Flex, Heading, Text, Box } from "@chakra-ui/react"
-
+import { DownloadIcon } from '@chakra-ui/icons';
+import { Box, Center, ChakraProvider, Container, Flex, IconButton, Image, Link, Menu, MenuButton, MenuItem, MenuItemOption, MenuList, MenuOptionGroup, Spacer, Spinner, Text } from "@chakra-ui/react";
 import { iframeResize } from 'iframe-resizer';
+import querystring from "querystring";
+import React, { useEffect, useRef, useState } from "react";
+import { render } from "react-dom";
+import { FaChevronDown } from "react-icons/fa";
+import { Footer } from "./footer";
 import logo from "./logo.svg";
+import { MESSAGE_TYPES, parseMessage, postMessage } from './messages';
+import { UploadForm } from "./upload";
 
-import './base.css';
-import { FaChevronDown, FaCaretDown, FaCloudDownloadAlt } from "react-icons/fa";
+
 
 const makeDownloadLink = (notebookId) => {
     return "/api/notebook/" + notebookId;
@@ -132,7 +129,7 @@ const View = ({ pageProperties }) => {
             </Container>
         </Box>
 
-        <Container maxW="container.lg" boxShadow="0px 0px 12px -4px #939393" marginTop={6}>
+        <Container maxW="container.lg" boxShadow="0px 0px 12px -4px #939393" marginTop={6} marginBottom={8}>
             <ContentHeader
                 filename={pageProperties.filename} notebookId={pageProperties.notebookId}
                 iframeRef={iframeRef} hasFrameLoaded={hasLoaded}
@@ -143,7 +140,7 @@ const View = ({ pageProperties }) => {
                 borderBottom="1px dotted"
                 borderBottomColor="gray.400"
             />
-            <Box padding={8} paddingTop={2}>
+            <Box padding={8} paddingTop={2} minHeight={128}>
                 {hasLoaded ||
                     <Center>
                         <Spinner color="orange" size="xl" />
@@ -155,14 +152,7 @@ const View = ({ pageProperties }) => {
                     src={makeIFrameLink(notebookId)}>
                 </iframe>
             </Box>
-        </Container>
-        <Container maxW="container.lg">
-            <Center>
-                <footer className={hasLoaded ? "" : "sticky"}>
-                    <LicenseFooter />
-                    <CreditFooter />
-                </footer>
-            </Center>
+            <Footer showsContent={true} marginTop={8} paddingTop={8} marginBottom={8} paddingBottom={8} />
         </Container>
     </>
 };
