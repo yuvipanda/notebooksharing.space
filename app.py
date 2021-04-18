@@ -82,6 +82,7 @@ class NotebookUploadResponse(BaseModel):
     },
 )
 async def upload(
+    response: Response,
     enable_discovery: bool = Form(
         ...,
         alias="enable-discovery",
@@ -113,6 +114,8 @@ async def upload(
     )
     notebook_id = await backend.put(data, metadata)
 
+    # Allow any origin to upload notebooks here
+    response.headers["Access-Control-Allow-Origin"] = "*"
     # FIXME: is this really the best way?
     url = f"{x_forwarded_proto}://{host}{app.root_path}view/{notebook_id}"
     if accept == "application/json":
