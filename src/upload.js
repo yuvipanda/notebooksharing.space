@@ -1,8 +1,8 @@
-import { Alert, AlertDescription, AlertIcon, AlertTitle, Button, Center, Checkbox, CloseButton, Flex, FormControl, HStack, Icon, IconButton, Link, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Text, Tooltip, useDisclosure, VStack } from '@chakra-ui/react';
+import { Alert, AlertDescription, AlertIcon, AlertTitle, Button, Center, Checkbox, CloseButton, Flex, FormControl, HStack, Icon, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Text, Tooltip, useDisclosure, VStack } from '@chakra-ui/react';
 import React, { useState } from "react";
 import Dropzone from "react-dropzone";
 import { BsX } from "react-icons/bs";
-import { FaAltQuestionCircle, FaCreativeCommons, FaCreativeCommonsBy, FaFileAlt } from "react-icons/fa";
+import { FaAltQuestionCircle, FaFileAlt } from "react-icons/fa";
 
 const FileDisplay = ({ file, setFile, isUploading, setErrorMessage }) => {
     return <HStack h={36} w="100%" paddingLeft={12} border="dashed 1px" borderColor="gray.400" backgroundColor="green.50">
@@ -101,11 +101,6 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
                                 </Tooltip>
                             </Checkbox>
                         </FormControl>
-                    </HStack>
-                    <HStack width="100%" color="gray.400" paddingTop={8}>
-                        <Icon as={FaCreativeCommons} height={6} width={6} />
-                        <Icon as={FaCreativeCommonsBy} height={6} width={6} />
-                        <Text fontSize="sm" color="gray.500">Notebooks will be licensed under a <Link _hover={{ textDecoration: "underline" }} href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution</Link> license, unless otherwise explicitly specified.</Text>
                     </HStack>
                 </VStack>
 

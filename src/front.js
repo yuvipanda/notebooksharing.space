@@ -92,7 +92,7 @@ const Front = () => {
                 <ActionItem number={2} content="Get a link to your notebook" description="The link will permanently point to your notebook" />
                 <ActionItem number={3} content="Share the link with anyone!" description="Anyone with the link can view your notebook" />
             </SimpleGrid>
-            <Footer showsContent={false} marginTop={72} paddingTop={8} marginBottom={8} />
+            <Footer marginTop={72} paddingTop={8} marginBottom={8} />
         </Container>
     </>;
 
