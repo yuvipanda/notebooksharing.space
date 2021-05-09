@@ -1,0 +1,21 @@
+{% extends "base.html.j2" %}
+
+{% block head %}
+{% if not object_metadata.enable_discovery %}
+<meta name="robots" rel="noindex" />
+{% endif %}
+<title>{{ page_properties.filename }} | NotebookSharing.space</title>
+
+<script>
+window.pageProperties = {{ page_properties|tojson }}
+</script>
+
+{% if enable_annotations %}
+<script src="https://hypothes.is/embed.js" async></script>
+{% endif %}
+<link rel="stylesheet" href="/static/view.css" />
+<script src="/static/view.js"></script>
+{% endblock %}
+
+{% block content %}
+{% endblock %}

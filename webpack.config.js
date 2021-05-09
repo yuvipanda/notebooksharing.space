@@ -5,6 +5,8 @@ const optimization = {
     usedExports: true
 }
 
+const OUTPUTDIR = path.resolve(__dirname, 'nbss/static');
+
 const options = {
     rules: [
         {
@@ -48,7 +50,7 @@ module.exports = [
         module: options,
         output: {
             filename: 'view.js',
-            path: path.resolve(__dirname, 'static'),
+            path: OUTPUTDIR
         },
         optimization: optimization
     },
@@ -62,7 +64,7 @@ module.exports = [
         module: options,
         output: {
             filename: 'front.js',
-            path: path.resolve(__dirname, 'static'),
+            path: OUTPUTDIR
         },
         optimization: optimization
     },
@@ -76,7 +78,7 @@ module.exports = [
         ],
         output: {
             filename: 'notebook.js',
-            path: path.resolve(__dirname, 'static'),
+            path: OUTPUTDIR
         },
         optimization: optimization
     },

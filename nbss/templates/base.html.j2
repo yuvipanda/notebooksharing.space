@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% block head %}
+    {% endblock %}
+  </head>
+  <body>
+
+    <div class="container" id="content">
+    {% block content %}
+    {% endblock %}
+    </div>
+
+  <!-- FIXME: Use something less evil -->
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MHKYL84CG2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-MHKYL84CG2');
+  </script>
+
+  </body>
+</html>
