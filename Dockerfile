@@ -25,10 +25,9 @@ RUN python3 setup.py bdist_wheel
 FROM python:3.9-slim-buster
 
 RUN mkdir -p /tmp/nbss
-WORKDIR /tmp/nbss
 
-COPY --from=builder /opt/nbss/dist/*.whl .
-RUN pip install --no-cache *.whl
+COPY --from=builder /opt/nbss/dist/*.whl /tmp/nbss/
+RUN pip install --no-cache /tmp/nbss/*.whl
 
 USER nobody
 CMD ["gunicorn", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "nbss.app:app", "-b", "0.0.0.0:8000", "--access-logfile", "-"]
