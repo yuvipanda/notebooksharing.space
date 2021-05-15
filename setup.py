@@ -1,8 +1,12 @@
 from setuptools import find_packages, setup
-from distutils.util import convert_path
 from subprocess import check_call
 
 check_call(["npm", "run", "prod"])
+
+
+with open("requirements.txt") as f:
+    packages = [l.strip() for l in f.readlines() if not l.strip().startswith("#")]
+
 
 setup(
     name="nbss",
@@ -15,6 +19,7 @@ setup(
     long_description_content_type="text/markdown",
     packages=find_packages(),
     include_package_data=True,
+    install_requires=packages,
     platforms="any",
     zip_safe=False,
 )

@@ -1,0 +1,5 @@
+include *.md
+include LICENSE
+recursive-include nbss/static *
+recursive-include nbss/nbconvert-template *
+recursive-include nbss/templates *
