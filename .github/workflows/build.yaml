@@ -24,6 +24,18 @@ jobs:
         with:
           push: true
           tags: quay.io/yuvipanda/nbss:main
-      -
-        name: Image digest
+
+      - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          script: |
+            docker stop nbss || true
+            docker rm nbss || true
+            docker pull quay.io/yuvipanda/nbss:main
+            docker run --env-file /etc/nbss-creds -d -p 80:8000 quay.io/yuvipanda/nbss:main
