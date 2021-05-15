@@ -20,7 +20,6 @@ COPY MANIFEST.in MANIFEST.in
 COPY README.md README.md
 COPY requirements.txt requirements.txt
 
-RUN find .
 RUN python3 setup.py bdist_wheel
 
 FROM python:3.9-buster
