@@ -24,7 +24,6 @@ jobs:
         with:
           push: true
           tags: quay.io/yuvipanda/nbss:main
-          context: .
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
