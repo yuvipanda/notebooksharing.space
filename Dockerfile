@@ -22,7 +22,7 @@ COPY requirements.txt requirements.txt
 
 RUN python3 setup.py bdist_wheel
 
-FROM python:3.9-slim-buster
+FROM python:3.9-buster
 
 RUN mkdir -p /tmp/nbss
 
