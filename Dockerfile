@@ -25,12 +25,8 @@ RUN python3 setup.py bdist_wheel
 FROM python:3.9-slim-buster
 
 RUN mkdir -p /tmp/nbss
-RUN python3 -m venv /opt/venv
-
-ENV PATH /opt/venv/bin:${PATH}
 
 COPY --from=builder /opt/nbss/dist/*.whl /tmp/nbss/
-
 RUN pip install --no-cache /tmp/nbss/*.whl
 
 USER nobody
