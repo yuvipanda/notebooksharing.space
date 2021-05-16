@@ -22,7 +22,7 @@ from pydantic import BaseModel
 from typing import Union
 
 from content_size_limit_asgi import ContentSizeLimitMiddleware
-from .storage import S3Backend, FileBackend, Metadata
+from .storage import S3Backend, Metadata
 
 
 BASE_PATH = os.path.abspath(os.path.dirname(__file__))

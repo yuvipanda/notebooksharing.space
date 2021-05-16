@@ -1,15 +1,10 @@
 """
 Storage backends for ipynb.pub
 """
-import asyncio
-import aiohttp
-import tempfile
-import shutil
 import os
 import json
 import gzip
 import aioboto3
-from yarl import URL
 import hashlib
 
 
