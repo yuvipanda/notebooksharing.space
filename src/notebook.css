@@ -3,7 +3,9 @@
      --jp-content-heading-font-weight: 350;
 }
 body.jp-Notebook {
+    /* All margin / padding should come from outside the iframe */
     padding: 0;
+    margin: 0;
 }
 body.option-hide-inputs .jp-CodeCell .jp-Cell-inputWrapper {
     display: none;

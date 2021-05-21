@@ -134,10 +134,11 @@ const View = ({ pageProperties }) => {
                 filename={pageProperties.filename} notebookId={pageProperties.notebookId}
                 iframeRef={iframeRef} hasFrameLoaded={hasLoaded}
                 padding={4}
+                paddingLeft={8}
                 borderBottom="1px dotted"
                 borderBottomColor="gray.400"
             />
-            <Box padding={2} minHeight={128}>
+            <Box padding={2} paddingLeft={6} minHeight={128}>
                 {hasLoaded ||
                     <Center>
                         <Spinner color="orange" size="xl" />
