@@ -152,7 +152,7 @@ const View = ({ pageProperties }) => {
                     src={makeIFrameLink(notebookId)}>
                 </iframe>
             </Box>
-            <Footer showsContent={true} marginTop={8} paddingTop={8} marginBottom={8} paddingBottom={8} />
+            <Footer marginTop={8} paddingTop={8} marginBottom={8} paddingBottom={8} />
         </Container>
     </>
 };
