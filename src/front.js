@@ -66,9 +66,9 @@ const Front = () => {
     return <>
 
         <Box boxShadow="md">
-            <Container maxW='container.lg' paddingTop={4} paddingBottom={4}>
+            <Container maxW='container.lg' paddingTop={4} paddingBottom={2}>
                 <Flex direction="row">
-                    <Image src={logo} width="sm" />
+                    <Image src={logo} height={8} />
                     <Spacer />
                     <IconButton icon={<FaGithub />}
                         as={Link}
