@@ -3,9 +3,7 @@
      --jp-content-heading-font-weight: 350;
 }
 body.jp-Notebook {
-    max-width: 960px;
-    margin-left: auto;
-    margin-right: auto;
+    padding: 0;
 }
 body.option-hide-inputs .jp-CodeCell .jp-Cell-inputWrapper {
     display: none;
