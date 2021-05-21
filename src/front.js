@@ -1,4 +1,4 @@
-import { Box, ChakraProvider, Container, Flex, GridItem, IconButton, Image, Link, SimpleGrid, Spacer, Text } from "@chakra-ui/react";
+import { Box, ChakraProvider, Container, Flex, GridItem, Heading, IconButton, Image, Link, SimpleGrid, Spacer, Text } from "@chakra-ui/react";
 import React from "react";
 import { render } from "react-dom";
 import { FaGithub } from "react-icons/fa";
@@ -8,7 +8,7 @@ import { UploadForm } from './upload';
 
 
 const ActionItem = ({ number, content, description }) => {
-    return <GridItem rowSpan={1} colSpan={2}>
+    return <Box paddingBottom={6}>
         <Flex flexDirection="row" alignItems="baseline">
             <Text fontSize="2xl" color="gray.600" width={6}>{number}</Text>
             {typeof (content) === 'string' ?
@@ -17,7 +17,15 @@ const ActionItem = ({ number, content, description }) => {
             }
         </Flex>
         <Text fontSize="md" color="gray.600" marginLeft={6}>{description}</Text>
-    </GridItem>
+    </Box>
+}
+
+const FeatureItem = ({ title, children }) => {
+    return <Box flex={1} textAlign="center" padding={4}>
+        <Heading fontSize="lg" paddingBottom={2}>{title}</Heading>
+        <Text fontSize="md" color="gray.600">{children}</Text>
+    </Box>
+
 }
 
 const Front = () => {
@@ -39,18 +47,34 @@ const Front = () => {
             </Container>
         </Box>
         <Container maxW='container.lg' marginTop={12}>
-            <SimpleGrid columns={{ sm: 3, lg: 5 }} rowGap={8} columnGap={8}>
-                <GridItem rowSpan={3} colSpan={3} borderRight="1px solid" borderColor="gray.200">
-                    <Text fontSize="6xl">the fastest way to share your notebooks</Text>
-                    <Text fontSize="xl" color="gray.400">support jupyter & r markdown notebooks</Text>
-                </GridItem>
-                <ActionItem number={1} content={
-                    <UploadForm size="lg" fontSize={24} padding={8} boxShadow="lg" />
-                } />
-                <ActionItem number={2} content="Get a link to your notebook" description="The link will permanently point to your notebook" />
-                <ActionItem number={3} content="Share the link with anyone!" description="Anyone with the link can view your notebook" />
-            </SimpleGrid>
-            <Footer showsContent={false} marginTop={72} paddingTop={8} marginBottom={8} />
+            <Flex flexDir="column">
+                <Flex flexDir={{ base: "column", md: "row" }}>
+                    <Box borderRight="1px solid" borderColor="gray.200" flex={3}>
+                        <Text fontSize="6xl">the fastest way to share your notebooks</Text>
+                    </Box>
+                    <Flex flexDir="column" paddingLeft={4} flex={2}>
+                        <ActionItem number={1} content={
+                            <UploadForm size="lg" fontSize={24} padding={8} boxShadow="lg" />
+                        } />
+                        <ActionItem number={2} content="Get a link to your notebook" description="The link will permanently point to your notebook" />
+                        <ActionItem number={3} content="Share the link with anyone!" description="Anyone with the link can view your notebook" />
+                    </Flex>
+                </Flex>
+
+                <Flex direction={{ base: "column", md: "row" }} marginTop={8} paddingTop={4} borderTop="0px solid" borderTopColor="gray.200">
+                    <FeatureItem title="❤️ Jupyter & R Markdown">
+                        Upload and share both Jupyter (<code>.ipynb</code>) and R (<code>.rmd</code>, <code>.html</code>) notebooks.
+                        </FeatureItem>
+                    <FeatureItem title="️️✍️ Annotate your notebook">
+                        Opt-in to annotations and highlights on your notebook with built-in <a href="https://web.hypothes.is/">hypothes.is</a> support.
+                        </FeatureItem>
+                    <FeatureItem title="🔒 Private by default">
+                        Only people who have the link can see the notebook by default - search engines can not.
+                        </FeatureItem>
+                </Flex>
+
+                <Footer showsContent={false} paddingTop={8} marginTop={24} marginBottom={8} textAlign="center" />
+            </Flex>
         </Container>
     </>;
 

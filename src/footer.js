@@ -14,7 +14,7 @@ const Footer = ({ showsContent, ...props }) => {
         </Box>
         }
         <Box>
-            Made with ❤️ by <FooterLink href="https://words.yuvi.in">Yuvi Panda</FooterLink> | <FooterLink href="https://twitter.com/yuvipanda">Tell me</FooterLink> you like it! | <FooterLink href="https://github.com/yuvipanda/ipynb.pub/issues">Report bugs</FooterLink> | <FooterLink href="mailto:yuvipanda+abuse@gmail.com">Report abuse</FooterLink>
+            Made by <FooterLink href="https://words.yuvi.in">Yuvi Panda</FooterLink> | <FooterLink href="https://twitter.com/yuvipanda">Tell me</FooterLink> you like it! | <FooterLink href="https://github.com/yuvipanda/ipynb.pub/issues">Report bugs</FooterLink> | <FooterLink href="mailto:yuvipanda+abuse@gmail.com">Report abuse</FooterLink>
         </Box>
     </VStack >
 }
