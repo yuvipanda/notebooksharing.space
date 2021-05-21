@@ -119,7 +119,7 @@ const View = ({ pageProperties }) => {
             <Container maxW="container.lg">
                 <Flex alignItems="top" paddingBottom={4} paddingTop={4}>
                     <Flex direction="column" alignItems="baseline">
-                        <Link _hover={{ textDecoration: "none" }} href="/" marginTop={1}><Image src={logo} width="sm" /></Link>
+                        <Link _hover={{ textDecoration: "none" }} href="/" marginTop={1}><Image src={logo} height={8} /></Link>
                         <Text fontSize="md" marginTop={1}>the fastest way to share your notebooks</Text>
                     </Flex>
                     <Spacer />
