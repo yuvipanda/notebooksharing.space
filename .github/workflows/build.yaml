@@ -38,5 +38,5 @@ jobs:
             docker stop nbss || true
             docker rm nbss || true
             docker pull quay.io/yuvipanda/nbss:main
-            docker run --env-file /etc/nbss-creds -d -p 80:8000 quay.io/yuvipanda/nbss:main
+            docker run --env-file /etc/nbss-creds --name nbss -d -p 80:8000 quay.io/yuvipanda/nbss:main
             curl -I https://nbsharer.org
