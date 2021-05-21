@@ -22,9 +22,9 @@
   },
   "homepage": "https://github.com/yuvipanda/ipynb.pub#readme",
   "devDependencies": {
+    "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.13.15",
     "@babel/preset-react": "^7.13.13",
-    "@babel/core": "^7.0.0",
     "babel": "^6.23.0",
     "babel-cli": "^6.26.0",
     "babel-loader": "^8.2.2",
@@ -47,13 +47,24 @@
     "@chakra-ui/react": "^1.5.0",
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.3.0",
+    "@fontsource/bitter": "^4.3.0",
+    "@fontsource/fira-code": "^4.3.0",
+    "@fontsource/fira-sans": "^4.3.0",
+    "@fontsource/open-sans": "^4.3.0",
+    "@fontsource/raleway": "^4.3.0",
+    "@fontsource/roboto": "^4.3.0",
+    "@fontsource/roboto-mono": "^4.3.0",
+    "@fontsource/roboto-slab": "^4.3.0",
+    "@fontsource/source-sans-pro": "^4.3.0",
+    "@fontsource/zilla-slab": "^4.3.0",
+    "framer-motion": "^4.1.0",
     "iframe-resizer": "^4.3.1",
+    "modern-normalize": "^1.1.0",
     "popper.js": "^1.16.1",
     "querystring": "^0.2.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-dropzone": "^11.3.2",
-    "react-icons": "^4.2.0",
-    "framer-motion": "^4.1.0"
+    "react-icons": "^4.2.0"
   }
 }

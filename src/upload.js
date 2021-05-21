@@ -93,7 +93,7 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
 
                         <FormControl>
                             <Checkbox colorScheme="teal" isDisabled={isUploading} onChange={(ev) => { setEnableAnnotations(ev.target.checked) }}>
-                                Viewer annotations
+                                Enable annotations
                                 <Tooltip label="Enable collaborative annotations on this notebook" hasArrow>
                                     <span>
                                         <Icon as={FaAltQuestionCircle} width={4} height={4} marginLeft={1} color="gray.400"></Icon>

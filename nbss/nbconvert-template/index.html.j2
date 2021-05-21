@@ -14,7 +14,11 @@ opens, but seems to work for regular links
 <script src="/static/notebook.js"></script>
 <base target='_top'></base>
 {% endblock %}
+{% block notebook_css %}
+<link href='/static/lab.css' rel='stylesheet'></link>
+<link href='/static/notebook.css' rel='stylesheet'></link>
+{% endblock %}
 
-{% block html_head_css %}
-<link rel="stylesheet" href="/static/notebook.css" />
+{% block footer %}
+{{ super() }}
 {% endblock %}

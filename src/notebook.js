@@ -2,6 +2,10 @@ import { iframeResizerContentWindow } from 'iframe-resizer';
 
 import { handleMessages, postMessage, MESSAGE_TYPES } from './messages';
 
+import "@fontsource/bitter";
+import "@fontsource/open-sans";
+import "@fontsource/fira-code";
+
 import "./notebook.css";
 
 window.addEventListener('message', handleMessages);

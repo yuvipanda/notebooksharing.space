@@ -6,6 +6,7 @@ import { Footer } from "./footer";
 import logo from "./logo.svg";
 import { UploadForm } from './upload';
 
+import theme from "./theme";
 
 const ActionItem = ({ number, content, description }) => {
     return <Box paddingBottom={6}>
@@ -50,7 +51,7 @@ const Front = () => {
             <Flex flexDir="column">
                 <Flex flexDir={{ base: "column", md: "row" }}>
                     <Box borderRight="1px solid" borderColor="gray.200" flex={3}>
-                        <Text fontSize="6xl">the fastest way to share your notebooks</Text>
+                        <Heading fontSize="6xl" fontWeight="normal">the fastest way to share your notebooks</Heading>
                     </Box>
                     <Flex flexDir="column" paddingLeft={4} flex={2}>
                         <ActionItem number={1} content={
@@ -73,7 +74,7 @@ const Front = () => {
                         </FeatureItem>
                 </Flex>
 
-                <Footer showsContent={false} paddingTop={8} marginTop={24} marginBottom={8} textAlign="center" />
+                <Footer paddingTop={8} marginTop={24} marginBottom={8} textAlign="center" />
             </Flex>
         </Container>
     </>;
@@ -83,7 +84,7 @@ const Front = () => {
 document.addEventListener('DOMContentLoaded', function () {
 
     render(
-        <ChakraProvider>
+        <ChakraProvider theme={theme}>
             <Front />
         </ChakraProvider>,
         document.getElementById("content")

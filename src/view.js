@@ -1,5 +1,5 @@
 import { DownloadIcon } from '@chakra-ui/icons';
-import { Box, Center, ChakraProvider, Container, Flex, IconButton, Image, Link, Menu, MenuButton, MenuItem, MenuItemOption, MenuList, MenuOptionGroup, Spacer, Spinner, Text } from "@chakra-ui/react";
+import { Box, Center, Heading, ChakraProvider, Container, Flex, IconButton, Image, Link, Menu, MenuButton, MenuItem, MenuItemOption, MenuList, MenuOptionGroup, Spacer, Spinner, Text } from "@chakra-ui/react";
 import { iframeResize } from 'iframe-resizer';
 import querystring from "querystring";
 import React, { useEffect, useRef, useState } from "react";
@@ -10,7 +10,7 @@ import logo from "./logo.svg";
 import { MESSAGE_TYPES, parseMessage, postMessage } from './messages';
 import { UploadForm } from "./upload";
 
-
+import theme from "./theme";
 
 const makeDownloadLink = (notebookId) => {
     return "/api/notebook/" + notebookId;
@@ -90,7 +90,7 @@ const NotebookOptions = ({ iframeRef, notebookId, hasFrameLoaded, ...props }) =>
 
 const ContentHeader = ({ filename, notebookId, iframeRef, hasFrameLoaded, ...props }) => {
     return <Flex alignItems="baseline" {...props}>
-        <Text fontSize="3xl" fontWeight="450">{filename}</Text>
+        <Heading fontSize="3xl" fontWeight="450">{filename}</Heading>
         <NotebookOptions iframeRef={iframeRef} notebookId={notebookId} hasFrameLoaded={hasFrameLoaded} color="black" />
     </Flex>
 }
@@ -135,6 +135,7 @@ const View = ({ pageProperties }) => {
                 iframeRef={iframeRef} hasFrameLoaded={hasLoaded}
                 padding={4}
                 paddingLeft={8}
+                paddingTop={6}
                 borderBottom="1px dotted"
                 borderBottomColor="gray.400"
             />
@@ -158,7 +159,7 @@ const View = ({ pageProperties }) => {
 document.addEventListener('DOMContentLoaded', function () {
     const pageProperties = window.pageProperties;
     render(
-        <ChakraProvider>
+        <ChakraProvider theme={theme}>
             <View pageProperties={pageProperties} />
         </ChakraProvider>,
         document.getElementById('content')

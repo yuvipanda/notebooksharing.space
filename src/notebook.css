@@ -1,12 +1,44 @@
-.jp-Notebook h1, .jp-Notebook h2, .jp-Notebook h3, .jp-Notebook h4, .jp-Notebook h5, .jp-Notebook h6 {
-    /* FIXME: Find a way to override this CSS variable without having to specify all selectors */
-     --jp-content-heading-font-weight: 350;
+/**
+This needs to work-ish for both R notebooks and nbconvert output notebooks
+**/
+:root {
+    --jp-content-font-family: "Open Sans";
 }
-body.jp-Notebook {
+
+pre {
+    font-family: "Fira Code";
+    font-size: 14px;
+}
+
+body {
+    font-family: "Open Sans";
     /* All margin / padding should come from outside the iframe */
+    --jp-notebook-padding: 0;
     padding: 0;
     margin: 0;
 }
+
+h1, h2, h3, h4, h5, h6 {
+    /* FIXME: Find a way to override this CSS variable without having to specify all selectors */
+    font-family: "Bitter";
+}
+
 body.option-hide-inputs .jp-CodeCell .jp-Cell-inputWrapper {
     display: none;
+}
+
+a.anchor-link {
+   display: none;
+}
+.highlight  {
+    margin: 0.4em;
+}
+
+/* Input area styling */
+.jp-InputArea {
+    overflow: hidden;
+}
+
+.jp-InputArea-editor {
+    overflow: hidden;
 }
