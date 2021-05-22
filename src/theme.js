@@ -1,11 +1,11 @@
 import { extendTheme } from "@chakra-ui/react"
-import "@fontsource/bitter"
-import "@fontsource/open-sans"
+import "@fontsource/ibm-plex-serif"
+import "@fontsource/ibm-plex-sans"
 
 const theme = extendTheme({
     fonts: {
-        heading: "Bitter",
-        body: "Open Sans",
+        heading: "IBM Plex Serif",
+        body: "IBM Plex Sans",
     },
 })
 

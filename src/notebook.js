@@ -2,9 +2,9 @@ import { iframeResizerContentWindow } from 'iframe-resizer';
 
 import { handleMessages, postMessage, MESSAGE_TYPES } from './messages';
 
-import "@fontsource/bitter";
-import "@fontsource/open-sans";
-import "@fontsource/fira-code";
+import "@fontsource/ibm-plex-serif";
+import "@fontsource/ibm-plex-sans";
+import "@fontsource/ibm-plex-mono";
 
 import "./notebook.css";
 

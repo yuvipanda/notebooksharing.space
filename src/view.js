@@ -90,7 +90,7 @@ const NotebookOptions = ({ iframeRef, notebookId, hasFrameLoaded, ...props }) =>
 
 const ContentHeader = ({ filename, notebookId, iframeRef, hasFrameLoaded, ...props }) => {
     return <Flex alignItems="baseline" {...props}>
-        <Heading fontSize="3xl" fontWeight="450">{filename}</Heading>
+        <Heading fontSize="xl" fontWeight={300}>{filename}</Heading>
         <NotebookOptions iframeRef={iframeRef} notebookId={notebookId} hasFrameLoaded={hasFrameLoaded} color="black" />
     </Flex>
 }
@@ -133,9 +133,10 @@ const View = ({ pageProperties }) => {
             <ContentHeader
                 filename={pageProperties.filename} notebookId={pageProperties.notebookId}
                 iframeRef={iframeRef} hasFrameLoaded={hasLoaded}
-                padding={4}
                 paddingLeft={8}
-                paddingTop={6}
+                paddingRight={8}
+                paddingTop={2}
+                paddingBottom={2}
                 borderBottom="1px dotted"
                 borderBottomColor="gray.400"
             />

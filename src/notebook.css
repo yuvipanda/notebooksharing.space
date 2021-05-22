@@ -2,30 +2,31 @@
 This needs to work-ish for both R notebooks and nbconvert output notebooks
 **/
 :root {
-    --jp-content-font-family: "Open Sans",  -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica,
+    --jp-content-font-family: "IBM Plex Sans",  -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica,
     Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';;
 
-    --jp-ui-font-size1: 14px; /* Increase base font size from 13 to 14px*/
+    --jp-content-font-size1: 16px; /* Base font size from 13px */
 
     --jp-ui-font-family: var(--jp-content-font-family);
+
+    /* All margin / padding should come from outside the iframe */
+    --jp-notebook-padding: 0;
 }
 
 pre {
-    font-family: "Fira Code";
-    font-size: 14px;
+    /* Somehow there's a <pre> in the nbconvert template, so the styles applied via --jp-< don't apply */
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 15px; /* Base font size from 13px */
 }
 
 body {
-    font-family: "Open Sans";
-    /* All margin / padding should come from outside the iframe */
-    --jp-notebook-padding: 0;
     padding: 0;
     margin: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
     /* FIXME: Find a way to override this CSS variable without having to specify all selectors */
-    font-family: "Bitter";
+    font-family: "IBM Plex Serif";
 }
 
 body.option-hide-inputs .jp-CodeCell .jp-Cell-inputWrapper {
