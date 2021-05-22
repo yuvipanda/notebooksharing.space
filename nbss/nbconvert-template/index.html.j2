@@ -5,6 +5,14 @@
 {% if not resources.object_metadata.enable_discovery %}
 <meta name="robots" rel="noindex" />
 {% endif %}
+
+<!--nbconvert ships JupyterLab styles inline by default.
+This bloats download size, prevents easy caching, and makes overriding a bit complex,
+since inline styles seem to perhaps get higher priority over files fetched via <link>.
+Fetching these separately helps avoid all these problems. Putting it in <head> to try
+see if it helps with the font flash problems -->
+<link href='/static/lab.css' rel='stylesheet'></link>
+<link href='/static/notebook.css' rel='stylesheet'></link>
 <!--
 The iframe should be 'invisible' to the user, so link clicks should open up in the
 top frame, rather than inside the iframe itself. Not sure if this works for JS triggered
@@ -15,8 +23,7 @@ opens, but seems to work for regular links
 <base target='_top'></base>
 {% endblock %}
 {% block notebook_css %}
-<link href='/static/lab.css' rel='stylesheet'></link>
-<link href='/static/notebook.css' rel='stylesheet'></link>
+{# Explicitly disable notebook_css, which puts jupyterlab styles inline #}
 {% endblock %}
 
 {% block footer %}
