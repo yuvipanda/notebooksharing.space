@@ -6,6 +6,7 @@ This needs to work-ish for both R notebooks and nbconvert output notebooks
     Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';;
 
     --jp-content-font-size1: 16px; /* Base font size from 13px */
+    --jp-code-font-family: "IBM Plex Mono", monospace;
 
     --jp-ui-font-family: var(--jp-content-font-family);
 
