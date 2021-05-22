@@ -69,6 +69,7 @@ const NotebookOptions = ({ iframeRef, notebookId, hasFrameLoaded, ...props }) =>
             aria-label="Options"
             icon={<FaChevronDown />}
             variant="ghost"
+            size="xs"
         />
 
         <MenuList >
@@ -90,7 +91,7 @@ const NotebookOptions = ({ iframeRef, notebookId, hasFrameLoaded, ...props }) =>
 
 const ContentHeader = ({ filename, notebookId, iframeRef, hasFrameLoaded, ...props }) => {
     return <Flex alignItems="baseline" {...props}>
-        <Heading fontSize="xl" fontWeight={300}>{filename}</Heading>
+        <Text fontSize="xl" fontWeight={300}>{filename}</Text>
         <NotebookOptions iframeRef={iframeRef} notebookId={notebookId} hasFrameLoaded={hasFrameLoaded} color="black" />
     </Flex>
 }
@@ -135,8 +136,8 @@ const View = ({ pageProperties }) => {
                 iframeRef={iframeRef} hasFrameLoaded={hasLoaded}
                 paddingLeft={8}
                 paddingRight={8}
-                paddingTop={2}
-                paddingBottom={2}
+                paddingTop={4}
+                paddingBottom={4}
                 borderBottom="1px dotted"
                 borderBottomColor="gray.400"
             />
