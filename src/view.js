@@ -131,7 +131,7 @@ const View = ({ pageProperties }) => {
 
         <Container maxW="container.lg" boxShadow="0px 0px 12px -4px #939393" marginTop={6} marginBottom={8}>
             <ContentHeader
-                filename={pageProperties.filename} notebookId={pageProperties.notebookId}
+                filename={pageProperties.filename} notebookId={notebookId}
                 iframeRef={iframeRef} hasFrameLoaded={hasLoaded}
                 paddingLeft={8}
                 paddingRight={8}
