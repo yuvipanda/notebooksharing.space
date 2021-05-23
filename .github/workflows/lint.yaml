@@ -2,8 +2,6 @@ name: Python lint
 
 on:
   push:
-    paths:
-      - deployer/
 
 jobs:
   flake8_py3:
