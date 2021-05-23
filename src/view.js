@@ -1,5 +1,5 @@
 import { DownloadIcon } from '@chakra-ui/icons';
-import { Box, Center, Heading, ChakraProvider, Container, Flex, IconButton, Image, Link, Menu, MenuButton, MenuItem, MenuItemOption, MenuList, MenuOptionGroup, Spacer, Spinner, Text } from "@chakra-ui/react";
+import { Box, Center, ChakraProvider, Container, Flex, IconButton, Image, Link, Menu, MenuButton, MenuItem, MenuItemOption, MenuList, MenuOptionGroup, Spacer, Spinner, Text } from "@chakra-ui/react";
 import { iframeResize } from 'iframe-resizer';
 import querystring from "querystring";
 import React, { useEffect, useRef, useState } from "react";
@@ -8,9 +8,9 @@ import { FaChevronDown } from "react-icons/fa";
 import { Footer } from "./footer";
 import logo from "./logo.svg";
 import { MESSAGE_TYPES, parseMessage, postMessage } from './messages';
+import theme from "./theme";
 import { UploadForm } from "./upload";
 
-import theme from "./theme";
 
 const makeDownloadLink = (notebookId) => {
     return "/api/notebook/" + notebookId;

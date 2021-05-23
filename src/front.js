@@ -1,12 +1,12 @@
-import { Box, ChakraProvider, Container, Flex, GridItem, Heading, IconButton, Image, Link, SimpleGrid, Spacer, Text } from "@chakra-ui/react";
+import { Box, ChakraProvider, Container, Flex, Heading, IconButton, Image, Link, Spacer, Text } from "@chakra-ui/react";
 import React from "react";
 import { render } from "react-dom";
 import { FaGithub } from "react-icons/fa";
 import { Footer } from "./footer";
 import logo from "./logo.svg";
+import theme from "./theme";
 import { UploadForm } from './upload';
 
-import theme from "./theme";
 
 const ActionItem = ({ number, content, description }) => {
     return <Box paddingBottom={6}>
