@@ -7,6 +7,7 @@ This needs to work-ish for both R notebooks and nbconvert output notebooks
 
     --jp-content-font-size1: 16px; /* Base font size from 13px */
     --jp-code-font-family: "IBM Plex Mono", monospace;
+    --jp-code-font-size: 15px; /* Base font size from 13px */
 
     --jp-ui-font-family: var(--jp-content-font-family);
 
@@ -28,6 +29,10 @@ body {
 h1, h2, h3, h4, h5, h6 {
     /* FIXME: Find a way to override this CSS variable without having to specify all selectors */
     font-family: "IBM Plex Serif";
+}
+
+.jp-RenderedHTMLCommon table {
+    font-size: unset;
 }
 
 body.option-hide-inputs .jp-CodeCell .jp-Cell-inputWrapper {
