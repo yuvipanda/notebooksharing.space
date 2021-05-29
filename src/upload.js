@@ -65,7 +65,7 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
         <ModalOverlay />
         <ModalContent>
             <ModalHeader>{isUploading ? "Uploading your notebook..." : "Upload your notebook"}</ModalHeader>
-            <ModalCloseButton isDisabled={isUploading} colorScheme="teal" />
+            <ModalCloseButton isDisabled={isUploading} colorScheme="orange" />
             <ModalBody>
                 <VStack width="100%" spacing={4}>
                     {errorMesssage &&
@@ -81,7 +81,7 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
                     }
                     <HStack width="100%">
                         <FormControl>
-                            <Checkbox colorScheme="teal" isDisabled={isUploading} defaultChecked={isDiscoverable} onChange={(ev) => { setIsDiscoverable(ev.target.checked) }}>
+                            <Checkbox colorScheme="orange" isDisabled={isUploading} defaultChecked={isDiscoverable} onChange={(ev) => { setIsDiscoverable(ev.target.checked) }}>
                                 Discoverable
                                 <Tooltip label="Make this notebook discoverable by search engines" hasArrow>
                                     <span>
@@ -92,7 +92,7 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
                         </FormControl>
 
                         <FormControl>
-                            <Checkbox colorScheme="teal" isDisabled={isUploading} onChange={(ev) => { setEnableAnnotations(ev.target.checked) }}>
+                            <Checkbox colorScheme="orange" isDisabled={isUploading} onChange={(ev) => { setEnableAnnotations(ev.target.checked) }}>
                                 Enable annotations
                                 <Tooltip label="Enable collaborative annotations on this notebook" hasArrow>
                                     <span>
@@ -107,7 +107,7 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
             </ModalBody>
 
             <ModalFooter>
-                <Button colorScheme="teal" mr={3} onClick={() => {
+                <Button colorScheme="orange" mr={3} onClick={() => {
                     const params = {
                         notebook: selectedFile,
                         "enable-discovery": isDiscoverable,
@@ -125,7 +125,7 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
 const UploadForm = ({ ...props }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     return <>
-        <Button variant="contained" colorScheme="teal" variant="solid" {...props} onClick={onOpen}>Upload your notebook</Button>
+        <Button variant="contained" colorScheme="orange" variant="solid" {...props} onClick={onOpen}>Upload your notebook</Button>
         <UploadModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
     </>;
 }
