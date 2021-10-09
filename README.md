@@ -1,6 +1,4 @@
-# Notebook Sharing Service (nbss)
-
-![The NBSS logo](./src/logo.svg)
+[![The NBSS logo](./src/logo.svg)](https://notebooksharing.space)
 
 The fastest way to share your notebook with someone.
 
