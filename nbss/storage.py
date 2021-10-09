@@ -6,6 +6,7 @@ import json
 import gzip
 import aioboto3
 import hashlib
+from typing import Tuple
 
 
 def sha256(data: bytes, raw_metadata: dict):
@@ -52,7 +53,7 @@ class StorageBackend:
     async def put(self, data: bytes, raw_metadata: dict):
         pass
 
-    async def get(self, name: str) -> (bytes, Metadata):
+    async def get(self, name: str) -> Tuple(bytes, Metadata):
         pass
 
 
@@ -83,7 +84,7 @@ class FileBackend(StorageBackend):
 
         return Metadata.from_dict(raw_metadata)
 
-    async def get(self, name: str) -> (bytes, Metadata):
+    async def get(self, name: str) -> Tuple(bytes, Metadata):
         with gzip.open(self.data_path_for_name(name)) as f:
             data = f.read()
 
@@ -120,7 +121,7 @@ class S3Backend(StorageBackend):
                 return None
             return metadata
 
-    async def get(self, name: str) -> (bytes, Metadata):
+    async def get(self, name: str) -> Tuple(bytes, Metadata):
         async with aioboto3.client("s3", endpoint_url=self.endpoint_url) as s3:
 
             try:
