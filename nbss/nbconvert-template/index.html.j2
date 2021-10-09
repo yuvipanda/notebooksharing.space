@@ -18,10 +18,11 @@ The iframe should be 'invisible' to the user, so link clicks should open up in t
 top frame, rather than inside the iframe itself. Not sure if this works for JS triggered
 opens, but seems to work for regular links
 -->
+<base target='_top'></base>
 
 <script src="/static/notebook.js"></script>
-<base target='_top'></base>
 {% endblock %}
+
 {% block notebook_css %}
 {# Explicitly disable notebook_css, which puts jupyterlab styles inline #}
 {% endblock %}
