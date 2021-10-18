@@ -4,7 +4,7 @@ nbconvert
 python-multipart
 aiofiles
 gunicorn
-aioboto3
+aioboto3>=9.2.2
 aiohttp
 yarl
 jupytext
