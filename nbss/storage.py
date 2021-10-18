@@ -3,8 +3,8 @@ Storage backends for ipynb.pub
 """
 import os
 import json
+from aiobotocore import get_session
 import gzip
-import aioboto3
 import hashlib
 from typing import Tuple
 
@@ -95,13 +95,16 @@ class S3Backend(StorageBackend):
     def __init__(self):
         self.endpoint_url = os.environ.get("AWS_S3_ENDPOINT_URL")
         self.bucket = os.environ["AWS_S3_BUCKET"]
+        self.botocore_session = get_session()
 
     def path_for_name(self, name: str) -> str:
         return f"notebooks/{name}"
 
     async def put(self, data: bytes, metadata: Metadata) -> bytes:
         name = sha256(data, metadata.to_dict())
-        async with aioboto3.client("s3", endpoint_url=self.endpoint_url) as s3:
+        async with self.botocore_session.create_client(
+            "s3", endpoint_url=self.endpoint_url
+        ) as s3:
             await s3.put_object(
                 Key=self.path_for_name(name),
                 Bucket=self.bucket,
@@ -111,7 +114,9 @@ class S3Backend(StorageBackend):
         return name
 
     async def get_metadata(self, name: str) -> Metadata:
-        async with aioboto3.client("s3", endpoint_url=self.endpoint_url) as s3:
+        async with self.botocore_session.create_client(
+            "s3", endpoint_url=self.endpoint_url
+        ) as s3:
             try:
                 response = await s3.head_object(
                     Key=self.path_for_name(name), Bucket=self.bucket
@@ -122,7 +127,9 @@ class S3Backend(StorageBackend):
             return metadata
 
     async def get(self, name: str) -> Tuple[bytes, Metadata]:
-        async with aioboto3.client("s3", endpoint_url=self.endpoint_url) as s3:
+        async with self.botocore_session.create_client(
+            "s3", endpoint_url=self.endpoint_url
+        ) as s3:
 
             try:
                 response = await s3.get_object(
