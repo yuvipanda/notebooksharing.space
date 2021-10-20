@@ -8,9 +8,6 @@ jobs:
   login:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
-
       - name: Figure out docker image tag
         id: taggen
         uses: docker/metadata-action@v3
@@ -19,6 +16,7 @@ jobs:
             quay.io/yuvipanda/nbss
           tags: |
             type=sha
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
@@ -50,12 +48,21 @@ jobs:
       - uses: azure/setup-helm@v1
         name: Install Helm
 
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
       - name: Deploy nbss
         run: |
-          pwd
-          ls
           helm upgrade --install --namespace nbss --create-namespace \
             nbss helm/nbss \
             --set env.AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY_ID }}" \
             --set env.AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
             --set image.tag="${{ fromJSON(steps.taggen.outputs.json).labels['org.opencontainers.image.version'] }}"
+
+      - uses: azure/setup-kubectl@v1
+        name: install kubectl
+
+      - name: Wait for the deployment to be active
+        run: |
+          kubectl --namespace=nbss \
+            wait --for=condition=available --timeout=60s --all deployments
