@@ -57,6 +57,9 @@ resources:
     # Mostly to prevent a single large notebook from killing everything
     cpu: 1
     memory: 1Gi
+  requests:
+    cpu: 100m
+    memory: 256Mi
 
 autoscaling:
   enabled: false
