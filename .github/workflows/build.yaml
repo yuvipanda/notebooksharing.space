@@ -41,6 +41,8 @@ jobs:
 
       - name: Deploy nbss
         run: |
+          pwd
+          ls
           helm upgrade --install --namespace nbss --create-namespace \
             nbss helm/nbss \
             --set env.AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY_ID }}" \
