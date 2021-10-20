@@ -1,6 +1,6 @@
 FROM python:3.9-buster AS builder
 
-RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt install --yes nodejs > /dev/null
 
 RUN mkdir -p /opt/nbss
