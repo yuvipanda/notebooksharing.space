@@ -1,4 +1,5 @@
-import { Alert, AlertDescription, AlertIcon, AlertTitle, Button, Center, Checkbox, CloseButton, Flex, FormControl, HStack, Icon, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Text, Tooltip, useDisclosure, VStack } from '@chakra-ui/react';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
+import { Alert, Link, AlertDescription, AlertIcon, AlertTitle, Button, Center, Checkbox, CloseButton, Flex, FormControl, HStack, Icon, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Text, Tooltip, useDisclosure, VStack } from '@chakra-ui/react';
 import React, { useState } from "react";
 import Dropzone from "react-dropzone";
 import { BsX } from "react-icons/bs";
@@ -125,7 +126,10 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
 const UploadForm = ({ ...props }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     return <>
-        <Button variant="contained" colorScheme="orange" variant="solid" {...props} onClick={onOpen}>Upload your notebook</Button>
+        <VStack>
+            <Button variant="contained" colorScheme="orange" variant="solid" {...props} onClick={onOpen}>Upload your notebook</Button>
+            <small style={{ color: "gray.100" }}>Or use the <Link style={{ textDecoration: "underline" }} isExternal href="https://github.com/notebook-sharing-space/nbss-upload">command-line uploader <ExternalLinkIcon mx="2px" /></Link></small>
+        </VStack>
         <UploadModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
     </>;
 }
