@@ -139,7 +139,7 @@ const uploadFile = (params, setIsUploading, setErrorMessage) => {
     // When we're uploading, we aren't in error state yet!
     setErrorMessage(null);
 
-    fetch('/api/notebook', {
+    fetch('/api/v1/notebook', {
         method: "POST",
         body: formData,
         headers: {

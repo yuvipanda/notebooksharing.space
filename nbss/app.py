@@ -61,7 +61,7 @@ class NotebookUploadResponse(BaseModel):
 
 
 @app.post(
-    "/api/notebook",
+    "/api/v1/notebook",
     summary="Upload a notebook",
     tags=["api"],
     response_model=Union[NotebookUploadResponse, str],
@@ -125,7 +125,7 @@ async def upload(
 
 
 @app.get(
-    "/api/notebook/{notebook_id}",
+    "/api/v1/notebook/{notebook_id}",
     summary="Download a notebook",
     tags=["api"],
     response_class=PlainTextResponse,

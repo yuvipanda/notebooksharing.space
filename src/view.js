@@ -13,7 +13,7 @@ import { UploadForm } from "./upload";
 
 
 const makeDownloadLink = (notebookId) => {
-    return "/api/notebook/" + notebookId;
+    return "/api/v1/notebook/" + notebookId;
 }
 
 const makeIFrameLink = (notebookId) => {
