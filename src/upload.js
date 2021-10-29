@@ -128,7 +128,7 @@ const UploadForm = ({ ...props }) => {
     return <>
         <VStack>
             <Button variant="contained" colorScheme="orange" variant="solid" {...props} onClick={onOpen}>Upload your notebook</Button>
-            <small style={{ color: "gray.100" }}>Or use the <Link style={{ textDecoration: "underline" }} isExternal href="https://github.com/notebook-sharing-space/nbss-upload">command-line uploader <ExternalLinkIcon mx="2px" /></Link></small>
+            <small style={{ color: "gray.100" }}>Or use the <Link style={{ textDecoration: "underline" }} isExternal href="https://github.com/notebook-sharing-space/nbss-upload">command-line uploader<ExternalLinkIcon mx="2px" /></Link></small>
         </VStack>
         <UploadModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
     </>;
