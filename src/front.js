@@ -70,7 +70,7 @@ const Front = () => {
                         Opt-in to annotations and highlights on your notebook with built-in <a href="https://web.hypothes.is/">hypothes.is</a> support.
                         </FeatureItem>
                     <FeatureItem title="🔒 Private by default">
-                        Only people who have the link can see the notebook by default - search engines can not.
+                        Only people who have the link can see the notebook by default - search engines cannot.
                         </FeatureItem>
                 </Flex>
 
