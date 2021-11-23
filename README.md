@@ -14,7 +14,7 @@ The fastest way to share your notebook with someone.
 There are two ways to share your Notebooks
 
 1. You can upload your notebook easily via the web interface at [notebooksharing.space](https://notebooksharing.space/) *(No Sign up required)*
-2. `nbss-upload` Command-Line Tool
+2. [`nbss-upload`](https://github.com/notebook-sharing-space/nbss-upload) Command-Line Tool
 
 
 ## CLI
@@ -36,7 +36,7 @@ This will upload the notebook and return the URL you can use to share it with ot
 
 By default, only users who you share the URL with can access the notebook - it will not be visible to search engines. Annotations will also be turned off by default to help fight abuse.
 
-You can enable annotations via hypothes.is by passing --enable-annotations or -a. The notebook can be made discoverable to search engines by passing --enable-discvery or -d.
+You can enable annotations via hypothes.is by passing `--enable-annotations` or `-a`. The notebook can be made discoverable to search engines by passing `--enable-discovery` or `-d`.
 
-All notebook formats supported by notebooksharing.space - .ipynb, .rmd, .html are supported.
+All notebook formats supported by notebooksharing.space - `.ipynb`, `.rmd`, `.html` are supported.
 
