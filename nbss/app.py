@@ -141,6 +141,9 @@ async def download(request: Request, notebook_id: str = ID_VALIDATOR):
         data,
         headers={
             "Content-Disposition": f"attachment; filename={metadata.filename}",
+            # Allow JupyterLab to fetch this URL from anywhere with just JS
+            # Supports https://github.com/jupyterlab/jupyterlab/pull/11387
+            "Access-Control-Allow-Origin": "*",
         },
     )
 
