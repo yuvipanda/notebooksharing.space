@@ -3,7 +3,7 @@ Storage backends for ipynb.pub
 """
 import os
 import json
-from aiobotocore import get_session
+from aiobotocore.session import get_session
 import gzip
 import hashlib
 from typing import Tuple
