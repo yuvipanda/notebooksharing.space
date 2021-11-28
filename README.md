@@ -10,6 +10,21 @@ The fastest way to share your notebook with someone.
 - Opt-in annotation support via [hypothes.is](https://hypothes.is/).
 - Opt-in to allow discovery of your notebooks for search engines.
 
+## Product focus
+
+I want to build *focused* products that can be reasonably marked 'complete'.
+They should do one thing, and one thing **very well**.
+
+For NotebookSharing.space, that would be:
+
+> Be the fastest way to share your notebook with someone.
+
+So we optimize for the speed of the *process* of sharing - so it includes
+the upload experience, as well as the experience of the viewer viewing
+exactly what the uploader wanted to show them. All prioritization
+decisions should be made based on this.
+
+## How to upload your notebook
 
 There are two ways to share your Notebooks
 
@@ -21,7 +36,7 @@ There are two ways to share your Notebooks
 
 `nbss-upload` is available on [PyPI](https://pypi.org/project/nbss-upload/), and can be installed with pip.
 
-`pip install nbss-upload` 
+`pip install nbss-upload`
 
 **Usage**
 
