@@ -22,6 +22,7 @@ podSecurityContext: {}
 
 securityContext:
   runAsNonRoot: true
+  runAsUser: 65534 # User nobody
   allowPrivilegeEscalation: false
 
 service:
