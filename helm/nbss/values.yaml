@@ -24,6 +24,7 @@ securityContext:
   runAsNonRoot: true
   runAsUser: 65534 # User nobody
   allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
 
 service:
   type: LoadBalancer
