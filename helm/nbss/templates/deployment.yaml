@@ -28,12 +28,21 @@ spec:
       automountServiceAccountToken: false
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+      - name: tmp
+        emptyDir: {}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          # When running with readOnlyRootFilesystem: true, uvicorn still needs
+          # a /tmp to work. By mounting a separate emptyDir /tmp, the entire filesystem
+          # except /tmp is made readonly
+          volumeMounts:
+          - mountPath: /tmp
+            name: tmp
           envFrom:
           - secretRef:
               name: {{ include "nbss.fullname" . }}
