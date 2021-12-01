@@ -6,6 +6,7 @@ import json
 from aiobotocore.session import get_session
 import gzip
 import hashlib
+from urllib.parse import quote, unquote
 from typing import Tuple
 
 
@@ -101,7 +102,11 @@ class S3Backend(StorageBackend):
         return f"notebooks/{name}"
 
     async def put(self, data: bytes, metadata: Metadata) -> bytes:
-        name = sha256(data, metadata.to_dict())
+        # s3 metadata values can only be ASCII (WTF?!), so we have to
+        # percent encode all metadata values
+        quoted_metadata = {k: quote(v) for k, v in metadata.to_dict().items()}
+        name = sha256(data, quoted_metadata)
+
         async with self.botocore_session.create_client(
             "s3", endpoint_url=self.endpoint_url
         ) as s3:
@@ -109,7 +114,7 @@ class S3Backend(StorageBackend):
                 Key=self.path_for_name(name),
                 Bucket=self.bucket,
                 Body=gzip.compress(data),
-                Metadata=metadata.to_dict(),
+                Metadata=quoted_metadata,
             )
         return name
 
@@ -121,7 +126,14 @@ class S3Backend(StorageBackend):
                 response = await s3.head_object(
                     Key=self.path_for_name(name), Bucket=self.bucket
                 )
-                metadata = Metadata.from_dict(response["Metadata"])
+                # s3 metadata values can only be ASCII (WTF?!), so we store urlencoded
+                # metadata. We decode it when we retrieve it.
+                m = response["Metadata"]
+                print(m)
+                unquoted_metadata = {
+                    k: unquote(v) for k, v in response["Metadata"].items()
+                }
+                metadata = Metadata.from_dict(unquoted_metadata)
             except s3.exceptions.NoSuchKey:
                 return None
             return metadata
@@ -137,7 +149,13 @@ class S3Backend(StorageBackend):
                     Bucket=self.bucket,
                 )
                 data = gzip.decompress(await response["Body"].read())
-                metadata = Metadata.from_dict(response["Metadata"])
+
+                # s3 metadata values can only be ASCII (WTF?!), so we store urlencoded
+                # metadata. We decode it when we retrieve it.
+                unquoted_metadata = {
+                    k: unquote(v) for k, v in response["Metadata"].items()
+                }
+                metadata = Metadata.from_dict(unquoted_metadata)
             except s3.exceptions.NoSuchKey:
                 return None
             return (data, metadata)

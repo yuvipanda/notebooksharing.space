@@ -20,6 +20,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 from typing import Union
+from urllib.parse import quote
 
 from content_size_limit_asgi import ContentSizeLimitMiddleware
 from .storage import S3Backend, Metadata
@@ -137,10 +138,12 @@ async def download(request: Request, notebook_id: str = ID_VALIDATOR):
     Notebook will be in the same format it was uploaded in.
     """
     data, metadata = await backend.get(notebook_id)
+    encoded_filename = quote(metadata.filename)
     return PlainTextResponse(
         data,
         headers={
-            "Content-Disposition": f"attachment; filename={metadata.filename}",
+            # Quote file name and mark it explicitly as utf-8
+            "Content-Disposition": f"attachment; filename*=UTF-8''{encoded_filename}",
             # Allow JupyterLab to fetch this URL from anywhere with just JS
             # Supports https://github.com/jupyterlab/jupyterlab/pull/11387
             "Access-Control-Allow-Origin": "*",
