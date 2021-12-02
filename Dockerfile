@@ -30,5 +30,9 @@ RUN mkdir -p /tmp/nbss
 COPY --from=builder /opt/nbss/dist/*.whl /tmp/nbss/
 RUN pip install --no-cache /tmp/nbss/*.whl
 
+# Keep this in sync with requirements.txt, until https://github.com/jupyter/nbconvert/pull/1683
+# is merged and released
+RUN pip install --no-cache --force git+https://github.com/yuvipanda/nbconvert@cd55f532ace440c3698abf5d8423d1418dfc19ab
+
 USER nobody
 CMD ["gunicorn", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "nbss.app:app", "-b", "0.0.0.0:8000", "--access-logfile", "-"]

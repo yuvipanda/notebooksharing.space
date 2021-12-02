@@ -16,6 +16,11 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
+        "uvicorn[standard]",
+        "fastapi",
+        "python-multipart",
+        "aiofiles",
+        "gunicorn",
         "nbconvert",
         "yarl",
         "aiohttp",
