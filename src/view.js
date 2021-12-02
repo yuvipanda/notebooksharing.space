@@ -87,17 +87,24 @@ const NotebookOptions = ({ iframeRef, notebookId, hasFrameLoaded, ...props }) =>
 const ContentHeader = ({ filename, notebookId, iframeRef, hasFrameLoaded, ...props }) => {
     return <Flex alignItems="baseline" {...props}>
         <Text fontSize="xl"
-            marginRight={2}  // This should really be marginLeft on the download button but I couldn't get it to work
-            fontWeight={300}>{filename}</Text>
-        <IconButton
-            variant="ghost" size="sm"
-            color="gray.500"
-            _hover={{ textDecoration: 'none', color: "black" }}
-            title="Download notebook"
-            icon={<DownloadIcon />} as={Link} href={makeDownloadLink(notebookId)}
-        >
-            Download notebook
-        </IconButton>
+            fontWeight={300}>{filename}
+
+            <IconButton
+                variant="ghost" size="md"
+                color="gray.500"
+                // Try make the icon look exactly in line with baseline of text
+                marginLeft={2}
+                marginTop={-2}
+                width={4}
+                height={4}
+                display="inline-block"
+                _hover={{ textDecoration: 'none', color: "black" }}
+                title="Download notebook"
+                icon={<DownloadIcon />} as={Link} href={makeDownloadLink(notebookId)}
+            >
+                Download notebook
+            </IconButton>
+        </Text>
 
         <Spacer />
 
