@@ -11,4 +11,4 @@ jupytext
 content-size-limit-asgi
 # Keep this in sync with the Dockerfile, until https://github.com/jupyter/nbconvert/pull/1683
 # is merged and released
-git+https://github.com/yuvipanda/nbconvert@cd55f532ace440c3698abf5d8423d1418dfc19ab
+https://github.com/yuvipanda/nbconvert/archive/cd55f532ace440c3698abf5d8423d1418dfc19ab.zip
