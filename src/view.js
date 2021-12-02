@@ -69,6 +69,7 @@ const NotebookOptions = ({ iframeRef, notebookId, hasFrameLoaded, ...props }) =>
             rightIcon={<ChevronDownIcon />}
             variant="ghost"
             size="sm"
+            fontWeight={200}
         >Display Options
         </MenuButton>
 
