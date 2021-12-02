@@ -172,6 +172,9 @@ async def view(request: Request, notebook_id: str = ID_VALIDATOR):
 
 @app.get("/render/v1/{notebook_id}", tags=["website"])
 async def render(notebook_id: str = ID_VALIDATOR):
+    traitlets_config = {
+        "Highlight2HTML": {"extra_formatter_options": {"linenos": "table"}}
+    }
     exporter = HTMLExporter(
         # Input / output prompts are empty left gutter space
         # Let's remove them. If we want gutters, we can CSS them.
@@ -179,6 +182,7 @@ async def render(notebook_id: str = ID_VALIDATOR):
         exclude_output_prompt=True,
         extra_template_basedirs=[BASE_PATH],
         template_name="nbconvert-template",
+        config=traitlets_config,
     )
     data, metadata = await backend.get(notebook_id)
     if data is None:

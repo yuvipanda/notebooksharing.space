@@ -6,7 +6,9 @@ import "@fontsource/roboto-slab";
 import "@fontsource/fira-sans";
 import "@fontsource/fira-code";
 
+import "reset-css";
 import "./notebook.css";
+
 
 window.addEventListener('message', handleMessages);
 

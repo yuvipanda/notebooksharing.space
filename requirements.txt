@@ -9,3 +9,4 @@ aiohttp
 yarl
 jupytext
 content-size-limit-asgi
+git+https://github.com/yuvipanda/nbconvert@cd55f532ace440c3698abf5d8423d1418dfc19ab

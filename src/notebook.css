@@ -35,15 +35,18 @@ h1, h2, h3, h4, h5, h6 {
     font-size: unset;
 }
 
-body.option-hide-inputs .jp-CodeCell .jp-Cell-inputWrapper {
-    display: none;
-}
 
 a.anchor-link {
    display: none;
 }
+
 .highlight  {
     margin: 0.4em;
+}
+
+table.highlight  {
+    /* Without this, we have 2 levels of 0.4em margin being applied, as .highlight seems to nest */
+    margin: 0em;
 }
 
 /* Input area styling */
@@ -53,4 +56,29 @@ a.anchor-link {
 
 .jp-InputArea-editor {
     overflow: hidden;
+}
+
+/* Display options toggles */
+
+td.linenos {
+    /* Default to displaying no line numbers */
+    display: none;
+    /* Set minimum width to cover at least 2 digits, so adjacent cells with single digit
+       line numbers only and double digit line numbers actually align. Without this, there
+       is misalignment because the div is too narrow when all the linenos are single digit only.  */
+    min-width: 36px;
+    text-align: right;
+
+    /* Line numbers should be distinguished from the code content */
+    color: var(--jp-ui-font-color2);
+    background-color: var(--jp-layout-color2);
+}
+
+body.option-show-linenos td.linenos {
+    /* lineos is a table cell, so don't use display: inline */
+    display: table-cell;
+}
+
+body.option-hide-inputs .jp-CodeCell .jp-Cell-inputWrapper {
+    display: none;
 }

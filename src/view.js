@@ -20,7 +20,7 @@ const makeIFrameLink = (notebookId) => {
     // FIXME This is not safe
     // Incrememnt cache version here whenever we make a change in HTML
     // structure of the rendered notebook.
-    return "/render/v1/" + notebookId + "?cacheVersion=1";
+    return "/render/v1/" + notebookId + "?cacheVersion=2";
 
 }
 
@@ -44,6 +44,7 @@ const getDisplayOptions = () => {
 const NotebookOptions = ({ iframeRef, notebookId, hasFrameLoaded, ...props }) => {
     const availableDisplayOptions = {
         'hide-inputs': 'Hide code cells',
+        'show-linenos': 'Show line numbers'
     }
     const [displayOptions, setDisplayOptions] = useState(getDisplayOptions())
 
