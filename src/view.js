@@ -1,10 +1,9 @@
-import { DownloadIcon } from '@chakra-ui/icons';
-import { Box, Center, ChakraProvider, Container, Flex, IconButton, Image, Link, Menu, MenuButton, MenuItem, MenuItemOption, MenuList, MenuOptionGroup, Spacer, Spinner, Text } from "@chakra-ui/react";
+import { ChevronDownIcon, DownloadIcon } from '@chakra-ui/icons';
+import { Box, Button, Center, ChakraProvider, Container, Flex, IconButton, Image, Link, Menu, MenuButton, MenuItemOption, MenuList, MenuOptionGroup, Spacer, Spinner, Text } from "@chakra-ui/react";
 import { iframeResize } from 'iframe-resizer';
 import querystring from "querystring";
 import React, { useEffect, useRef, useState } from "react";
 import { render } from "react-dom";
-import { FaChevronDown } from "react-icons/fa";
 import { Footer } from "./footer";
 import logo from "./logo.svg";
 import { MESSAGE_TYPES, parseMessage, postMessage } from './messages';
@@ -66,20 +65,15 @@ const NotebookOptions = ({ iframeRef, notebookId, hasFrameLoaded, ...props }) =>
 
     return <Menu {...props}>
         <MenuButton
-            as={IconButton}
-            aria-label="Options"
-            icon={<FaChevronDown />}
+            as={Button}
+            rightIcon={<ChevronDownIcon />}
             variant="ghost"
-            size="xs"
-        />
+            size="sm"
+        >Display Options
+        </MenuButton>
 
         <MenuList >
-            {/* Explicitly set hover style here, we don't want the underline to show up*/}
-            <MenuItem icon={<DownloadIcon />} as={Link} href={makeDownloadLink(notebookId)} _hover={{ textDecoration: 'none' }}>
-                Download notebook
-            </MenuItem>
-
-            <MenuOptionGroup title="Display options" type="checkbox" onChange={setDisplayOptions} value={displayOptions}>
+            <MenuOptionGroup type="checkbox" onChange={setDisplayOptions} value={displayOptions}>
                 {Object.keys(availableDisplayOptions).map((option) => {
                     return <MenuItemOption value={option} key={option}>
                         {availableDisplayOptions[option]}
@@ -92,7 +86,22 @@ const NotebookOptions = ({ iframeRef, notebookId, hasFrameLoaded, ...props }) =>
 
 const ContentHeader = ({ filename, notebookId, iframeRef, hasFrameLoaded, ...props }) => {
     return <Flex alignItems="baseline" {...props}>
-        <Text fontSize="xl" fontWeight={300}>{filename}</Text>
+        <Text fontSize="xl"
+            marginRight={2}  // This should really be marginLeft on the download button but I couldn't get it to work
+            fontWeight={300}>{filename}</Text>
+        <IconButton
+            variant="ghost" size="sm"
+            color="gray.500"
+            _hover={{ textDecoration: 'none', color: "black" }}
+            title="Download notebook"
+            icon={<DownloadIcon />} as={Link} href={makeDownloadLink(notebookId)}
+        >
+            Download notebook
+        </IconButton>
+
+        <Spacer />
+
+
         <NotebookOptions iframeRef={iframeRef} notebookId={notebookId} hasFrameLoaded={hasFrameLoaded} color="black" />
     </Flex>
 }
@@ -136,7 +145,7 @@ const View = ({ pageProperties }) => {
                 filename={pageProperties.filename} notebookId={notebookId}
                 iframeRef={iframeRef} hasFrameLoaded={hasLoaded}
                 paddingLeft={8}
-                paddingRight={8}
+                paddingRight={1}
                 paddingTop={4}
                 paddingBottom={4}
                 borderBottom="1px dotted"
