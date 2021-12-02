@@ -1,10 +1,10 @@
 FROM python:3.9-buster AS builder
 
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
-RUN apt install --yes nodejs > /dev/null
+RUN apt install --yes nodejs >/dev/null
 
 RUN mkdir -p /opt/nbss
-WORKDIR  /opt/nbss
+WORKDIR /opt/nbss
 
 # Run npm install first - we only need to run it again if package.json changes
 COPY package.json package.json
