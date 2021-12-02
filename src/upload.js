@@ -1,9 +1,9 @@
-import { ExternalLinkIcon } from '@chakra-ui/icons';
+import { ExternalLinkIcon, QuestionOutlineIcon } from '@chakra-ui/icons';
 import { Alert, Link, AlertDescription, AlertIcon, AlertTitle, Button, Center, Checkbox, CloseButton, Flex, FormControl, HStack, Icon, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Text, Tooltip, useDisclosure, VStack } from '@chakra-ui/react';
 import React, { useState } from "react";
 import Dropzone from "react-dropzone";
 import { BsX } from "react-icons/bs";
-import { FaAltQuestionCircle, FaFileAlt } from "react-icons/fa";
+import { FaFileAlt } from "react-icons/fa";
 
 const FileDisplay = ({ file, setFile, isUploading, setErrorMessage }) => {
     return <HStack h={36} w="100%" paddingLeft={12} border="dashed 1px" borderColor="gray.400" backgroundColor="green.50">
@@ -86,7 +86,7 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
                                 Discoverable
                                 <Tooltip label="Make this notebook discoverable by search engines" hasArrow>
                                     <span>
-                                        <Icon as={FaAltQuestionCircle} width={4} height={4} marginLeft={1} color="gray.400"></Icon>
+                                        <Icon as={QuestionOutlineIcon} width={4} height={4} marginLeft={1} color="gray.400"></Icon>
                                     </span>
                                 </Tooltip>
                             </Checkbox>
@@ -97,7 +97,7 @@ const UploadModal = ({ isOpen, onClose, onOpen }) => {
                                 Enable annotations
                                 <Tooltip label="Enable collaborative annotations on this notebook" hasArrow>
                                     <span>
-                                        <Icon as={FaAltQuestionCircle} width={4} height={4} marginLeft={1} color="gray.400"></Icon>
+                                        <Icon as={QuestionOutlineIcon} width={4} height={4} marginLeft={1} color="gray.400"></Icon>
                                     </span>
                                 </Tooltip>
                             </Checkbox>
