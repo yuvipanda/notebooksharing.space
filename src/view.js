@@ -92,7 +92,7 @@ const ContentHeader = ({ filename, notebookId, iframeRef, hasFrameLoaded, ...pro
 
             <IconButton
                 variant="ghost" size="md"
-                color="gray.500"
+                color="gray.400"
                 // Try make the icon look exactly in line with baseline of text
                 marginLeft={2}
                 marginTop={-2}
