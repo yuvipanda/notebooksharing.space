@@ -157,7 +157,11 @@ async def view(request: Request, notebook_id: str = ID_VALIDATOR):
     metadata = await backend.get_metadata(notebook_id)
     # Metadata that affects display of page only
     # Let's not change HTML unless we have to - better cache hit ratio this way
-    page_properties = {"id": notebook_id, "filename": metadata.filename}
+    page_properties = {
+        "id": notebook_id,
+        "filename": metadata.filename,
+        "format": metadata.format,
+    }
     return templates.TemplateResponse(
         "view.html.j2",
         {

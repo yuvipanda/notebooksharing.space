@@ -85,7 +85,7 @@ const NotebookOptions = ({ iframeRef, notebookId, hasFrameLoaded, ...props }) =>
     </Menu >;
 }
 
-const ContentHeader = ({ filename, notebookId, iframeRef, hasFrameLoaded, ...props }) => {
+const ContentHeader = ({ filename, notebookId, notebookFormat, iframeRef, hasFrameLoaded, ...props }) => {
     return <Flex alignItems="baseline" {...props}>
         <Text fontSize="xl"
             fontWeight={300}>{filename}
@@ -109,8 +109,17 @@ const ContentHeader = ({ filename, notebookId, iframeRef, hasFrameLoaded, ...pro
 
         <Spacer />
 
-
-        <NotebookOptions iframeRef={iframeRef} notebookId={notebookId} hasFrameLoaded={hasFrameLoaded} color="black" />
+        {/* None of these options really work on R HTML notebooks,
+            so let's hide the notebook options bar to not confuse users.
+            Plus, R HTML notebooks have their own dropdown to hide cells - so
+            the decision is made to hide this menu, rather than disable it.
+        */}
+        {notebookFormat !== "html" &&
+            <NotebookOptions
+                iframeRef={iframeRef}
+                notebookFormat={notebookFormat}
+                notebookId={notebookId} hasFrameLoaded={hasFrameLoaded} color="black" />
+        }
     </Flex>
 }
 
@@ -150,7 +159,9 @@ const View = ({ pageProperties }) => {
 
         <Container maxW="container.lg" boxShadow="0px 0px 12px -4px #939393" marginTop={6} marginBottom={8}>
             <ContentHeader
-                filename={pageProperties.filename} notebookId={notebookId}
+                filename={pageProperties.filename}
+                notebookId={notebookId}
+                notebookFormat={pageProperties.format}
                 iframeRef={iframeRef} hasFrameLoaded={hasLoaded}
                 paddingLeft={8}
                 paddingRight={1}
