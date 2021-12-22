@@ -4,6 +4,7 @@ from typing import Optional
 import os
 import nbformat
 import jupytext
+from jupytext.config import JupytextConfiguration
 
 from fastapi import (
     FastAPI,
@@ -205,7 +206,12 @@ async def render(notebook_id: str = ID_VALIDATOR):
         if metadata.format == "ipynb":
             notebook = nbformat.reads(data.decode(), as_version=4)
         else:
-            notebook = jupytext.reads(data.decode(), metadata.format)
+            config = JupytextConfiguration()
+            # Don't put Rmd and other 'front matter' as a raw cell in the notebook output
+            # Ideally we'd be able to parse this and display it nicely, but lacking that
+            # let's not output some raw YAML in the display.
+            config.root_level_metadata_as_raw_cell = False
+            notebook = jupytext.reads(data.decode(), metadata.format, config=config)
         output, resources = exporter.from_notebook_node(
             notebook, {"object_metadata": metadata}
         )
