@@ -42,7 +42,7 @@ There are two ways to share your Notebooks
 
 Simply call it with the path to the notebook you want to upload.
 
-```bash
+```shell-session
 $ nbss-upload test.ipynb
 https://notebooksharing.space/view/04ab7ab45c2f08628eba9cb8fe5fb9a63f5961d5dfce622b9e26974ddc138916
 ```
