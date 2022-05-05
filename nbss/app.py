@@ -149,7 +149,7 @@ async def download(request: Request, notebook_id: str = ID_VALIDATOR):
             # Supports https://github.com/jupyterlab/jupyterlab/pull/11387
             "Access-Control-Allow-Origin": "*",
             # Allow access to extra headers such as Content-Disposition
-            "Access-Control-Expose-Headers": "*",
+            "Access-Control-Expose-Headers": "Content-Disposition",
         },
     )
 
