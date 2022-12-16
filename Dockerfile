@@ -8,7 +8,7 @@ WORKDIR /opt/nbss
 
 # Run npm install first - we only need to run it again if package.json changes
 COPY package.json package.json
-RUN npm i
+RUN npm i --legacy-peer-deps
 
 # If any more files are needed to be built, they should be added here
 COPY src src
