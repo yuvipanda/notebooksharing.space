@@ -45,7 +45,7 @@ jobs:
       - name: Save DigitalOcean kubeconfig
         run: doctl kubernetes cluster kubeconfig save ae152475-dc79-474c-8937-6b7dfe14fde3
 
-      - uses: azure/setup-helm@v1
+      - uses: azure/setup-helm@v3
         name: Install Helm
 
       - name: Checkout repo
