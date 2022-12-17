@@ -13,4 +13,4 @@ content-size-limit-asgi
 # is merged and released
 https://github.com/yuvipanda/nbconvert/archive/cd55f532ace440c3698abf5d8423d1418dfc19ab.zip
 # Explicitly install ipython because our nbconvert override requires it
-ipython
+ipython_genutils
