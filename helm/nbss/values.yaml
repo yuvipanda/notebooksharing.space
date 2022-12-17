@@ -56,7 +56,7 @@ resources:
     cpu: 1
     memory: 1Gi
   requests:
-    cpu: 50m
+    cpu: 0.01 # We keep small nodes
     memory: 256Mi
 
 autoscaling:
