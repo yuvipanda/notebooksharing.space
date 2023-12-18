@@ -81,12 +81,12 @@ class NotebookUploadResponse(BaseModel):
             "content": {
                 "application/json": {
                     "example": {
-                        "url": "https://ipynb.pub/view/b7d0bf3209dd925ca41ce068660860624ba229127ed27855fbf4c7a22044b79f",
+                        "url": "https://notebooksharing.space/view/b7d0bf3209dd925ca41ce068660860624ba229127ed27855fbf4c7a22044b79f",
                         "notebookId": "b7d0bf3209dd925ca41ce068660860624ba229127ed27855fbf4c7a22044b79f",
                     }
                 },
                 "text/plain": {
-                    "example": "https://ipynb.pub/view/b7d0bf3209dd925ca41ce068660860624ba229127ed27855fbf4c7a22044b79f"
+                    "example": "https://notebooksharing.space/view/b7d0bf3209dd925ca41ce068660860624ba229127ed27855fbf4c7a22044b79f"
                 },
             }
         }
