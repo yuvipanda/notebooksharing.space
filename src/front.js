@@ -39,7 +39,7 @@ const Front = () => {
                     <Spacer />
                     <IconButton icon={<FaGithub />}
                         as={Link}
-                        href="https://github.com/notebook-sharing-space/ipynb.pub"
+                        href="https://github.com/notebook-sharing-space/nbss"
                         variant="ghost"
                         fontSize={32}
                         title="View repository on GitHub"

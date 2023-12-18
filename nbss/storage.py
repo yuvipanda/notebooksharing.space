@@ -1,5 +1,5 @@
 """
-Storage backends for ipynb.pub
+Storage backends
 """
 import os
 import json

@@ -9,7 +9,7 @@ const FooterLink = ({ children, ...props }) => {
 const Footer = ({ ...props }) => {
     return <VStack textAlign="center" color="gray.600" borderTop="1px dotted" borderColor="gray.400" {...props}>
         <Box>
-            Made by <FooterLink href="https://words.yuvi.in">Yuvi Panda</FooterLink> | <FooterLink href="mailto:yuvipanda@gmail.com">Tell me</FooterLink> you like it! | <FooterLink href="https://github.com/yuvipanda/ipynb.pub/issues">Report bugs</FooterLink> | <FooterLink href="mailto:yuvipanda+abuse@gmail.com">Report abuse</FooterLink>
+            Made by <FooterLink href="https://words.yuvi.in">Yuvi Panda</FooterLink> | <FooterLink href="mailto:yuvipanda@gmail.com">Tell me</FooterLink> you like it! | <FooterLink href="https://github.com/notebook-sharing-space/nbss">Report bugs</FooterLink> | <FooterLink href="mailto:yuvipanda+abuse@gmail.com">Report abuse</FooterLink>
         </Box>
     </VStack >
 }
