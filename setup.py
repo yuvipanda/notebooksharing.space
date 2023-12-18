@@ -22,12 +22,12 @@ setup(
         "aiofiles",
         "gunicorn",
         "nbconvert",
+        "ipython", # needed for the ipython lexer
+        "lxml", # needed for cleaner cleaning
         "yarl",
         "aiohttp",
         "jupytext",
         "aiobotocore",
         "content-size-limit-asgi",
     ],
-    platforms="any",
-    zip_safe=False,
 )

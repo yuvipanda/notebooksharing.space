@@ -1,4 +1,6 @@
 from nbconvert.exporters import HTMLExporter
+from nbconvert.exporters.templateexporter import default_filters
+from lxml.html.clean import clean_html
 
 from typing import Optional
 import os
@@ -36,6 +38,11 @@ ID_VALIDATOR = Path(
     regex=r"^[0-9a-f]{64,64}$",
     description="Notebook ID",
 )
+
+# Use lxml's clean_html instead of bleach's, so we can still use tables for
+# line numbers, as that is what is supported by pygments. This is from
+# https://github.com/jupyter/nbconvert/issues/1892#issuecomment-1294475221/
+default_filters["clean_html"] = clean_html
 
 templates = Jinja2Templates(directory=os.path.join(BASE_PATH, "templates"))
 
