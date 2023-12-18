@@ -42,13 +42,15 @@ ID_VALIDATOR = Path(
 # Use lxml's clean_html instead of bleach's, so we can still use tables for
 # line numbers, as that is what is supported by pygments. This is from
 # https://github.com/jupyter/nbconvert/issues/1892#issuecomment-1294475221/
+# This can be removed once https://github.com/jupyter/nbconvert/pull/2083 lands
+# and is released.
 default_filters["clean_html"] = clean_html
 
 templates = Jinja2Templates(directory=os.path.join(BASE_PATH, "templates"))
 
 app = FastAPI(
     root_path="/",
-    title="ipynb.pub",
+    title="nbss",
     description="fastest way to publish your notebooks on the web",
     openapi_tags=[
         {"name": "api", "description": "REST API, for machines"},
