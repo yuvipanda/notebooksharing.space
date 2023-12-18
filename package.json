@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yuvipanda/ipynb.pub.git"
+    "url": "https://github.com/notebook-sharing-space/nbss"
   },
   "author": "Yuvi Panda",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/yuvipanda/ipynb.pub/issues"
+    "url": "https://github.com/notebook-sharing-space/nbss/issues"
   },
-  "homepage": "https://github.com/yuvipanda/ipynb.pub#readme",
+  "homepage": "https://notebooksharing.space",
   "devDependencies": {
     "@babel/core": "^7.0.0",
     "@babel/preset-env": "^7.13.15",

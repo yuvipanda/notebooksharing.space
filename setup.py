@@ -7,7 +7,7 @@ check_call(["npm", "run", "prod"])
 setup(
     name="nbss",
     version="0.1",
-    url="https://github.com/yuvipanda/ipynb.pub",
+    url="https://github.com/notebook-sharing-space/nbss",
     license="3-clause BSD",
     author="Yuvi Panda",
     author_email="yuvipanda@gmail.com",
