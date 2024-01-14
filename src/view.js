@@ -10,9 +10,14 @@ import { MESSAGE_TYPES, parseMessage, postMessage } from './messages';
 import theme from "./theme";
 import { UploadForm } from "./upload";
 
-
 const makeDownloadLink = (notebookId) => {
     return "/api/v1/notebook/" + notebookId;
+}
+
+const makeJupyterLiteLink = (notebookId, filename) => {
+    // The trailing slash after / is important, as it triggers the index.html behavior from
+    // starlette's Static file serving.
+    return `/jupyterlite/lab/?fromURL=/api/v1/notebook/${notebookId}/${filename}`;
 }
 
 const makeIFrameLink = (notebookId) => {
@@ -90,21 +95,32 @@ const ContentHeader = ({ filename, notebookId, notebookFormat, iframeRef, hasFra
         <Text fontSize="xl"
             fontWeight={300}>{filename}
 
-            <IconButton
-                variant="ghost" size="md"
-                color="gray.400"
-                // Try make the icon look exactly in line with baseline of text
-                marginLeft={2}
-                marginTop={-2}
-                width={4}
-                height={4}
-                display="inline-block"
-                _hover={{ textDecoration: 'none', color: "black" }}
-                title="Download notebook"
-                icon={<DownloadIcon />} as={Link} href={makeDownloadLink(notebookId)}
-            >
-                Download notebook
-            </IconButton>
+                <IconButton
+                    variant="ghost" size="md"
+                    color="gray.400"
+                    // Try make the icon look exactly in line with baseline of text
+                    marginLeft={2}
+                    marginTop={-2}
+                    width={4}
+                    height={4}
+                    display="inline-block"
+                    _hover={{ textDecoration: 'none', color: "black" }}
+                    title="Download notebook"
+                    icon={<DownloadIcon />} as={Link} href={makeDownloadLink(notebookId)}
+                >
+                    Download notebook
+                </IconButton>
+                <Button
+                    size="sm"
+                    display="inline-block"
+                    marginLeft={-4}
+                    colorScheme='orange'
+                    onClick={() => {
+                        window.location.href = makeJupyterLiteLink(notebookId, filename);
+                    }}
+                >
+                    Open in JupyterLite
+                </Button>
         </Text>
 
         <Spacer />
