@@ -1,0 +1,15 @@
+# If you change anything here, regenerate `requirements.txt` with
+# `pip-compile requirements.in > requirements.txt`
+uvicorn[standard]
+fastapi
+nbconvert
+python-multipart
+aiofiles
+gunicorn
+aiobotocore
+aiohttp
+yarl
+jupytext
+content-size-limit-asgi
+lxml # Needed for cleaner cleaning
+ipython # Needed for the ipython lexer

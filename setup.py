@@ -31,19 +31,4 @@ setup(
     long_description_content_type="text/markdown",
     packages=find_packages(),
     include_package_data=True,
-    install_requires=[
-        "uvicorn[standard]",
-        "fastapi",
-        "python-multipart",
-        "aiofiles",
-        "gunicorn",
-        "nbconvert",
-        "ipython", # needed for the ipython lexer
-        "lxml", # needed for cleaner cleaning
-        "yarl",
-        "aiohttp",
-        "jupytext",
-        "aiobotocore",
-        "content-size-limit-asgi",
-    ],
 )
