@@ -18,6 +18,7 @@ COPY babel.config.json babel.config.json
 COPY MANIFEST.in MANIFEST.in
 COPY README.md README.md
 COPY requirements.txt requirements.txt
+COPY jupyterlite-config jupyterlite-config
 
 RUN python3 -m pip install -r requirements.txt
 RUN python3 setup.py bdist_wheel
