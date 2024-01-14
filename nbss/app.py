@@ -132,7 +132,7 @@ async def upload(
     # Allow any origin to upload notebooks here
     response.headers["Access-Control-Allow-Origin"] = "*"
     # FIXME: is this really the best way?
-    url = f"{x_forwarded_proto}://{host}{app.root_path}view/{notebook_id}"
+    url = f"{x_forwarded_proto}://{host}/view/{notebook_id}"
     if accept == "application/json":
         return {"url": url, "notebookId": notebook_id}
     else:
