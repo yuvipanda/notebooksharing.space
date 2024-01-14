@@ -49,7 +49,6 @@ default_filters["clean_html"] = clean_html
 templates = Jinja2Templates(directory=os.path.join(BASE_PATH, "templates"))
 
 app = FastAPI(
-    root_path="/",
     title="nbss",
     description="fastest way to publish your notebooks on the web",
     openapi_tags=[
