@@ -128,8 +128,6 @@ class S3Backend(StorageBackend):
                 )
                 # s3 metadata values can only be ASCII (WTF?!), so we store urlencoded
                 # metadata. We decode it when we retrieve it.
-                m = response["Metadata"]
-                print(m)
                 unquoted_metadata = {
                     k: unquote(v) for k, v in response["Metadata"].items()
                 }
