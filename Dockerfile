@@ -22,6 +22,7 @@ COPY jupyterlite-config jupyterlite-config
 
 RUN python3 -m pip install -r requirements.txt
 RUN python3 setup.py bdist_wheel
+RUN python3 -m pip wheel -r requirements.txt
 
 FROM python:3.11-slim-bookworm
 
