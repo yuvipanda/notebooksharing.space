@@ -1,5 +1,7 @@
 [![The NBSS logo](./src/logo.svg)](https://notebooksharing.space)
 
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/notebook-sharing-space/nbss/main.svg)](https://results.pre-commit.ci/latest/github/notebook-sharing-space/nbss/main)
+
 The fastest way to share your notebook with someone.
 
 ## Features
