@@ -1,13 +1,14 @@
 """
 Storage backends
 """
-import os
-import json
-from aiobotocore.session import get_session
 import gzip
 import hashlib
-from urllib.parse import quote, unquote
+import json
+import os
 from typing import Tuple
+from urllib.parse import quote, unquote
+
+from aiobotocore.session import get_session
 
 
 def sha256(data: bytes, raw_metadata: dict):
@@ -140,7 +141,6 @@ class S3Backend(StorageBackend):
         async with self.botocore_session.create_client(
             "s3", endpoint_url=self.endpoint_url
         ) as s3:
-
             try:
                 response = await s3.get_object(
                     Key=self.path_for_name(name),

@@ -113,7 +113,7 @@ const ContentHeader = ({ filename, notebookId, notebookFormat, iframeRef, hasFra
                 <Button
                     size="sm"
                     marginLeft={-4}
-                    colorScheme='orange'
+                    colorScheme='gray'
                     as={Link}
                     href={makeJupyterLiteLink(notebookId, filename)}
                     _hover={{ textDecoration: 'none' }}

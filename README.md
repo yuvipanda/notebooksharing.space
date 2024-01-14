@@ -54,4 +54,3 @@ By default, only users who you share the URL with can access the notebook - it w
 You can enable annotations via hypothes.is by passing `--enable-annotations` or `-a`. The notebook can be made discoverable to search engines by passing `--enable-discovery` or `-d`.
 
 All notebook formats supported by notebooksharing.space - `.ipynb`, `.rmd`, `.html` are supported.
-
