@@ -15,8 +15,8 @@ def build_jupyterlite():
     """
     with TemporaryDirectory() as d:
         check_call([sys.executable, '-m', 'venv', d])
-        check_call([f'{d}/bin/pip', 'install', '-r', str(HERE / 'jupyterlite-requirements.txt')], cwd=d)
-        check_call([f'{d}/bin/jupyter-lite', 'build', '--output-dir', str(HERE / 'nbss/static/jupyterlite')], cwd=d)
+        check_call([f'{d}/bin/pip', 'install', '-r', str(HERE / 'jupyterlite-config/requirements.txt')], cwd=d)
+        check_call([f'{d}/bin/jupyter-lite', 'build', '--lite-dir', str(HERE / 'jupyterlite-config'), '--output-dir', str(HERE / "nbss/static/jupyterlite")], cwd=d)
 
 build_jupyterlite()
 
