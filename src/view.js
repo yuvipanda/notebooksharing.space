@@ -112,12 +112,11 @@ const ContentHeader = ({ filename, notebookId, notebookFormat, iframeRef, hasFra
                 </IconButton>
                 <Button
                     size="sm"
-                    display="inline-block"
                     marginLeft={-4}
                     colorScheme='orange'
-                    onClick={() => {
-                        window.location.href = makeJupyterLiteLink(notebookId, filename);
-                    }}
+                    as={Link}
+                    href={makeJupyterLiteLink(notebookId, filename)}
+                    _hover={{ textDecoration: 'none' }}
                 >
                     Open in JupyterLite
                 </Button>
