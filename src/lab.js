@@ -1,2 +1,2 @@
-import './lab/index.css';
-import './lab/theme-light.css';
+import "./lab/index.css";
+import "./lab/theme-light.css";

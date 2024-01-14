@@ -1,33 +1,30 @@
-from nbconvert.exporters import HTMLExporter
-from nbconvert.exporters.templateexporter import default_filters
-from lxml.html.clean import clean_html
-
-from typing import Optional
 import os
-import nbformat
-import jupytext
-from jupytext.config import JupytextConfiguration
+from typing import Optional, Union
+from urllib.parse import quote
 
+import jupytext
+import nbformat
+from content_size_limit_asgi import ContentSizeLimitMiddleware
 from fastapi import (
     FastAPI,
-    UploadFile,
     File,
-    Request,
+    Form,
     Header,
     HTTPException,
     Path,
-    Form,
+    Request,
+    UploadFile,
 )
-from fastapi.responses import HTMLResponse, Response, PlainTextResponse
+from fastapi.responses import HTMLResponse, PlainTextResponse, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from jupytext.config import JupytextConfiguration
+from lxml.html.clean import clean_html
+from nbconvert.exporters import HTMLExporter
+from nbconvert.exporters.templateexporter import default_filters
 from pydantic import BaseModel
-from typing import Union
-from urllib.parse import quote
 
-from content_size_limit_asgi import ContentSizeLimitMiddleware
-from .storage import S3Backend, Metadata
-
+from .storage import Metadata, S3Backend
 
 BASE_PATH = os.path.abspath(os.path.dirname(__file__))
 DATA_DIR = os.environ.get("DATA_DIR", os.getcwd())
@@ -62,7 +59,9 @@ app.mount(
 
 # Mount a copy of our jupyterlite, in a way that renders index.html correctly
 app.mount(
-    "/jupyterlite", StaticFiles(directory=os.path.join(BASE_PATH, "static/jupyterlite"), html=True), name="jupyterlite"
+    "/jupyterlite",
+    StaticFiles(directory=os.path.join(BASE_PATH, "static/jupyterlite"), html=True),
+    name="jupyterlite",
 )
 # No files larger than 10MB
 app.add_middleware(ContentSizeLimitMiddleware, max_content_size=10 * 1024 * 1024)
@@ -154,7 +153,9 @@ async def upload(
     tags=["api"],
     response_class=PlainTextResponse,
 )
-async def download(request: Request, notebook_id: str = ID_VALIDATOR, filename: str = None):
+async def download(
+    request: Request, notebook_id: str = ID_VALIDATOR, filename: str = None
+):
     """
     Download a notebook.
 
@@ -164,7 +165,10 @@ async def download(request: Request, notebook_id: str = ID_VALIDATOR, filename: 
     encoded_filename = quote(metadata.filename)
     if filename is not None:
         if filename != metadata.filename:
-            raise HTTPException(status_code=403, detail="If filename is passed in, it must match the name of the uploaded file")
+            raise HTTPException(
+                status_code=403,
+                detail="If filename is passed in, it must match the name of the uploaded file",
+            )
     return PlainTextResponse(
         data,
         headers={
