@@ -25,18 +25,25 @@ repos:
     hooks:
       - id: isort
 
-  # Opinionated pretty formatting
+  # Opinionated pretty formatting for python
   - repo: https://github.com/psf/black
     rev: 23.10.1
     hooks:
       - id: black
+
+  # Autoformat JS & CSS
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.0.3
+    hooks:
+      - id: prettier
+        files: .*\.(js|.css)$
+        exclude: ^nbss\/static\/.*$
 
   # Autoformat and linting, misc. details
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
       - id: end-of-file-fixer
-        exclude: share/jupyterhub/static/js/admin-react.js
       - id: requirements-txt-fixer
       - id: check-case-conflict
       - id: check-executables-have-shebangs
