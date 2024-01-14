@@ -1,0 +1,13 @@
+# Core infra
+jupyterlite-core==0.2.2
+# Until https://github.com/jupyterlab-contrib/jupyterlab-open-url-parameter/pull/11 is merged
+jupyterlab<4
+# notebook 7 requires jupyterlab 4
+# notebook~=7.0.6
+
+# Kernels
+jupyterlite-pyodide-kernel==0.2.0
+jupyterlite-javascript-kernel==0.2.2
+
+# UI features
+jupyterlab-open-url-parameter

@@ -60,6 +60,11 @@ app = FastAPI(
 app.mount(
     "/static", StaticFiles(directory=os.path.join(BASE_PATH, "static")), name="static"
 )
+
+# Mount a copy of our jupyterlite, in a way that renders index.html correctly
+app.mount(
+    "/jupyterlite", StaticFiles(directory=os.path.join(BASE_PATH, "static/jupyterlite"), html=True), name="jupyterlite"
+)
 # No files larger than 10MB
 app.add_middleware(ContentSizeLimitMiddleware, max_content_size=10 * 1024 * 1024)
 
@@ -141,7 +146,16 @@ async def upload(
     tags=["api"],
     response_class=PlainTextResponse,
 )
-async def download(request: Request, notebook_id: str = ID_VALIDATOR):
+@app.get(
+    # JupyterLab doesn't respect the filename from Content-Disposition, and we want to support loading from
+    # the URL. Until https://github.com/jupyterlab/jupyterlab/issues/11531 is fixed, we need to
+    # provide the name of the notebook itself in the URL.
+    "/api/v1/notebook/{notebook_id}/{filename}",
+    summary="Download a notebook",
+    tags=["api"],
+    response_class=PlainTextResponse,
+)
+async def download(request: Request, notebook_id: str = ID_VALIDATOR, filename: str = None):
     """
     Download a notebook.
 
@@ -149,6 +163,9 @@ async def download(request: Request, notebook_id: str = ID_VALIDATOR):
     """
     data, metadata = await backend.get(notebook_id)
     encoded_filename = quote(metadata.filename)
+    if filename is not None:
+        if filename != metadata.filename:
+            raise HTTPException(status_code=403, detail="If filename is passed in, it must match the name of the uploaded file")
     return PlainTextResponse(
         data,
         headers={

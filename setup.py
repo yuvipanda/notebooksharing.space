@@ -1,8 +1,24 @@
 from setuptools import find_packages, setup
 from subprocess import check_call
+import sys
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
-check_call(["npm", "run", "prod"])
+HERE = Path(__file__).parent
 
+# With apologies to the folks who have spent a lot of time on pyproject.toml
+check_call(["npm", "run", "prod"], cwd=HERE)
+
+def build_jupyterlite():
+    """
+    Build JupyterLite contents in a separate venv
+    """
+    with TemporaryDirectory() as d:
+        check_call([sys.executable, '-m', 'venv', d])
+        check_call([f'{d}/bin/pip', 'install', '-r', str(HERE / 'jupyterlite-requirements.txt')], cwd=d)
+        check_call([f'{d}/bin/jupyter-lite', 'build', '--output-dir', str(HERE / 'nbss/static/jupyterlite')], cwd=d)
+
+build_jupyterlite()
 
 setup(
     name="nbss",
