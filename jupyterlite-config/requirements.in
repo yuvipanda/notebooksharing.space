@@ -11,3 +11,6 @@ jupyterlite-javascript-kernel==0.2.2
 
 # UI features
 jupyterlab-open-url-parameter>=0.2.0
+
+# Very very minimal widgets
+ipywidgets>8
