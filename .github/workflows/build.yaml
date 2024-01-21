@@ -55,7 +55,7 @@ jobs:
       - name: Run chartpress
         run: |
           cd helm
-          if [[ "{{ github.event_name }}" -eq "push" ]]; then
+          if [[ "${{ github.event_name }}" -eq "push" ]]; then
             CHARTPRESS_ARGS="--push --publish-chart"
           else
             CHARTPRESS_ARGS=""
