@@ -13,3 +13,4 @@ jupytext
 content-size-limit-asgi
 lxml # Needed for cleaner cleaning
 ipython # Needed for the ipython lexer
+prometheus-fastapi-instrumentator

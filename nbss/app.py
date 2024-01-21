@@ -23,6 +23,7 @@ from lxml.html.clean import clean_html
 from nbconvert.exporters import HTMLExporter
 from nbconvert.exporters.templateexporter import default_filters
 from pydantic import BaseModel
+from prometheus_fastapi_instrumentator import Instrumentator
 
 from .storage import Metadata, S3Backend
 
@@ -67,6 +68,8 @@ app.mount(
 app.add_middleware(ContentSizeLimitMiddleware, max_content_size=10 * 1024 * 1024)
 
 backend = S3Backend()
+# Basic prometheus metrics
+Instrumentator().instrument(app).expose(app)
 
 
 class NotebookUploadResponse(BaseModel):
