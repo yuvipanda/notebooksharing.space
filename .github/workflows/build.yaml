@@ -25,7 +25,7 @@ jobs:
 
       - name: Setup dev dependencies (chartpress, etc)
         run: |
-          pip install -r requirements.txt
+          pip install -r dev-requirements.txt
 
       - name: Run chartpress
         run: |
