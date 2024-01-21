@@ -22,8 +22,8 @@ from jupytext.config import JupytextConfiguration
 from lxml.html.clean import clean_html
 from nbconvert.exporters import HTMLExporter
 from nbconvert.exporters.templateexporter import default_filters
-from pydantic import BaseModel
 from prometheus_fastapi_instrumentator import Instrumentator
+from pydantic import BaseModel
 
 from .storage import Metadata, S3Backend
 
