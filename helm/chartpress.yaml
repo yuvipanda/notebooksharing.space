@@ -1,0 +1,17 @@
+charts:
+  - name: nbss
+    baseVersion: 1.0.0-0.dev
+    imagePrefix: quay.io/yuvipanda/
+    repo:
+      git: yuvipanda/notebooksharing.space
+      published: https://yuvipanda.github.io/notebooksharing.space
+    images:
+      nbss:
+        # We will not use the default build contextPath, and must therefore
+        # specify the dockerfilePath explicitly.
+        dockerfilePath: ../Dockerfile
+        # Context to send to docker build for use by the Dockerfile. We pass the
+        # root folder in order to allow the image to access and build the python
+        # package.
+        contextPath: ..
+        valuesPath: image
