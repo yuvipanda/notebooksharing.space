@@ -44,9 +44,22 @@ jobs:
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           echo "${{ secrets.CHARTPRESS_DEPLOY_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
+      - name: Setup Git user
+        # Run this only on merge. Required for chartpress to make git commits when
+        # pushing to gh-pages
+        if: "${{ github.event_name == 'push' }}"
+        run: |
+            git config --global user.email "github-actions@example.local"
+            git config --global user.name "GitHub Actions user"
 
       - name: Run chartpress
         run: |
           cd helm
-          chartpress
+          if [[ "{{ github.event_name }}" -eq "push" ]]; then
+            CHARTPRESS_ARGS="--push --publish-chart"
+          else
+            CHARTPRESS_ARGS=""
+          fi
+          chartpress ${CHARTPRESS_ARGS}
+
           git diff
