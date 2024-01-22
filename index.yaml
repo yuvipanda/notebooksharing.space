@@ -31,4 +31,14 @@ entries:
     urls:
     - https://yuvipanda.github.io/notebooksharing.space/nbss-1.0.0-0.dev.git.1.h1965bbb.tgz
     version: 1.0.0-0.dev.git.1.h1965bbb
-generated: "2024-01-22T02:31:07.927234726Z"
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-01-22T03:03:57.584230288Z"
+    description: A Helm chart for Kubernetes
+    digest: 7875c3585b8e7fdfc3d7273087882bfa1d6aa9a4a5086cde75fbcd3fed20146e
+    name: nbss
+    type: application
+    urls:
+    - https://yuvipanda.github.io/notebooksharing.space/nbss-1.0.0-0.dev.git.1.h1176679.tgz
+    version: 1.0.0-0.dev.git.1.h1176679
+generated: "2024-01-22T03:03:57.583646845Z"
