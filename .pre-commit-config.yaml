@@ -21,19 +21,19 @@ repos:
 
   # Autoformat python imports
   - repo: https://github.com/pycqa/isort
-    rev: 5.12.0
+    rev: 5.13.2
     hooks:
       - id: isort
 
   # Opinionated pretty formatting for python
   - repo: https://github.com/psf/black
-    rev: 23.10.1
+    rev: 24.1.1
     hooks:
       - id: black
 
   # Autoformat JS & CSS
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v3.0.3
+    rev: v4.0.0-alpha.8
     hooks:
       - id: prettier
         files: .*\.(js|.css)$
@@ -49,6 +49,6 @@ repos:
 
   # Linting: Python code (see the file .flake8)
   - repo: https://github.com/PyCQA/flake8
-    rev: "6.1.0"
+    rev: "7.0.0"
     hooks:
       - id: flake8
