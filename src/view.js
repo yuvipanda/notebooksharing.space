@@ -35,7 +35,7 @@ const makeDownloadLink = (notebookId) => {
 const makeJupyterLiteLink = (notebookId, filename) => {
   // The trailing slash after / is important, as it triggers the index.html behavior from
   // starlette's Static file serving.
-  return `/jupyterlite/lab/?fromURL=/api/v1/notebook/${notebookId}/${filename}`;
+  return `/jupyterlite/notebooks/?fromURL=/api/v1/notebook/${notebookId}/${filename}`;
 };
 
 const makeIFrameLink = (notebookId) => {
