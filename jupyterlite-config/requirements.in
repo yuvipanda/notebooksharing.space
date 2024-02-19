@@ -1,16 +1,16 @@
 # If you change this, regenerate jupyterlite-config/requirements.txt with
 # `pip-compile jupyterlite-config/requirements.in > jupyterlite-config/requirements.txt`
 # Core infra
-jupyterlite-core==0.2.2
-jupyterlab>4
-notebook>7
+jupyterlite-core==0.2.3
+jupyterlab>4.0,<4.1
+notebook>7.0,<7.1
 
 # Kernels
-jupyterlite-pyodide-kernel==0.2.0
-jupyterlite-javascript-kernel==0.2.2
+jupyterlite-pyodide-kernel==0.2.3
+jupyterlite-javascript-kernel==0.2.3
 
 # UI features
-jupyterlab-open-url-parameter>=0.2.0
+jupyterlab-open-url-parameter>=0.3.0
 
 # Very very minimal widgets
 ipywidgets>8
