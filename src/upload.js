@@ -68,8 +68,8 @@ const FileDisplay = ({ file, setFile, isUploading, setErrorMessage }) => {
   );
 };
 
-// No files over 10MB
-const MAX_ACCEPTED_SIZE_BYTES = 10 * 1024 * 1024;
+// No files over 100MB
+const MAX_ACCEPTED_SIZE_BYTES = 100 * 1024 * 1024;
 
 const UploadDropZone = ({ setSelectedFile, setErrorMessage }) => {
   return (
