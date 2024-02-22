@@ -64,8 +64,8 @@ app.mount(
     StaticFiles(directory=os.path.join(BASE_PATH, "static/jupyterlite"), html=True),
     name="jupyterlite",
 )
-# No files larger than 10MB
-app.add_middleware(ContentSizeLimitMiddleware, max_content_size=10 * 1024 * 1024)
+# No files larger than 100MB
+app.add_middleware(ContentSizeLimitMiddleware, max_content_size=100 * 1024 * 1024)
 
 backend = S3Backend()
 # Basic prometheus metrics
