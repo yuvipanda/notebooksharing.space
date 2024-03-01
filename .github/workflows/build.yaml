@@ -14,6 +14,9 @@ jobs:
 
       - name: Checkout repo
         uses: actions/checkout@v2
+        with:
+          # Get everything so chartpress knows how to properly tag this
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
