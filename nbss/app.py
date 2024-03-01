@@ -247,7 +247,19 @@ async def render(notebook_id: str = ID_VALIDATOR):
             config.root_level_metadata_as_raw_cell = False
             notebook = jupytext.reads(data.decode(), metadata.format, config=config)
         output, resources = exporter.from_notebook_node(
-            notebook, {"object_metadata": metadata}
+            # When rendering things with widgets, nbconvert code seems to assume that
+            # if resources is passed in, it will unconditionally actually have a copy of
+            # notebook metadata - in particular, keys named 'path' and 'name'.
+            # And if they aren't present, they kinda get set to "". This basically means that
+            # future nbconvert code just doesn't have access to the notebook metadata,
+            # including the widget state! And no widget stuff is displayed.
+            # https://github.com/jupyter/nbconvert/blob/fec19fa4d538495c3c02b85708878287463412ae/nbconvert/filters/widgetsdatatypefilter.py#L41
+            # and https://github.com/jupyter/nbconvert/blob/fec19fa4d538495c3c02b85708878287463412ae/nbconvert/exporters/exporter.py#L156
+            # are some of the relevant bits.
+            # https://github.com/jupyter/nbconvert/pull/2118 is the upstream PR that fixes
+            # this. In the meantime, we simply explicitly set "name" already to get widgets back
+            notebook,
+            {"object_metadata": metadata, "metadata": {"name": "Notebook"}},
         )
     return HTMLResponse(
         output,
