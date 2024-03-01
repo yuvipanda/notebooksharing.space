@@ -4,11 +4,11 @@
 #
 #    pip-compile requirements.in
 #
-aiobotocore==2.11.0
+aiobotocore==2.12.0
     # via -r requirements.in
 aiofiles==23.2.1
     # via -r requirements.in
-aiohttp==3.9.1
+aiohttp==3.9.3
     # via
     #   -r requirements.in
     #   aiobotocore
@@ -18,7 +18,7 @@ aiosignal==1.3.1
     # via aiohttp
 annotated-types==0.6.0
     # via pydantic
-anyio==4.2.0
+anyio==4.3.0
     # via
     #   starlette
     #   watchfiles
@@ -33,7 +33,7 @@ beautifulsoup4==4.12.3
     # via nbconvert
 bleach==6.1.0
     # via nbconvert
-botocore==1.34.22
+botocore==1.34.51
     # via aiobotocore
 click==8.1.7
     # via uvicorn
@@ -45,7 +45,7 @@ defusedxml==0.7.1
     # via nbconvert
 executing==2.0.1
     # via stack-data
-fastapi==0.109.0
+fastapi==0.110.0
     # via
     #   -r requirements.in
     #   prometheus-fastapi-instrumentator
@@ -65,7 +65,7 @@ idna==3.6
     # via
     #   anyio
     #   yarl
-ipython==8.20.0
+ipython==8.22.1
     # via -r requirements.in
 jedi==0.19.1
     # via ipython
@@ -95,7 +95,7 @@ markdown-it-py==3.0.0
     # via
     #   jupytext
     #   mdit-py-plugins
-markupsafe==2.1.4
+markupsafe==2.1.5
     # via
     #   jinja2
     #   nbconvert
@@ -107,13 +107,13 @@ mdurl==0.1.2
     # via markdown-it-py
 mistune==3.0.2
     # via nbconvert
-multidict==6.0.4
+multidict==6.0.5
     # via
     #   aiohttp
     #   yarl
 nbclient==0.9.0
     # via nbconvert
-nbconvert==7.14.2
+nbconvert==7.16.1
     # via -r requirements.in
 nbformat==5.9.2
     # via
@@ -131,9 +131,9 @@ parso==0.8.3
     # via jedi
 pexpect==4.9.0
     # via ipython
-platformdirs==4.1.0
+platformdirs==4.2.0
     # via jupyter-core
-prometheus-client==0.19.0
+prometheus-client==0.20.0
     # via prometheus-fastapi-instrumentator
 prometheus-fastapi-instrumentator==6.1.0
     # via -r requirements.in
@@ -143,21 +143,21 @@ ptyprocess==0.7.0
     # via pexpect
 pure-eval==0.2.2
     # via stack-data
-pydantic==2.5.3
+pydantic==2.6.3
     # via fastapi
-pydantic-core==2.14.6
+pydantic-core==2.16.3
     # via pydantic
 pygments==2.17.2
     # via
     #   ipython
     #   nbconvert
-python-dateutil==2.8.2
+python-dateutil==2.9.0
     # via
     #   botocore
     #   jupyter-client
-python-dotenv==1.0.0
+python-dotenv==1.0.1
     # via uvicorn
-python-multipart==0.0.6
+python-multipart==0.0.9
     # via -r requirements.in
 pyyaml==6.0.1
     # via
@@ -165,11 +165,11 @@ pyyaml==6.0.1
     #   uvicorn
 pyzmq==25.1.2
     # via jupyter-client
-referencing==0.32.1
+referencing==0.33.0
     # via
     #   jsonschema
     #   jsonschema-specifications
-rpds-py==0.17.1
+rpds-py==0.18.0
     # via
     #   jsonschema
     #   referencing
@@ -178,13 +178,13 @@ six==1.16.0
     #   asttokens
     #   bleach
     #   python-dateutil
-sniffio==1.3.0
+sniffio==1.3.1
     # via anyio
 soupsieve==2.5
     # via beautifulsoup4
 stack-data==0.6.3
     # via ipython
-starlette==0.35.1
+starlette==0.36.3
     # via fastapi
 tinycss2==1.2.1
     # via nbconvert
@@ -201,14 +201,14 @@ traitlets==5.14.1
     #   nbclient
     #   nbconvert
     #   nbformat
-typing-extensions==4.9.0
+typing-extensions==4.10.0
     # via
     #   fastapi
     #   pydantic
     #   pydantic-core
 urllib3==2.0.7
     # via botocore
-uvicorn[standard]==0.26.0
+uvicorn[standard]==0.27.1
     # via -r requirements.in
 uvloop==0.19.0
     # via uvicorn
