@@ -1,0 +1,8 @@
+on:
+ - push
+ - pr
+jobs:
+  test:
+    runs-on: codeberg-tiny
+    steps:
+      - run: echo All Good
