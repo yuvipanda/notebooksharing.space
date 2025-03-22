@@ -10,8 +10,8 @@ from fastapi import (
     File,
     Form,
     Header,
-    HTTPException,
     Path,
+    HTTPException,
     Request,
     UploadFile,
 )
