@@ -5,7 +5,7 @@ jobs:
   test:
     runs-on: codeberg-tiny
     steps:
-      - uses: https://code.forgejo.org/actions/checkout
+      - uses: https://code.forgejo.org/actions/checkout@v4
       - run: |
           pwd
           find
