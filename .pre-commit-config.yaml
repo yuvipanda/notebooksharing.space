@@ -5,7 +5,7 @@ ci:
 repos:
   # Autoformat: Python code, syntax patterns are modernized
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.15.0
+    rev: v3.21.2
     hooks:
       - id: pyupgrade
         args:
@@ -13,7 +13,7 @@ repos:
 
   # Automatically remove unused variables and imports
   - repo: https://github.com/PyCQA/autoflake
-    rev: v2.2.1
+    rev: v2.4.0
     hooks:
       - id: autoflake
         args:
@@ -21,13 +21,13 @@ repos:
 
   # Autoformat python imports
   - repo: https://github.com/pycqa/isort
-    rev: 5.13.2
+    rev: 9.0.1
     hooks:
       - id: isort
 
   # Opinionated pretty formatting for python
-  - repo: https://github.com/psf/black
-    rev: 24.1.1
+  - repo: https://github.com/psf/black-pre-commit-mirror
+    rev: 26.5.1
     hooks:
       - id: black
 
@@ -41,7 +41,7 @@ repos:
 
   # Autoformat and linting, misc. details
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v6.0.0
     hooks:
       - id: end-of-file-fixer
       - id: check-case-conflict
@@ -49,6 +49,6 @@ repos:
 
   # Linting: Python code (see the file .flake8)
   - repo: https://github.com/PyCQA/flake8
-    rev: "7.0.0"
+    rev: "7.3.0"
     hooks:
       - id: flake8
